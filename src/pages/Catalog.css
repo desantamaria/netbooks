@@ -1,4 +1,7 @@
 .Catalog {
     margin-top: 60px;
     color: black;
+
+    display: flex;
+    flex-direction: column;
 }

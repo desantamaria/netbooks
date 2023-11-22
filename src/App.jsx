@@ -43,7 +43,7 @@ const App = () => {
     },
     {
       path: "/catalog",
-      element: <Catalog />,
+      element: <Catalog data={books} searchInput={""} />,
     },
   ]);
 

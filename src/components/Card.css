@@ -1,0 +1,87 @@
+.Card {
+    backdrop-filter: blur(2px);
+    background-color: #d3ddb3;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    width: 60vw;
+
+    transition: background-color 0.5s;
+
+
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+    color: black;
+}
+
+.card-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-grow: 4;
+    padding-left: 30px;
+}
+
+.Card:hover {
+    background-color: #c9dd87;
+    cursor: pointer;
+}
+
+.title {
+    color:black;
+    font-size: 24px;
+}
+
+.image_url {
+    color:black;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.content {
+    color:black;  
+    text-align: justify;
+    text-justify: inter-word;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+
+.moreButton {
+    width: 30px;
+    float:right;
+
+}
+.moreButton:hover {
+    cursor: pointer;
+}
+
+.card-img {
+    height: 100px;
+    border-radius: 5px;
+}
+
+.upvotes {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #d0d2f8;
+    color:rgb(0, 0, 0);
+    cursor: pointer;
+    transition: border-color 0.25s;
+    min-width: 85px;
+    margin-left: 40px;
+  }
+  .upvotes:hover {
+    border-color: #646cff;
+  }
