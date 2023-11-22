@@ -1,0 +1,7 @@
+{
+    "AppSyncApiName": "bookAPI",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "S3DeploymentBucket": "amplify-amplifyreactapp-dev-171945-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/e6123b6b1ae358100db788b1ef8559e416b45137"
+}

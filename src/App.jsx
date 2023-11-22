@@ -3,12 +3,30 @@ import "./App.css";
 import { Link, useRoutes } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Catalog from "./pages/Catalog";
+
+// eslint-disable-next-line
+import { listBooks, listAccounts } from "./graphql/queries";
+import { Amplify } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
+const client = generateClient();
+
+Amplify.configure({
+  API: {
+    GraphQL: {
+      endpoint:
+        "https://4lzmsis4wva53k3pwyvkxorcgy.appsync-api.us-west-1.amazonaws.com/graphql",
+      region: "us-west-1",
+      defaultAuthMode: "apiKey",
+      apiKey: "da2-74so3jigsngsxha3nvlz42xbdi",
+    },
+  },
+});
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
-
+  const [books, setBooks] = useState([]);
   const manageSession = () => {
     setAuthenticated(!authenticated);
     console.log("it worked?");
@@ -28,6 +46,21 @@ const App = () => {
       element: <Catalog />,
     },
   ]);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const bookData = await client.graphql({ query: listBooks });
+        const bookList = bookData.data.listBooks.items;
+        setBooks(bookList);
+        console.log(bookList);
+      } catch (error) {
+        console.log("error on fetching account", error);
+      }
+    };
+    fetchBooks();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="App">

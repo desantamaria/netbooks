@@ -1,0 +1,348 @@
+type Account {
+  id: ID!
+  username: String!
+  password: String!
+  fullname: String!
+  address: String!
+  state: String!
+  zipcode: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Books {
+  id: ID!
+  title: String!
+  isbn: String!
+  author: String!
+  subject: String!
+  account: String!
+  rentalTerm: String!
+  rental_fee: Int!
+  overdue_fee: Int!
+  status: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelAccountConnection {
+  items: [Account]!
+  nextToken: String
+}
+
+input ModelAccountFilterInput {
+  id: ModelIDInput
+  username: ModelStringInput
+  password: ModelStringInput
+  fullname: ModelStringInput
+  address: ModelStringInput
+  state: ModelStringInput
+  zipcode: ModelStringInput
+  and: [ModelAccountFilterInput]
+  or: [ModelAccountFilterInput]
+  not: ModelAccountFilterInput
+}
+
+type Query {
+  getAccount(id: ID!): Account
+  listAccounts(filter: ModelAccountFilterInput, limit: Int, nextToken: String): ModelAccountConnection
+  getBooks(id: ID!): Books
+  listBooks(filter: ModelBooksFilterInput, limit: Int, nextToken: String): ModelBooksConnection
+}
+
+input ModelAccountConditionInput {
+  username: ModelStringInput
+  password: ModelStringInput
+  fullname: ModelStringInput
+  address: ModelStringInput
+  state: ModelStringInput
+  zipcode: ModelStringInput
+  and: [ModelAccountConditionInput]
+  or: [ModelAccountConditionInput]
+  not: ModelAccountConditionInput
+}
+
+input CreateAccountInput {
+  id: ID
+  username: String!
+  password: String!
+  fullname: String!
+  address: String!
+  state: String!
+  zipcode: String!
+}
+
+input UpdateAccountInput {
+  id: ID!
+  username: String
+  password: String
+  fullname: String
+  address: String
+  state: String
+  zipcode: String
+}
+
+input DeleteAccountInput {
+  id: ID!
+}
+
+type Mutation {
+  createAccount(input: CreateAccountInput!, condition: ModelAccountConditionInput): Account
+  updateAccount(input: UpdateAccountInput!, condition: ModelAccountConditionInput): Account
+  deleteAccount(input: DeleteAccountInput!, condition: ModelAccountConditionInput): Account
+  createBooks(input: CreateBooksInput!, condition: ModelBooksConditionInput): Books
+  updateBooks(input: UpdateBooksInput!, condition: ModelBooksConditionInput): Books
+  deleteBooks(input: DeleteBooksInput!, condition: ModelBooksConditionInput): Books
+}
+
+input ModelSubscriptionAccountFilterInput {
+  id: ModelSubscriptionIDInput
+  username: ModelSubscriptionStringInput
+  password: ModelSubscriptionStringInput
+  fullname: ModelSubscriptionStringInput
+  address: ModelSubscriptionStringInput
+  state: ModelSubscriptionStringInput
+  zipcode: ModelSubscriptionStringInput
+  and: [ModelSubscriptionAccountFilterInput]
+  or: [ModelSubscriptionAccountFilterInput]
+}
+
+type Subscription {
+  onCreateAccount(filter: ModelSubscriptionAccountFilterInput): Account @aws_subscribe(mutations: ["createAccount"])
+  onUpdateAccount(filter: ModelSubscriptionAccountFilterInput): Account @aws_subscribe(mutations: ["updateAccount"])
+  onDeleteAccount(filter: ModelSubscriptionAccountFilterInput): Account @aws_subscribe(mutations: ["deleteAccount"])
+  onCreateBooks(filter: ModelSubscriptionBooksFilterInput): Books @aws_subscribe(mutations: ["createBooks"])
+  onUpdateBooks(filter: ModelSubscriptionBooksFilterInput): Books @aws_subscribe(mutations: ["updateBooks"])
+  onDeleteBooks(filter: ModelSubscriptionBooksFilterInput): Books @aws_subscribe(mutations: ["deleteBooks"])
+}
+
+type ModelBooksConnection {
+  items: [Books]!
+  nextToken: String
+}
+
+input ModelBooksFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  isbn: ModelStringInput
+  author: ModelStringInput
+  subject: ModelStringInput
+  account: ModelStringInput
+  rentalTerm: ModelStringInput
+  rental_fee: ModelIntInput
+  overdue_fee: ModelIntInput
+  status: ModelStringInput
+  and: [ModelBooksFilterInput]
+  or: [ModelBooksFilterInput]
+  not: ModelBooksFilterInput
+}
+
+input ModelBooksConditionInput {
+  title: ModelStringInput
+  isbn: ModelStringInput
+  author: ModelStringInput
+  subject: ModelStringInput
+  account: ModelStringInput
+  rentalTerm: ModelStringInput
+  rental_fee: ModelIntInput
+  overdue_fee: ModelIntInput
+  status: ModelStringInput
+  and: [ModelBooksConditionInput]
+  or: [ModelBooksConditionInput]
+  not: ModelBooksConditionInput
+}
+
+input CreateBooksInput {
+  id: ID
+  title: String!
+  isbn: String!
+  author: String!
+  subject: String!
+  account: String!
+  rentalTerm: String!
+  rental_fee: Int!
+  overdue_fee: Int!
+  status: String!
+}
+
+input UpdateBooksInput {
+  id: ID!
+  title: String
+  isbn: String
+  author: String
+  subject: String
+  account: String
+  rentalTerm: String
+  rental_fee: Int
+  overdue_fee: Int
+  status: String
+}
+
+input DeleteBooksInput {
+  id: ID!
+}
+
+input ModelSubscriptionBooksFilterInput {
+  id: ModelSubscriptionIDInput
+  title: ModelSubscriptionStringInput
+  isbn: ModelSubscriptionStringInput
+  author: ModelSubscriptionStringInput
+  subject: ModelSubscriptionStringInput
+  account: ModelSubscriptionStringInput
+  rentalTerm: ModelSubscriptionStringInput
+  rental_fee: ModelSubscriptionIntInput
+  overdue_fee: ModelSubscriptionIntInput
+  status: ModelSubscriptionStringInput
+  and: [ModelSubscriptionBooksFilterInput]
+  or: [ModelSubscriptionBooksFilterInput]
+}
