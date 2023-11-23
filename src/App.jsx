@@ -3,14 +3,10 @@ import "./App.css";
 import { Link, useRoutes } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Catalog from "./pages/Catalog";
 
-// eslint-disable-next-line
-import { listBooks, listAccounts } from "./graphql/queries";
 import { Amplify } from "aws-amplify";
-import { generateClient } from "aws-amplify/api";
-const client = generateClient();
 
 Amplify.configure({
   API: {
@@ -30,8 +26,6 @@ const App = () => {
     username: "",
     password: "",
   });
-  const [books, setBooks] = useState([]);
-
   const manageSession = (data) => {
     setAuthenticated(!authenticated);
 
@@ -54,24 +48,9 @@ const App = () => {
     },
     {
       path: "/catalog",
-      element: <Catalog data={books} searchInput={""} />,
+      element: <Catalog />,
     },
   ]);
-
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const bookData = await client.graphql({ query: listBooks });
-        const bookList = bookData.data.listBooks.items;
-        setBooks(bookList);
-        console.log(bookList);
-      } catch (error) {
-        console.log("error on fetching account", error);
-      }
-    };
-    fetchBooks();
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <div className="App">
