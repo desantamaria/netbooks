@@ -1,25 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 
+// eslint-disable-next-line
+import { getAccount } from "../graphql/queries";
+import { generateClient } from "aws-amplify/api";
+
+const client = generateClient();
+
 const Login = (props) => {
+  const [loginInfo, setLoginInfo] = useState({
+    username: "",
+    password: "",
+  });
   const navigate = useNavigate();
-  const handleLogin = (event) => {
+
+  const handleLogin = async (event) => {
     event.preventDefault();
 
-    console.log("this ran");
-    props.loginUser();
-    navigate("/Catalog");
+    if (loginInfo.username !== "") {
+      const fetchedLogin = await client.graphql({
+        query: getAccount,
+        variables: { id: loginInfo.username },
+      });
+
+      if (
+        fetchedLogin.data.getAccount != null &&
+        loginInfo.password === fetchedLogin.data.getAccount.password
+      ) {
+        props.loginUser(loginInfo);
+        navigate("/Catalog");
+      } else {
+        alert("Incorrect Credentials! Please try again.");
+      }
+    }
   };
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setLoginInfo((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
   return (
     <div className="Login">
       <div className="login-container">
         <h1>Login</h1>
 
         <form className="login-form">
-          <input type="text" name="username" placeholder="Username"></input>
-          <input type="text" name="password" placeholder="Password"></input>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            onChange={handleChange}
+          ></input>
+          <input
+            type="text"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+          ></input>
           <button onClick={handleLogin}>Login</button>
         </form>
 

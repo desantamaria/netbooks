@@ -26,10 +26,21 @@ Amplify.configure({
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState({
+    username: "",
+    password: "",
+  });
   const [books, setBooks] = useState([]);
-  const manageSession = () => {
+
+  const manageSession = (data) => {
     setAuthenticated(!authenticated);
+
     console.log("it worked?");
+
+    setLoggedInUser({
+      username: data.username,
+      password: data.password,
+    });
   };
 
   let element = useRoutes([
@@ -67,6 +78,7 @@ const App = () => {
       <div className="nav-bar">
         <div className="nav-title">
           <h5>NetBooks</h5>
+          {/* <h5>Logged in as: {loggedInUser.username}</h5> */}
         </div>
 
         <ul className="nav-links">
