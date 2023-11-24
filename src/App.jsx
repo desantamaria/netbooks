@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import { useState } from "react";
 import Catalog from "./pages/Catalog";
+import ViewBook from "./pages/ViewBook";
 
 import { Amplify } from "aws-amplify";
 
@@ -49,6 +50,10 @@ const App = () => {
     {
       path: "/catalog",
       element: <Catalog />,
+    },
+    {
+      path: "catalog/view/:id",
+      element: <ViewBook />,
     },
   ]);
 

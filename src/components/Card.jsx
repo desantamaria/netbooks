@@ -7,9 +7,9 @@ const Card = (props) => {
     <Link to={"view/" + props.id}>
       <div className="Card">
         <div className="card-text">
-          <h2 className="title">Title: {props.title}</h2>
-          <p className=""> Author: {props.author}</p>
-          <p className=""> isbn: {props.isbn}</p>
+          <h2 className="title">{props.title}</h2>
+          <p className=""> By {props.author}</p>
+          <p className=""> ISBN: {props.isbn}</p>
           <p className=""> Subject: {props.subject}</p>
           <p className=""> Status: {props.status}</p>
         </div>
