@@ -19,28 +19,16 @@ const ViewAccount = () => {
 
       <h2>Account Information</h2>
 
-      <div class="account-container">
-        <label for="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value="exampleuser"
-          readonly
-        />
+      <div className="account-container ">
+        {/* <label for="username">Username:</label> */}
+        <input type="text" id="username" name="username" />
 
-        <label for="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value="example@example.com"
-          readonly
-        />
+        {/* <label for="email">Email:</label> */}
+        <input type="email" id="email" name="email" />
 
         <h3>Account Settings</h3>
 
-        <label for="newPassword">New Password:</label>
+        {/* <label for="newPassword">New Password:</label> */}
         <input
           type="password"
           id="newPassword"
@@ -48,7 +36,7 @@ const ViewAccount = () => {
           placeholder="Enter new password"
         />
 
-        <label for="confirmPassword">Confirm Password:</label>
+        {/* <label for="confirmPassword">Confirm Password:</label> */}
         <input
           type="password"
           id="confirmPassword"
@@ -56,9 +44,7 @@ const ViewAccount = () => {
           placeholder="Confirm new password"
         />
 
-        <button type="button" onclick="updatePassword()">
-          Update Password
-        </button>
+        <button type="button">Update Password</button>
       </div>
     </div>
   );

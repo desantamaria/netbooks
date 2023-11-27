@@ -24,38 +24,56 @@ const AddBook = (props) => {
       </Link>
       <h2 className="addBook-title">Add Book Information Here</h2>
 
-      <form id="bookForm" className="input-form">
-        <label for="bookTitle">Book Title:</label>
-        <input type="text" id="bookTitle" name="bookTitle" required />
+      <form id="bookForm" className="add-book-form">
+        {/* <label for="bookTitle">Book Title:</label> */}
+        <input
+          type="text"
+          id="bookTitle"
+          name="bookTitle"
+          placeholder="Book Tile"
+        />
 
-        <label for="isbn">ISBN:</label>
-        <input type="text" id="isbn" name="isbn" required />
+        {/* <label for="isbn">ISBN:</label> */}
+        <input type="text" id="isbn" name="isbn" placeholder="ISBN" />
 
-        <label for="edition">Edition:</label>
-        <input type="text" id="edition" name="edition" required />
+        {/* <label for="edition">Edition:</label> */}
+        <input type="text" id="edition" name="edition" placeholder="Edition" />
 
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author" required />
+        {/* <label for="author">Author:</label> */}
+        <input type="text" id="author" name="author" placeholder="Author" />
 
-        <label for="imageLink">Image Link:</label>
-        <input type="text" id="imageLink" name="imageLink" required />
+        {/* <label for="imageLink">Image Link:</label> */}
+        <input
+          type="text"
+          id="imageLink"
+          name="imageLink"
+          placeholder="Image Link"
+        />
 
-        <label for="rentDuration">Rent Duration:</label>
-        <input type="text" id="rentDuration" name="rentDuration" required />
+        {/* <label for="rentDuration">Rent Duration:</label> */}
+        <input
+          type="text"
+          id="rentDuration"
+          name="rentDuration"
+          placeholder="Rent Duration"
+        />
 
-        <label for="subject">Subject:</label>
-        <input type="text" id="subject" name="subject" required />
+        {/* <label for="subject">Subject:</label> */}
+        <input type="text" id="subject" name="subject" placeholder="Subject" />
 
-        <label for="cost">Cost:</label>
-        <input type="text" id="cost" name="cost" required />
+        {/* <label for="cost">Cost:</label> */}
+        <input type="text" id="cost" name="cost" placeholder="Cost USD" />
 
-        <label for="totalPrice">Total Price:</label>
-        <input type="text" id="totalPrice" name="totalPrice" readonly />
+        {/* <label for="totalPrice">Total Price:</label> */}
+        <input
+          type="text"
+          id="totalPrice"
+          name="totalPrice"
+          placeholder="Total Price"
+        />
 
-        <button type="button" onclick="calculateTotal()">
-          Calculate Total
-        </button>
-        <button type="submit" onclick={handleSubmit}>
+        <button type="button">Calculate Total</button>
+        <button type="submit" onClick={handleSubmit}>
           Submit
         </button>
       </form>
