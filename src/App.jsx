@@ -6,8 +6,10 @@ import SignUp from "./pages/SignUp";
 import { useState } from "react";
 import Catalog from "./pages/Catalog";
 import ViewBook from "./pages/ViewBook";
+import ViewAccount from "./pages/ViewAccount";
 
 import { Amplify } from "aws-amplify";
+import AddBook from "./pages/AddBook";
 
 Amplify.configure({
   API: {
@@ -54,6 +56,14 @@ const App = () => {
     {
       path: "catalog/view/:id",
       element: <ViewBook />,
+    },
+    {
+      path: "*/account/:id",
+      element: <ViewAccount />,
+    },
+    {
+      path: "/catalog/addbook",
+      element: <AddBook />,
     },
   ]);
 

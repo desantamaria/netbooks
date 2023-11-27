@@ -47,10 +47,10 @@ const Login = (props) => {
   };
   return (
     <div className="Login">
-      <div className="login-container">
+      <div className="form-container">
         <h1>Login</h1>
 
-        <form className="login-form">
+        <form className="input-form">
           <input
             type="text"
             name="username"
@@ -58,7 +58,7 @@ const Login = (props) => {
             onChange={handleChange}
           ></input>
           <input
-            type="text"
+            type="hidden"
             name="password"
             placeholder="Password"
             onChange={handleChange}
