@@ -24,7 +24,7 @@ const AddBook = (props) => {
       </Link>
       <h2 className="addBook-title">Add Book Information Here</h2>
 
-      <form id="bookForm" className="add-book-form">
+      <form id="bookForm" className="input-form">
         {/* <label for="bookTitle">Book Title:</label> */}
         <input
           type="text"

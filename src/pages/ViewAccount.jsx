@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 // eslint-disable-next-line
 import { getAccount } from "../graphql/queries";
@@ -10,6 +10,29 @@ const client = generateClient();
 
 const ViewAccount = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const [account, setAccount] = useState({
+    password: "",
+    fullname: "",
+    address: "",
+    state: "",
+    zipcode: "",
+  });
+
+  const [passwordCheck, setPasswordCheck] = useState("");
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setAccount((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+
+    console.log(account);
+  };
 
   return (
     <div className="ViewAccount">
@@ -17,35 +40,75 @@ const ViewAccount = () => {
         <button>Go Back</button>
       </Link>
 
-      <h2>Account Information</h2>
+      <h1 className="create-account">{"Edit Account for: " + id}</h1>
 
-      <div className="account-container ">
-        {/* <label for="username">Username:</label> */}
-        <input type="text" id="username" name="username" />
-
-        {/* <label for="email">Email:</label> */}
-        <input type="email" id="email" name="email" />
-
-        <h3>Account Settings</h3>
-
-        {/* <label for="newPassword">New Password:</label> */}
+      <form className="input-form">
         <input
-          type="password"
-          id="newPassword"
-          name="newPassword"
-          placeholder="Enter new password"
-        />
-
-        {/* <label for="confirmPassword">Confirm Password:</label> */}
+          type="text"
+          id="password"
+          name="password"
+          placeholder="Old Password"
+          onChange={handleChange}
+        ></input>
         <input
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          placeholder="Confirm new password"
-        />
+          type="text"
+          id="password"
+          name="password"
+          placeholder="New Password"
+          value={account.password}
+          onChange={handleChange}
+        ></input>
+        <input
+          type="text"
+          id="password"
+          name="password"
+          placeholder="Re-enter Password"
+          value={passwordCheck}
+          onChange={(event) => {
+            const { value } = event.target;
+            setPasswordCheck(value);
+          }}
+        ></input>
+        <input
+          type="text"
+          id="fullName"
+          name="fullName"
+          placeholder="Full Name"
+          value={account.fullname}
+          onChange={handleChange}
+        ></input>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          placeholder="Address"
+          value={account.address}
+          onChange={handleChange}
+        ></input>
 
-        <button type="button">Update Password</button>
-      </div>
+        <div className="sign-up-duo">
+          <input
+            className="duo"
+            type="text"
+            id="state"
+            name="state"
+            placeholder="State"
+            value={account.state}
+            onChange={handleChange}
+          ></input>
+          <input
+            className="duo"
+            type="text"
+            id="zipcode"
+            name="zipcode"
+            placeholder="Zip Code"
+            value={account.zipcode}
+            onChange={handleChange}
+          ></input>
+        </div>
+
+        <button>Update Account</button>
+      </form>
     </div>
   );
 };
