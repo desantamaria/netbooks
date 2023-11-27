@@ -3,6 +3,7 @@ import "./Catalog.css";
 import { useEffect, useState } from "react";
 import { getBooks } from "../graphql/queries";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { generateClient } from "aws-amplify/api";
 const client = generateClient();
@@ -54,6 +55,9 @@ const Catalog = (props) => {
       ) : null}
 
       <div className="books-container">
+        <Link to="/catalog">
+          <button>Go Back</button>
+        </Link>
         <h2>Book Details</h2>
         <h3>{book.title}</h3>
         <h4>{book.isbn}</h4>

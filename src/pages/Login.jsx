@@ -58,7 +58,7 @@ const Login = (props) => {
             onChange={handleChange}
           ></input>
           <input
-            type="hidden"
+            type="password"
             name="password"
             placeholder="Password"
             onChange={handleChange}

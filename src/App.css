@@ -179,3 +179,7 @@ span {
       opacity: 0;
     }
   }
+
+  .title {
+    color: white;
+  }

@@ -30,7 +30,7 @@ const SignUp = () => {
     <div className="SignUp">
       <h1 className="create-account">Create Account</h1>
 
-      <form className="login-form">
+      <form className="input-form">
         <input
           type="text"
           id="username"

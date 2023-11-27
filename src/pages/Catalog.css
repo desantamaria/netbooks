@@ -9,3 +9,10 @@
 .books-container {
     width: 60vw;
 }
+
+.books-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}

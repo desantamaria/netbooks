@@ -58,11 +58,11 @@ const App = () => {
       element: <ViewBook />,
     },
     {
-      path: "*/account/:id",
+      path: "catalog/account/:id",
       element: <ViewAccount />,
     },
     {
-      path: "/catalog/addbook",
+      path: "catalog/addbook",
       element: <AddBook />,
     },
   ]);
@@ -71,19 +71,28 @@ const App = () => {
     <div className="App">
       <div className="nav-bar">
         <div className="nav-title">
-          <h5>NetBooks</h5>
+          <Link to="catalog">
+            <h5>NetBooks</h5>
+          </Link>
           {/* <h5>Logged in as: {loggedInUser.username}</h5> */}
         </div>
 
         <ul className="nav-links">
           {authenticated ? (
-            <li>
-              <Link to="/">
-                <h6 className="login-link" onClick={manageSession}>
-                  Logout
-                </h6>
-              </Link>
-            </li>
+            <>
+              <li>
+                <Link to={"/catalog/account/" + loggedInUser.username}>
+                  <h6 className="login-link">{loggedInUser.username}</h6>
+                </Link>
+              </li>
+              <li>
+                <Link to="/">
+                  <h6 className="login-link" onClick={manageSession}>
+                    Logout
+                  </h6>
+                </Link>
+              </li>
+            </>
           ) : (
             <li>
               <Link to="/">

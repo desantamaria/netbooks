@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import { useEffect, useState } from "react";
 // eslint-disable-next-line
 import { listBooks, listAccounts } from "../graphql/queries";
+import { Link } from "react-router-dom";
 
 import { generateClient } from "aws-amplify/api";
 const client = generateClient();
@@ -54,7 +55,13 @@ const Catalog = (props) => {
       ) : null}
 
       <div className="books-container">
-        <h2>Textbook Listings</h2>
+        <div className="books-header">
+          <h2>Textbook Listings</h2>{" "}
+          <Link to="/catalog/addbook">
+            <button>Add Book</button>
+          </Link>
+        </div>
+
         {books && books.length > 0
           ? searchInput.length > 0 && filteredResults.length > 0
             ? filteredResults.map((book, index) => (
