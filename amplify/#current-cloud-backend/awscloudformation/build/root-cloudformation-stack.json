@@ -158,7 +158,7 @@
         "TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/auth/amplifyreactapp322ca28f-cloudformation-template.json",
         "Parameters": {
           "identityPoolName": "amplifyreactapp322ca28f_identitypool_322ca28f",
-          "allowUnauthenticatedIdentities": false,
+          "allowUnauthenticatedIdentities": true,
           "resourceNameTruncated": "amplif322ca28f",
           "userPoolName": "amplifyreactapp322ca28f_userpool_322ca28f",
           "autoVerifiedAttributes": "email",
@@ -216,6 +216,39 @@
           "DynamoDBEnableServerSideEncryption": false,
           "S3DeploymentBucket": "amplify-amplifyreactapp-dev-171945-deployment",
           "S3DeploymentRootKey": "amplify-appsync-files/9e0fbb2980561e8ba9db02749c5de3c74f34ab67",
+          "env": "dev"
+        }
+      }
+    },
+    "storagepdfStorage": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "Parameters": {
+          "bucketName": "pdf-storage",
+          "selectedGuestPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
+          "selectedAuthenticatedPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
+          "unauthRoleName": {
+            "Ref": "UnauthRoleName"
+          },
+          "authRoleName": {
+            "Ref": "AuthRoleName"
+          },
+          "s3PrivatePolicy": "Private_policy_698276d8",
+          "s3ProtectedPolicy": "Protected_policy_698276d8",
+          "s3PublicPolicy": "Public_policy_698276d8",
+          "s3ReadPolicy": "read_policy_698276d8",
+          "s3UploadsPolicy": "Uploads_policy_698276d8",
+          "authPolicyName": "s3_amplify_698276d8",
+          "unauthPolicyName": "s3_amplify_698276d8",
+          "AuthenticatedAllowList": "ALLOW",
+          "GuestAllowList": "ALLOW",
+          "s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedUploads": "s3:PutObject",
+          "s3PermissionsGuestPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsGuestUploads": "s3:PutObject",
           "env": "dev"
         }
       }
