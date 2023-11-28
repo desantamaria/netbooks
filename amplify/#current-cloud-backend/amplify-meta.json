@@ -42,7 +42,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/auth/amplifyreactapp322ca28f-cloudformation-template.json",
         "logicalId": "authamplifyreactapp322ca28f"
       },
-      "lastPushTimeStamp": "2023-11-21T23:16:24.162Z",
+      "lastPushTimeStamp": "2023-11-28T18:13:43.173Z",
       "output": {
         "UserPoolId": "us-west-1_pIeu1zA8r",
         "AppClientIDWeb": "rjvket5skaeagjk5i4e91i06b",
@@ -80,8 +80,8 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apibookAPI"
       },
-      "lastPushTimeStamp": "2023-11-21T23:21:54.758Z",
-      "lastPushDirHash": "yrxAbtLdx0xd6/oqWxNOo0dXNdU="
+      "lastPushTimeStamp": "2023-11-28T18:13:44.772Z",
+      "lastPushDirHash": "6ehekCqOGOJzvwsWgIGKavozqYA="
     }
   }
 }

@@ -2,14 +2,16 @@ import React from "react";
 import "./SignUp.css";
 import { useState } from "react";
 
+import { createAccount } from "../graphql/mutations";
+
+import { generateClient } from "aws-amplify/api";
+const client = generateClient();
+
 const SignUp = () => {
   const [credentials, setCredentials] = useState({
-    username: "",
+    id: "",
     password: "",
     fullname: "",
-    address: "",
-    state: "",
-    zipcode: "",
   });
 
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -26,6 +28,30 @@ const SignUp = () => {
     console.log(credentials);
   };
 
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+    if (
+      credentials.id !== "" &&
+      credentials.password !== "" &&
+      credentials !== ""
+    ) {
+      if (credentials.password === passwordCheck) {
+        try {
+          await client.graphql({
+            query: createAccount,
+            variables: { input: credentials },
+          });
+        } catch (error) {
+          console.log("error on creating account", error);
+        }
+      } else {
+        alert("Passwords do not match.");
+      }
+    } else {
+      alert("Fields cannot be empty.");
+    }
+  };
+
   return (
     <div className="SignUp">
       <h1 className="create-account">Create Account</h1>
@@ -33,8 +59,8 @@ const SignUp = () => {
       <form className="input-form">
         <input
           type="text"
-          id="username"
-          name="username"
+          id="id"
+          name="id"
           placeholder="Username"
           value={credentials.username}
           onChange={handleChange}
@@ -60,13 +86,13 @@ const SignUp = () => {
         ></input>
         <input
           type="text"
-          id="fullName"
-          name="fullName"
+          id="fullname"
+          name="fullname"
           placeholder="Full Name"
           value={credentials.fullname}
           onChange={handleChange}
         ></input>
-        <input
+        {/* <input
           type="text"
           id="address"
           name="address"
@@ -94,9 +120,9 @@ const SignUp = () => {
             value={credentials.zipcode}
             onChange={handleChange}
           ></input>
-        </div>
+        </div> */}
 
-        <button>Sign Up</button>
+        <button onClick={handleSignUp}>Sign Up</button>
       </form>
     </div>
   );

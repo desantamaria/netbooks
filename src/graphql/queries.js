@@ -5,12 +5,8 @@ export const getAccount = /* GraphQL */ `
   query GetAccount($id: ID!) {
     getAccount(id: $id) {
       id
-      username
       password
       fullname
-      address
-      state
-      zipcode
       createdAt
       updatedAt
       __typename
@@ -26,12 +22,8 @@ export const listAccounts = /* GraphQL */ `
     listAccounts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        username
         password
         fullname
-        address
-        state
-        zipcode
         createdAt
         updatedAt
         __typename

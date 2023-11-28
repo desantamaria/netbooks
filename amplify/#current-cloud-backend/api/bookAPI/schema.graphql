@@ -5,12 +5,8 @@ input AMPLIFY {
 } # FOR TESTING ONLY!
 type Account @model {
   id: ID!
-  username: String!
   password: String!
   fullname: String!
-  address: String!
-  state: String!
-  zipcode: String!
 }
 
 type Books @model {

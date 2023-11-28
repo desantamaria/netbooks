@@ -5,12 +5,8 @@ export const onCreateAccount = /* GraphQL */ `
   subscription OnCreateAccount($filter: ModelSubscriptionAccountFilterInput) {
     onCreateAccount(filter: $filter) {
       id
-      username
       password
       fullname
-      address
-      state
-      zipcode
       createdAt
       updatedAt
       __typename
@@ -21,12 +17,8 @@ export const onUpdateAccount = /* GraphQL */ `
   subscription OnUpdateAccount($filter: ModelSubscriptionAccountFilterInput) {
     onUpdateAccount(filter: $filter) {
       id
-      username
       password
       fullname
-      address
-      state
-      zipcode
       createdAt
       updatedAt
       __typename
@@ -37,12 +29,8 @@ export const onDeleteAccount = /* GraphQL */ `
   subscription OnDeleteAccount($filter: ModelSubscriptionAccountFilterInput) {
     onDeleteAccount(filter: $filter) {
       id
-      username
       password
       fullname
-      address
-      state
-      zipcode
       createdAt
       updatedAt
       __typename

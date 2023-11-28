@@ -8,12 +8,8 @@ export const createAccount = /* GraphQL */ `
   ) {
     createAccount(input: $input, condition: $condition) {
       id
-      username
       password
       fullname
-      address
-      state
-      zipcode
       createdAt
       updatedAt
       __typename
@@ -27,12 +23,8 @@ export const updateAccount = /* GraphQL */ `
   ) {
     updateAccount(input: $input, condition: $condition) {
       id
-      username
       password
       fullname
-      address
-      state
-      zipcode
       createdAt
       updatedAt
       __typename
@@ -46,12 +38,8 @@ export const deleteAccount = /* GraphQL */ `
   ) {
     deleteAccount(input: $input, condition: $condition) {
       id
-      username
       password
       fullname
-      address
-      state
-      zipcode
       createdAt
       updatedAt
       __typename

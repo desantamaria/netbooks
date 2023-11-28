@@ -1,11 +1,7 @@
 type Account {
   id: ID!
-  username: String!
   password: String!
   fullname: String!
-  address: String!
-  state: String!
-  zipcode: String!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -182,12 +178,8 @@ type ModelAccountConnection {
 
 input ModelAccountFilterInput {
   id: ModelIDInput
-  username: ModelStringInput
   password: ModelStringInput
   fullname: ModelStringInput
-  address: ModelStringInput
-  state: ModelStringInput
-  zipcode: ModelStringInput
   and: [ModelAccountFilterInput]
   or: [ModelAccountFilterInput]
   not: ModelAccountFilterInput
@@ -201,12 +193,8 @@ type Query {
 }
 
 input ModelAccountConditionInput {
-  username: ModelStringInput
   password: ModelStringInput
   fullname: ModelStringInput
-  address: ModelStringInput
-  state: ModelStringInput
-  zipcode: ModelStringInput
   and: [ModelAccountConditionInput]
   or: [ModelAccountConditionInput]
   not: ModelAccountConditionInput
@@ -214,22 +202,14 @@ input ModelAccountConditionInput {
 
 input CreateAccountInput {
   id: ID
-  username: String!
   password: String!
   fullname: String!
-  address: String!
-  state: String!
-  zipcode: String!
 }
 
 input UpdateAccountInput {
   id: ID!
-  username: String
   password: String
   fullname: String
-  address: String
-  state: String
-  zipcode: String
 }
 
 input DeleteAccountInput {
@@ -247,12 +227,8 @@ type Mutation {
 
 input ModelSubscriptionAccountFilterInput {
   id: ModelSubscriptionIDInput
-  username: ModelSubscriptionStringInput
   password: ModelSubscriptionStringInput
   fullname: ModelSubscriptionStringInput
-  address: ModelSubscriptionStringInput
-  state: ModelSubscriptionStringInput
-  zipcode: ModelSubscriptionStringInput
   and: [ModelSubscriptionAccountFilterInput]
   or: [ModelSubscriptionAccountFilterInput]
 }
