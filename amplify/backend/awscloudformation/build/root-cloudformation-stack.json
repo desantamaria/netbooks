@@ -152,15 +152,15 @@
         }
       }
     },
-    "authamplifyreactapp322ca28f": {
+    "authamplifyreactapp": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/auth/amplifyreactapp322ca28f-cloudformation-template.json",
+        "TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/auth/amplifyreactapp-cloudformation-template.json",
         "Parameters": {
-          "identityPoolName": "amplifyreactapp322ca28f_identitypool_322ca28f",
+          "identityPoolName": "amplifyreactapp_identitypool_9ff7eac6",
           "allowUnauthenticatedIdentities": true,
-          "resourceNameTruncated": "amplif322ca28f",
-          "userPoolName": "amplifyreactapp322ca28f_userpool_322ca28f",
+          "resourceNameTruncated": "amplif9ff7eac6",
+          "userPoolName": "amplifyreactapp_userpool_9ff7eac6",
           "autoVerifiedAttributes": "email",
           "mfaConfiguration": "OFF",
           "mfaTypes": "SMS Text Message",
@@ -177,17 +177,13 @@
           "userpoolClientRefreshTokenValidity": 30,
           "userpoolClientWriteAttributes": "email",
           "userpoolClientReadAttributes": "email",
-          "userpoolClientLambdaRole": "amplif322ca28f_userpoolclient_lambda_role",
+          "userpoolClientLambdaRole": "amplif9ff7eac6_userpoolclient_lambda_role",
           "userpoolClientSetAttributes": false,
-          "sharedId": "322ca28f",
-          "resourceName": "amplifyreactapp322ca28f",
           "authSelections": "identityPoolAndUserPool",
-          "useDefault": "default",
-          "usernameAttributes": "email",
-          "userPoolGroupList": "",
+          "resourceName": "amplifyreactapp",
+          "sharedId": "9ff7eac6",
           "serviceName": "Cognito",
-          "usernameCaseSensitive": false,
-          "useEnabledMfas": true,
+          "useDefault": "manual",
           "authRoleArn": {
             "Fn::GetAtt": [
               "AuthRole",
@@ -201,6 +197,7 @@
             ]
           },
           "breakCircularDependency": true,
+          "useEnabledMfas": true,
           "dependsOn": "",
           "env": "dev"
         }
@@ -257,7 +254,7 @@
       "DependsOn": [
         "AuthRole",
         "UnauthRole",
-        "authamplifyreactapp322ca28f"
+        "authamplifyreactapp"
       ],
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -365,7 +362,7 @@
         },
         "idpId": {
           "Fn::GetAtt": [
-            "authamplifyreactapp322ca28f",
+            "authamplifyreactapp",
             "Outputs.IdentityPoolId"
           ]
         },

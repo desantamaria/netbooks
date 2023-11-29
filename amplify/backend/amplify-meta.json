@@ -13,16 +13,14 @@
     }
   },
   "auth": {
-    "amplifyreactapp322ca28f": {
+    "amplifyreactapp": {
       "service": "Cognito",
+      "serviceType": "managed",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
-      "customAuth": false,
       "frontendAuthConfig": {
         "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
+        "usernameAttributes": [],
         "signupAttributes": [
           "EMAIL"
         ],
@@ -39,20 +37,20 @@
         ]
       },
       "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/auth/amplifyreactapp322ca28f-cloudformation-template.json",
-        "logicalId": "authamplifyreactapp322ca28f"
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/auth/amplifyreactapp-cloudformation-template.json",
+        "logicalId": "authamplifyreactapp"
       },
-      "lastPushTimeStamp": "2023-11-28T23:50:31.581Z",
+      "lastPushTimeStamp": "2023-11-29T02:09:49.165Z",
       "output": {
-        "UserPoolId": "us-west-1_pIeu1zA8r",
-        "AppClientIDWeb": "rjvket5skaeagjk5i4e91i06b",
-        "AppClientID": "1fjl8i9kmilgkjvbm2fo1dk3uh",
-        "IdentityPoolId": "us-west-1:1e2abba2-7721-4a7f-b904-4f430a3265b3",
-        "UserPoolArn": "arn:aws:cognito-idp:us-west-1:250748006857:userpool/us-west-1_pIeu1zA8r",
-        "IdentityPoolName": "amplifyreactapp322ca28f_identitypool_322ca28f__dev",
-        "UserPoolName": "amplifyreactapp322ca28f_userpool_322ca28f"
+        "UserPoolId": "us-west-1_MXVJWHwXS",
+        "AppClientIDWeb": "2k8orsao3n7248hmvgmcd2fntn",
+        "AppClientID": "18vbsffte9h5eqmdikg09ltl6p",
+        "IdentityPoolId": "us-west-1:57e88ade-eb08-451b-bca9-eb10a2392179",
+        "UserPoolArn": "arn:aws:cognito-idp:us-west-1:250748006857:userpool/us-west-1_MXVJWHwXS",
+        "IdentityPoolName": "amplifyreactapp_identitypool_9ff7eac6__dev",
+        "UserPoolName": "amplifyreactapp_userpool_9ff7eac6"
       },
-      "lastPushDirHash": "dfrwM5PLZOSoDQsAvLb7+Npgn4E="
+      "lastPushDirHash": "FN2w9qwIKn3cxVjYMrAAsRnMIDk="
     }
   },
   "api": {
@@ -80,7 +78,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apibookAPI"
       },
-      "lastPushTimeStamp": "2023-11-28T23:50:33.316Z",
+      "lastPushTimeStamp": "2023-11-29T02:09:48.729Z",
       "lastPushDirHash": "d/7XO9iyIdkb0FjtQVOYfWqcGBs="
     }
   },
@@ -89,7 +87,7 @@
       "service": "S3",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
-      "lastPushTimeStamp": "2023-11-28T23:50:31.589Z",
+      "lastPushTimeStamp": "2023-11-29T02:09:49.165Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
         "logicalId": "storagepdfStorage"
@@ -98,7 +96,7 @@
         "BucketName": "pdf-storage171945-dev",
         "Region": "us-west-1"
       },
-      "lastPushDirHash": "eURbEUvOXZS2y+E4TGo0Ry0ns1I="
+      "lastPushDirHash": "MVnQ4+1gE4OEgYbe6IXRF32QJhQ="
     }
   }
 }

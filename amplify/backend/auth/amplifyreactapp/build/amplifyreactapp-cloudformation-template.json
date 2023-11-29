@@ -1,5 +1,5 @@
 {
-  "Description": "Amplify Cognito Stack for AWS Amplify CLI",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.8.2\",\"stackType\":\"auth-Cognito\",\"metadata\":{}}",
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": {
     "env": {
@@ -71,31 +71,19 @@
     "userpoolClientSetAttributes": {
       "Type": "String"
     },
-    "sharedId": {
+    "authSelections": {
       "Type": "String"
     },
     "resourceName": {
       "Type": "String"
     },
-    "authSelections": {
+    "sharedId": {
       "Type": "String"
-    },
-    "useDefault": {
-      "Type": "String"
-    },
-    "usernameAttributes": {
-      "Type": "CommaDelimitedList"
-    },
-    "userPoolGroupList": {
-      "Type": "CommaDelimitedList"
     },
     "serviceName": {
       "Type": "String"
     },
-    "usernameCaseSensitive": {
-      "Type": "String"
-    },
-    "useEnabledMfas": {
+    "useDefault": {
       "Type": "String"
     },
     "authRoleArn": {
@@ -105,6 +93,9 @@
       "Type": "String"
     },
     "breakCircularDependency": {
+      "Type": "String"
+    },
+    "useEnabledMfas": {
       "Type": "String"
     },
     "dependsOn": {
@@ -160,12 +151,6 @@
             "email"
           ]
         },
-        "UsernameAttributes": {
-          "Ref": "usernameAttributes"
-        },
-        "UsernameConfiguration": {
-          "CaseSensitive": false
-        },
         "UserPoolName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
@@ -196,7 +181,7 @@
         "UserPoolId": {
           "Ref": "UserPool"
         },
-        "ClientName": "amplif322ca28f_app_clientWeb",
+        "ClientName": "amplif9ff7eac6_app_clientWeb",
         "RefreshTokenValidity": {
           "Ref": "userpoolClientRefreshTokenValidity"
         },
@@ -214,7 +199,7 @@
         "UserPoolId": {
           "Ref": "UserPool"
         },
-        "ClientName": "amplif322ca28f_app_client",
+        "ClientName": "amplif9ff7eac6_app_client",
         "GenerateSecret": {
           "Ref": "userpoolClientGenerateSecret"
         },
@@ -254,7 +239,7 @@
               "Fn::Join": [
                 "",
                 [
-                  "upClientLambdaRole322ca28f",
+                  "upClientLambdaRole9ff7eac6",
                   {
                     "Fn::Select": [
                       3,
@@ -326,12 +311,12 @@
         "IdentityPoolName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "amplifyreactapp322ca28f_identitypool_322ca28f",
+            "amplifyreactapp_identitypool_9ff7eac6",
             {
               "Fn::Join": [
                 "",
                 [
-                  "amplifyreactapp322ca28f_identitypool_322ca28f__",
+                  "amplifyreactapp_identitypool_9ff7eac6__",
                   {
                     "Ref": "env"
                   }

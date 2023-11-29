@@ -470,7 +470,7 @@
               {
                 "Ref": "AccountTable"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-west-1:1e2abba2-7721-4a7f-b904-4f430a3265b3\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+              "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
             ]
           ]
         },
@@ -565,7 +565,7 @@
               {
                 "Ref": "AccountTable"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-west-1:1e2abba2-7721-4a7f-b904-4f430a3265b3\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+              "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
             ]
           ]
         },
@@ -696,7 +696,7 @@
               {
                 "Ref": "AccountTable"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-west-1:1e2abba2-7721-4a7f-b904-4f430a3265b3\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+              "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
             ]
           ]
         },
@@ -827,7 +827,7 @@
               {
                 "Ref": "AccountTable"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-west-1:1e2abba2-7721-4a7f-b904-4f430a3265b3\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+              "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
             ]
           ]
         },
@@ -922,7 +922,7 @@
               {
                 "Ref": "AccountTable"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-west-1:1e2abba2-7721-4a7f-b904-4f430a3265b3\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+              "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
             ]
           ]
         },
@@ -1007,7 +1007,7 @@
               {
                 "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-west-1:1e2abba2-7721-4a7f-b904-4f430a3265b3\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+              "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
             ]
           ]
         },
@@ -1047,7 +1047,7 @@
               {
                 "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-west-1:1e2abba2-7721-4a7f-b904-4f430a3265b3\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+              "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
             ]
           ]
         },
@@ -1087,7 +1087,7 @@
               {
                 "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-west-1:1e2abba2-7721-4a7f-b904-4f430a3265b3\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+              "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
             ]
           ]
         },

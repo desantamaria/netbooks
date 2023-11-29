@@ -20,8 +20,7 @@
     }
   },
   "auth": {
-    "amplifyreactapp322ca28f": {
-      "customAuth": false,
+    "amplifyreactapp": {
       "dependsOn": [],
       "frontendAuthConfig": {
         "mfaConfiguration": "OFF",
@@ -36,15 +35,14 @@
           "EMAIL"
         ],
         "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
+        "usernameAttributes": [],
         "verificationMechanisms": [
           "EMAIL"
         ]
       },
       "providerPlugin": "awscloudformation",
-      "service": "Cognito"
+      "service": "Cognito",
+      "serviceType": "managed"
     }
   },
   "storage": {
