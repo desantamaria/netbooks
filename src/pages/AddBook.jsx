@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.css";
+import "./AddBook.css";
 import { Link, useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line
@@ -18,13 +18,15 @@ const AddBook = (props) => {
   };
 
   return (
-    <div className="AddBook">
-      <Link to="/Catalog">
+    <div>
+    <Link className="buttonTop" to="/Catalog">
         <button>Go Back</button>
       </Link>
+    <div className="AddBook">
+      <div className="container">
       <h2 className="addBook-title">Add Book Information Here</h2>
 
-      <form id="bookForm" className="input-form">
+      <form id="bookForm" className="Issue">
         {/* <label for="bookTitle">Book Title:</label> */}
         <input
           type="text"
@@ -77,6 +79,8 @@ const AddBook = (props) => {
           Submit
         </button>
       </form>
+      </div>
+    </div>
     </div>
   );
 };
