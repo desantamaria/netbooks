@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.css";
+import "./AddBook.css";
 import { Link, useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line
@@ -39,72 +39,85 @@ const AddBook = (props) => {
 
   return (
     <div className="AddBook">
-      <Link to="/Catalog">
-        <button>Go Back</button>
-      </Link>
-      <h2 className="addBook-title">Add Book Information Here</h2>
+      <div className="container">
+        <div>
+          <Link to="/Catalog">
+            <button>Go Back</button>
+          </Link>
+          <h2 className="addBook-title">Add Book Information Here</h2>
+        </div>
 
-      <form id="bookForm" className="input-form">
-        {/* <label for="bookTitle">Book Title:</label> */}
-        <input
-          type="text"
-          id="bookTitle"
-          name="bookTitle"
-          placeholder="Book Tile"
-        />
+        <form id="bookForm" className="Issue">
+          <input type="text" id="id" name="id" placeholder="ISBN" />
 
-        {/* <label for="isbn">ISBN:</label> */}
-        <input type="text" id="isbn" name="isbn" placeholder="ISBN" />
+          <input type="text" id="title" name="title" placeholder="Title" />
 
-        {/* <label for="edition">Edition:</label> */}
-        <input type="text" id="edition" name="edition" placeholder="Edition" />
+          <input type="text" id="author" name="author" placeholder="Author" />
 
-        {/* <label for="author">Author:</label> */}
-        <input type="text" id="author" name="author" placeholder="Author" />
+          <input
+            type="text"
+            id="publisher"
+            name="publisher"
+            placeholder="Publisher"
+          />
 
-        {/* <label for="imageLink">Image Link:</label> */}
-        <input
-          type="text"
-          id="imageLink"
-          name="imageLink"
-          placeholder="Image Link"
-        />
+          <input type="text" id="year" name="year" placeholder="Year" />
 
-        {/* <label for="rentDuration">Rent Duration:</label> */}
-        <input
-          type="text"
-          id="rentDuration"
-          name="rentDuration"
-          placeholder="Rent Duration"
-        />
+          <input
+            type="text"
+            id="language"
+            name="language"
+            placeholder="Language"
+          />
+          <input type="text" id="pages" name="pages" placeholder="Pages" />
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            placeholder="Subject"
+          />
 
-        {/* <label for="subject">Subject:</label> */}
-        <input type="text" id="subject" name="subject" placeholder="Subject" />
+          <input
+            type="text"
+            id="account"
+            name="account"
+            placeholder="Account"
+          />
 
-        {/* <label for="cost">Cost:</label> */}
-        <input type="text" id="cost" name="cost" placeholder="Cost USD" />
+          <input
+            type="text"
+            id="rentalTerm"
+            name="rentalTerm"
+            placeholder="Rental Term (in Days)"
+          />
+          <input
+            type="text"
+            id="rental_fee"
+            name="rental_fee"
+            placeholder="Rental Fee USD$"
+          />
 
-        {/* <label for="totalPrice">Total Price:</label> */}
-        <input
-          type="text"
-          id="totalPrice"
-          name="totalPrice"
-          placeholder="Total Price"
-        />
+          <div className="File Upload">
+            <label for="file-upload" class="custom-file-upload">
+              Upload Book PDF
+            </label>
+            <input
+              id="file-upload"
+              className="custom-file-upload"
+              type="file"
+              onChange={(e) => {
+                setFileData(e.target.files[0]);
+              }}
+            />
+            {/* <button onClick={uploadFile}>Upload File To S3</button> */}
+            {fileStatus ? "File uploaded successfully" : ""}
+          </div>
 
-        <button type="button">Calculate Total</button>
-        <button type="submit" onClick={handleSubmit}>
-          Submit
-        </button>
-      </form>
-      <input
-        type="file"
-        onChange={(e) => {
-          setFileData(e.target.files[0]);
-        }}
-      />
-      <button onClick={uploadFile}>Upload File To S3</button>
-      {fileStatus ? "File uploaded successfully" : ""}
+          <button type="submit" onClick={handleSubmit}>
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

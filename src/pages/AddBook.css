@@ -5,29 +5,28 @@
 
 
 
-.add-book-form {
+.Issue {
     background-color: white;
-    width: 400px;
-
+    width: 400px; 
+    /* height: 8; */
     display: flex;
     justify-content: center;
     flex-direction: column;
-    
+  
     gap: 20px;
-
+  
     padding: 30px;
-    overflow-y: scroll;
-
-
-
+  
+  
     box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
     margin: 1rem 0em;
     padding: 1em 1em;
     border-radius: 0.3rem;
     border: 1px solid rgba(34, 36, 38, 0.15);
-}
+  }
 
-.add-book-form input[type="text"]{
+
+.Issue input[type="text"]{
   padding: 0.67857143em 1em;
   font-size: 1em;
   background: #FFFFFF;
@@ -38,15 +37,47 @@
   transition: color 0.1s ease, border-color 0.4s ease;
 }
 
-.duo {
-    max-width: 38.5%;
-  padding: 0.67857143em 1em;
-  font-size: 1em;
-  background: #FFFFFF;
-  border: 1px solid rgba(34, 36, 38, 0.15);
-  color: rgba(0, 0, 0, 0.87);
-  border-radius: 0.28571429rem;
-  box-shadow: 0em 0em 0em 0em transparent inset;
-  transition: color 0.1s ease, border-color 0.4s ease;
+
+.container {
+    color: black;
+  
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .buttonTop button{
+    right: 80%;
+  }
+
+  input[type="file"] {
+    display: none;
 }
+
+
+
+
+.custom-file-upload {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    color:white;
+    cursor: pointer;
+    transition:  0.3s;
+  }
+  .custom-file-upload:hover {
+    color: black;
+    background-color: #b5d559;
+  }
+
 
