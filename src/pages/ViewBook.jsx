@@ -5,6 +5,8 @@ import { getBooks } from "../graphql/queries";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
+import { getUrl } from "aws-amplify/storage";
+
 import { generateClient } from "aws-amplify/api";
 const client = generateClient();
 
@@ -35,8 +37,21 @@ const Catalog = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  const getBook = async (id) => {
-    console.log(id);
+  const getBook = async () => {
+    console.log(book.filepath);
+
+    const bookFilePath = book.filepath;
+
+    try {
+      const fileAccessURL = await getUrl({
+        key: bookFilePath,
+        options: { accessLevel: "guest", expiresIn: 60 },
+      });
+      console.log("signed URL: ", fileAccessURL.url);
+      console.log("URL expires at: ", fileAccessURL.expiresAt);
+    } catch (error) {
+      console.error("Error Didnt work", error);
+    }
   };
 
   return (
