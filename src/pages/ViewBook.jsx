@@ -39,39 +39,39 @@ const Catalog = (props) => {
   const getBook = async () => {
     // console.log(book.filepath);
 
-    // const bookFilePath = book.filepath;
-    // try {
-    //   const fileAccessURL = await getUrl({
-    //     key: "intro-to-computer-math.pdf",
-    //     options: { expiresIn: 60 },
-    //     // Add the Amplify configuration explicitly
-    //     level: "private",
-    //     // identityId: "YOUR_IDENTITY_ID", // Include if needed for user-specific access
-    //     // Provide the config directly to ensure credentials are used
-    //     config: {
-    //       bucket: "pdf-storage171945-dev",
-    //       region: "us-west-1",
-    //       credentials: {
-    //         accessKeyId: "AKIATUYN66HEY63NO23D",
-    //         secretAccessKey: "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",
-    //       },
-    //     },
-    //   });
-
-    //   console.log("access URL: ", fileAccessURL.url.href);
-    //   console.log("URL expires at: ", fileAccessURL.expiresAt);
-    // } catch (error) {
-    //   console.error("", error);
-    // }
-
+    const bookFilePath = book.filepath;
     try {
-      const result = await list({
-        prefix: "/",
+      const fileAccessURL = await getUrl({
+        key: "intro-to-computer-math.pdf",
+        options: { expiresIn: 60 },
+        // Add the Amplify configuration explicitly
+        level: "private",
+        // identityId: "YOUR_IDENTITY_ID", // Include if needed for user-specific access
+        // Provide the config directly to ensure credentials are used
+        config: {
+          bucket: "pdf-storage171945-dev",
+          region: "us-west-1",
+          credentials: {
+            accessKeyId: "AKIATUYN66HEY63NO23D",
+            secretAccessKey: "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",
+          },
+        },
       });
-      console.log(result);
+
+      console.log("access URL: ", fileAccessURL.url.href);
+      console.log("URL expires at: ", fileAccessURL.expiresAt);
     } catch (error) {
-      console.log(error);
+      console.error("", error);
     }
+
+    // try {
+    //   const result = await list({
+    //     // prefix: "public",
+    //   });
+    //   console.log(result);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
