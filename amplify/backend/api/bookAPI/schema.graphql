@@ -12,12 +12,14 @@ type Account @model {
 type Books @model {
   id: ID!
   title: String!
-  isbn: String!
   author: String!
+  publisher: String!
+  year: Int!
+  language: String!
+  pages: Int!
   subject: String!
   account: String!
+  filepath: String!
   rentalTerm: String!
   rental_fee: Int!
-  overdue_fee: Int!
-  status: String!
 }

@@ -9,9 +9,8 @@ const Card = (props) => {
         <div className="card-text">
           <h2 className="title">{props.title}</h2>
           <p className=""> By {props.author}</p>
-          <p className=""> ISBN: {props.isbn}</p>
+          <p className=""> ISBN: {props.id}</p>
           <p className=""> Subject: {props.subject}</p>
-          <p className=""> Status: {props.status}</p>
         </div>
 
         {/* <img className="card-img" src={props.image_url} /> */}

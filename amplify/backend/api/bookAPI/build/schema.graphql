@@ -9,14 +9,16 @@ type Account {
 type Books {
   id: ID!
   title: String!
-  isbn: String!
   author: String!
+  publisher: String!
+  year: Int!
+  language: String!
+  pages: Int!
   subject: String!
   account: String!
+  filepath: String!
   rentalTerm: String!
   rental_fee: Int!
-  overdue_fee: Int!
-  status: String!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -250,14 +252,16 @@ type ModelBooksConnection {
 input ModelBooksFilterInput {
   id: ModelIDInput
   title: ModelStringInput
-  isbn: ModelStringInput
   author: ModelStringInput
+  publisher: ModelStringInput
+  year: ModelIntInput
+  language: ModelStringInput
+  pages: ModelIntInput
   subject: ModelStringInput
   account: ModelStringInput
+  filepath: ModelStringInput
   rentalTerm: ModelStringInput
   rental_fee: ModelIntInput
-  overdue_fee: ModelIntInput
-  status: ModelStringInput
   and: [ModelBooksFilterInput]
   or: [ModelBooksFilterInput]
   not: ModelBooksFilterInput
@@ -265,14 +269,16 @@ input ModelBooksFilterInput {
 
 input ModelBooksConditionInput {
   title: ModelStringInput
-  isbn: ModelStringInput
   author: ModelStringInput
+  publisher: ModelStringInput
+  year: ModelIntInput
+  language: ModelStringInput
+  pages: ModelIntInput
   subject: ModelStringInput
   account: ModelStringInput
+  filepath: ModelStringInput
   rentalTerm: ModelStringInput
   rental_fee: ModelIntInput
-  overdue_fee: ModelIntInput
-  status: ModelStringInput
   and: [ModelBooksConditionInput]
   or: [ModelBooksConditionInput]
   not: ModelBooksConditionInput
@@ -281,27 +287,31 @@ input ModelBooksConditionInput {
 input CreateBooksInput {
   id: ID
   title: String!
-  isbn: String!
   author: String!
+  publisher: String!
+  year: Int!
+  language: String!
+  pages: Int!
   subject: String!
   account: String!
+  filepath: String!
   rentalTerm: String!
   rental_fee: Int!
-  overdue_fee: Int!
-  status: String!
 }
 
 input UpdateBooksInput {
   id: ID!
   title: String
-  isbn: String
   author: String
+  publisher: String
+  year: Int
+  language: String
+  pages: Int
   subject: String
   account: String
+  filepath: String
   rentalTerm: String
   rental_fee: Int
-  overdue_fee: Int
-  status: String
 }
 
 input DeleteBooksInput {
@@ -311,14 +321,16 @@ input DeleteBooksInput {
 input ModelSubscriptionBooksFilterInput {
   id: ModelSubscriptionIDInput
   title: ModelSubscriptionStringInput
-  isbn: ModelSubscriptionStringInput
   author: ModelSubscriptionStringInput
+  publisher: ModelSubscriptionStringInput
+  year: ModelSubscriptionIntInput
+  language: ModelSubscriptionStringInput
+  pages: ModelSubscriptionIntInput
   subject: ModelSubscriptionStringInput
   account: ModelSubscriptionStringInput
+  filepath: ModelSubscriptionStringInput
   rentalTerm: ModelSubscriptionStringInput
   rental_fee: ModelSubscriptionIntInput
-  overdue_fee: ModelSubscriptionIntInput
-  status: ModelSubscriptionStringInput
   and: [ModelSubscriptionBooksFilterInput]
   or: [ModelSubscriptionBooksFilterInput]
 }

@@ -42,14 +42,16 @@ export const onCreateBooks = /* GraphQL */ `
     onCreateBooks(filter: $filter) {
       id
       title
-      isbn
       author
+      publisher
+      year
+      language
+      pages
       subject
       account
+      filepath
       rentalTerm
       rental_fee
-      overdue_fee
-      status
       createdAt
       updatedAt
       __typename
@@ -61,14 +63,16 @@ export const onUpdateBooks = /* GraphQL */ `
     onUpdateBooks(filter: $filter) {
       id
       title
-      isbn
       author
+      publisher
+      year
+      language
+      pages
       subject
       account
+      filepath
       rentalTerm
       rental_fee
-      overdue_fee
-      status
       createdAt
       updatedAt
       __typename
@@ -80,14 +84,16 @@ export const onDeleteBooks = /* GraphQL */ `
     onDeleteBooks(filter: $filter) {
       id
       title
-      isbn
       author
+      publisher
+      year
+      language
+      pages
       subject
       account
+      filepath
       rentalTerm
       rental_fee
-      overdue_fee
-      status
       createdAt
       updatedAt
       __typename

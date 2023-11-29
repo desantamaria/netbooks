@@ -54,14 +54,16 @@ export const createBooks = /* GraphQL */ `
     createBooks(input: $input, condition: $condition) {
       id
       title
-      isbn
       author
+      publisher
+      year
+      language
+      pages
       subject
       account
+      filepath
       rentalTerm
       rental_fee
-      overdue_fee
-      status
       createdAt
       updatedAt
       __typename
@@ -76,14 +78,16 @@ export const updateBooks = /* GraphQL */ `
     updateBooks(input: $input, condition: $condition) {
       id
       title
-      isbn
       author
+      publisher
+      year
+      language
+      pages
       subject
       account
+      filepath
       rentalTerm
       rental_fee
-      overdue_fee
-      status
       createdAt
       updatedAt
       __typename
@@ -98,14 +102,16 @@ export const deleteBooks = /* GraphQL */ `
     deleteBooks(input: $input, condition: $condition) {
       id
       title
-      isbn
       author
+      publisher
+      year
+      language
+      pages
       subject
       account
+      filepath
       rentalTerm
       rental_fee
-      overdue_fee
-      status
       createdAt
       updatedAt
       __typename

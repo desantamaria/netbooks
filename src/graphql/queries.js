@@ -38,14 +38,16 @@ export const getBooks = /* GraphQL */ `
     getBooks(id: $id) {
       id
       title
-      isbn
       author
+      publisher
+      year
+      language
+      pages
       subject
       account
+      filepath
       rentalTerm
       rental_fee
-      overdue_fee
-      status
       createdAt
       updatedAt
       __typename
@@ -62,14 +64,16 @@ export const listBooks = /* GraphQL */ `
       items {
         id
         title
-        isbn
         author
+        publisher
+        year
+        language
+        pages
         subject
         account
+        filepath
         rentalTerm
         rental_fee
-        overdue_fee
-        status
         createdAt
         updatedAt
         __typename

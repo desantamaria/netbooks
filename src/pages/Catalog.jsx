@@ -68,11 +68,8 @@ const Catalog = (props) => {
                 <Card
                   key={book.id}
                   id={book.id}
-                  account={book.account}
                   author={book.author}
                   createdAt={book.createdAt}
-                  isbn={book.isbn}
-                  overdue_fee={book.overdue_fee}
                   rentalTerm={book.rentalTerm}
                   rental_fee={book.rental_fee}
                   status={book.status}
@@ -84,11 +81,8 @@ const Catalog = (props) => {
                 <Card
                   key={book.id}
                   id={book.id}
-                  account={book.account}
                   author={book.author}
                   createdAt={book.createdAt}
-                  isbn={book.isbn}
-                  overdue_fee={book.overdue_fee}
                   rentalTerm={book.rentalTerm}
                   rental_fee={book.rental_fee}
                   status={book.status}

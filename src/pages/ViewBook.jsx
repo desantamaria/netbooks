@@ -35,6 +35,10 @@ const Catalog = (props) => {
     // eslint-disable-next-line
   }, []);
 
+  const getBook = async (id) => {
+    console.log(id);
+  };
+
   return (
     <div className="Catalog">
       {loading ? (
@@ -58,9 +62,10 @@ const Catalog = (props) => {
         <Link to="/catalog">
           <button>Go Back</button>
         </Link>
+        <button onClick={getBook}>View Book</button>
         <h2>Book Details</h2>
         <h3>{book.title}</h3>
-        <h4>{book.isbn}</h4>
+        <h4>{book.id}</h4>
         <p>Author(s): {book.author}</p>
         <p>Subject: {book.subject}</p>
         <p>Posted By: {book.account}</p>
@@ -70,7 +75,6 @@ const Catalog = (props) => {
         <h2>Rental Terms</h2>
         <p>Time to Rent: {book.rentalTerm} days</p>
         <p>Rental Fee: ${book.rental_fee} USD</p>
-        <p>Overdue Fee: ${book.overdue_fee} USD</p>
         <p>Status: {book.status}</p>
       </div>
     </div>
