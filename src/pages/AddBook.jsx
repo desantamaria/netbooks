@@ -6,15 +6,35 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAccount } from "../graphql/queries";
 import { generateClient } from "aws-amplify/api";
 
+import { uploadData } from "aws-amplify/storage";
+
 const client = generateClient();
 
 const AddBook = (props) => {
   const navigate = useNavigate();
 
+  const [fileData, setFileData] = useState();
+  const [fileStatus, setFileStatus] = useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     navigate("/catalog");
+  };
+
+  const uploadFile = async () => {
+    console.log(fileData);
+
+    try {
+      const result = await uploadData({
+        key: fileData.name,
+        data: fileData,
+      }).result;
+      console.log("Succeeded: ", result);
+      setFileStatus(true);
+    } catch (error) {
+      console.log("Error : ", error);
+    }
   };
 
   return (
@@ -77,6 +97,14 @@ const AddBook = (props) => {
           Submit
         </button>
       </form>
+      <input
+        type="file"
+        onChange={(e) => {
+          setFileData(e.target.files[0]);
+        }}
+      />
+      <button onClick={uploadFile}>Upload File To S3</button>
+      {fileStatus ? "File uploaded successfully" : ""}
     </div>
   );
 };

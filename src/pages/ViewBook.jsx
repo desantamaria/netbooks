@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getBooks } from "../graphql/queries";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { getUrl } from "aws-amplify/storage";
+import { getUrl, list } from "aws-amplify/storage";
 
 import { generateClient } from "aws-amplify/api";
 const client = generateClient();
@@ -37,31 +37,40 @@ const Catalog = (props) => {
   }, []);
 
   const getBook = async () => {
-    console.log(book.filepath);
+    // console.log(book.filepath);
 
-    const bookFilePath = book.filepath;
+    // const bookFilePath = book.filepath;
+    // try {
+    //   const fileAccessURL = await getUrl({
+    //     key: "intro-to-computer-math.pdf",
+    //     options: { expiresIn: 60 },
+    //     // Add the Amplify configuration explicitly
+    //     level: "private",
+    //     // identityId: "YOUR_IDENTITY_ID", // Include if needed for user-specific access
+    //     // Provide the config directly to ensure credentials are used
+    //     config: {
+    //       bucket: "pdf-storage171945-dev",
+    //       region: "us-west-1",
+    //       credentials: {
+    //         accessKeyId: "AKIATUYN66HEY63NO23D",
+    //         secretAccessKey: "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",
+    //       },
+    //     },
+    //   });
+
+    //   console.log("access URL: ", fileAccessURL.url.href);
+    //   console.log("URL expires at: ", fileAccessURL.expiresAt);
+    // } catch (error) {
+    //   console.error("", error);
+    // }
+
     try {
-      const fileAccessURL = await getUrl({
-        key: "intro-to-computer-math.pdf",
-        options: { expiresIn: 60 },
-        // Add the Amplify configuration explicitly
-        level: "private",
-        // identityId: "YOUR_IDENTITY_ID", // Include if needed for user-specific access
-        // Provide the config directly to ensure credentials are used
-        config: {
-          bucket: "pdf-storage171945-dev",
-          region: "us-west-1",
-          credentials: {
-            accessKeyId: "AKIATUYN66HEY63NO23D",
-            secretAccessKey: "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",
-          },
-        },
+      const result = await list({
+        prefix: "/",
       });
-
-      console.log("signed URL: ", fileAccessURL.url);
-      console.log("URL expires at: ", fileAccessURL.expiresAt);
+      console.log(result);
     } catch (error) {
-      console.error("", error);
+      console.log(error);
     }
   };
 
