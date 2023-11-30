@@ -3,7 +3,7 @@ import "./AddBook.css";
 import { Link, useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line
-import { getAccount } from "../graphql/queries";
+import { createBooks } from "../graphql/mutations";
 import { generateClient } from "aws-amplify/api";
 
 import { uploadData } from "aws-amplify/storage";
@@ -12,14 +12,69 @@ const client = generateClient();
 
 const AddBook = (props) => {
   const navigate = useNavigate();
+  const [newBook, setNewBook] = useState({
+    id: "",
+    title: "",
+    publisher: "",
+    year: "",
+    language: "",
+    pages: "",
+    subject: "",
+    account: "",
+    filepath: "",
+    rentalTerm: "",
+    rental_fee: "",
+  });
 
-  const [fileData, setFileData] = useState();
+  const [fileData, setFileData] = useState(null);
   const [fileStatus, setFileStatus] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    navigate("/catalog");
+    setNewBook((prevInputs) => ({
+      ...prevInputs,
+      account: props.user,
+    }));
+
+    setNewBook((prevInputs) => ({
+      ...prevInputs,
+      filepath: fileData.name,
+    }));
+
+    if (fileData === null || fileData === undefined) {
+      alert("please upload pdf");
+    } else {
+      setNewBook((prevInputs) => ({
+        ...prevInputs,
+        filepath: fileData.name,
+      }));
+      if (Object.values(newBook).some((value) => value === "")) {
+        alert("All Data Fields are required.");
+      } else {
+        try {
+          uploadFile();
+          await client.graphql({
+            query: createBooks,
+            variables: { input: newBook },
+          });
+        } catch (error) {
+          console.error(error);
+        }
+        console.log("sucess");
+      }
+    }
+    // navigate("/catalog");
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setNewBook((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
   };
 
   const uploadFile = async () => {
@@ -48,40 +103,66 @@ const AddBook = (props) => {
         </div>
 
         <form id="bookForm" className="Issue">
-          <input type="text" id="id" name="id" placeholder="ISBN" />
+          <input
+            type="text"
+            id="id"
+            name="id"
+            placeholder="ISBN"
+            onChange={handleChange}
+          />
 
-          <input type="text" id="title" name="title" placeholder="Title" />
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Title"
+            onChange={handleChange}
+          />
 
-          <input type="text" id="author" name="author" placeholder="Author" />
+          <input
+            type="text"
+            id="author"
+            name="author"
+            placeholder="Author"
+            onChange={handleChange}
+          />
 
           <input
             type="text"
             id="publisher"
             name="publisher"
             placeholder="Publisher"
+            onChange={handleChange}
           />
 
-          <input type="text" id="year" name="year" placeholder="Year" />
+          <input
+            type="text"
+            id="year"
+            name="year"
+            placeholder="Year"
+            onChange={handleChange}
+          />
 
           <input
             type="text"
             id="language"
             name="language"
             placeholder="Language"
+            onChange={handleChange}
           />
-          <input type="text" id="pages" name="pages" placeholder="Pages" />
+          <input
+            type="text"
+            id="pages"
+            name="pages"
+            placeholder="Pages"
+            onChange={handleChange}
+          />
           <input
             type="text"
             id="subject"
             name="subject"
             placeholder="Subject"
-          />
-
-          <input
-            type="text"
-            id="account"
-            name="account"
-            placeholder="Account"
+            onChange={handleChange}
           />
 
           <input
@@ -89,18 +170,18 @@ const AddBook = (props) => {
             id="rentalTerm"
             name="rentalTerm"
             placeholder="Rental Term (in Days)"
+            onChange={handleChange}
           />
           <input
             type="text"
             id="rental_fee"
             name="rental_fee"
             placeholder="Rental Fee USD$"
+            onChange={handleChange}
           />
 
-          <div className="File Upload">
-            <label for="file-upload" class="custom-file-upload">
-              Upload Book PDF
-            </label>
+          <div className="FileUpload">
+            <p className="file-upload-label">Upload Book PDF</p>
             <input
               id="file-upload"
               className="custom-file-upload"
@@ -113,9 +194,13 @@ const AddBook = (props) => {
             {fileStatus ? "File uploaded successfully" : ""}
           </div>
 
-          <button type="submit" onClick={handleSubmit}>
-            Submit
-          </button>
+          {props.user === "" ? (
+            <p>You need to Login to add a Book.</p>
+          ) : (
+            <button type="submit" onClick={handleSubmit}>
+              Submit
+            </button>
+          )}
         </form>
       </div>
     </div>

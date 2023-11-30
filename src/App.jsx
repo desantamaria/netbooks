@@ -75,7 +75,7 @@ const App = () => {
     },
     {
       path: "catalog/addbook",
-      element: <AddBook />,
+      element: <AddBook user={loggedInUser.username} />,
     },
   ]);
 
