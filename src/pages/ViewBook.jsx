@@ -6,6 +6,23 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getUrl, list } from "aws-amplify/storage";
 
+import {
+  PdfViewerComponent,
+  Toolbar,
+  Magnification,
+  Navigation,
+  LinkAnnotation,
+  BookmarkView,
+  ThumbnailView,
+  Print,
+  TextSelection,
+  Annotation,
+  TextSearch,
+  FormFields,
+  FormDesigner,
+  Inject,
+} from "@syncfusion/ej2-react-pdfviewer";
+
 import { generateClient } from "aws-amplify/api";
 const client = generateClient();
 
@@ -13,6 +30,12 @@ const Catalog = (props) => {
   const [book, setBook] = useState([]);
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+
+  const [bookpdf, setpdfBook] = useState(null);
+
+  function downloadClicked() {
+    console.log("NO");
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -32,6 +55,7 @@ const Catalog = (props) => {
     };
 
     fetchBooks();
+    getBook();
 
     // eslint-disable-next-line
   }, []);
@@ -56,6 +80,7 @@ const Catalog = (props) => {
 
       console.log("access URL: ", fileAccessURL.url.href);
       console.log("URL expires at: ", fileAccessURL.expiresAt);
+      setpdfBook(fileAccessURL);
     } catch (error) {
       console.error("", error);
     }
@@ -93,7 +118,7 @@ const Catalog = (props) => {
         <Link to="/catalog">
           <button>Go Back</button>
         </Link>
-        <button onClick={getBook}>View Book</button>
+        {/* <button onClick={getBook}>View Book</button> */}
         <h2>Book Details</h2>
         <h3>{book.title}</h3>
         <h4>{book.id}</h4>
@@ -107,6 +132,45 @@ const Catalog = (props) => {
         <p>Time to Rent: {book.rentalTerm} days</p>
         <p>Rental Fee: ${book.rental_fee} USD</p>
         <p>Status: {book.status}</p>
+
+        {bookpdf !== null ? (
+          //   <PDFViewer
+          //     document={{
+          //       url: bookpdf.url.href,
+          //     }}
+          //   />
+          //   <Document
+          //     file={{
+          //       url: bookpdf.url.href,
+          //     }}
+          //     onLoadSuccess={() => {
+          //       console.log("sucess");
+          //     }}
+          //   >
+          //     <Page pageNumber="0" />
+          //   </Document>
+          <PdfViewerComponent
+            id="container"
+            documentPath={bookpdf.url.href}
+            serviceUrl="https://services.syncfusion.com/react/production/api/pdfviewer"
+            style={{ height: "950px" }}
+          >
+            <Inject
+              services={[
+                Toolbar,
+                Magnification,
+                Navigation,
+                BookmarkView,
+                ThumbnailView,
+                TextSelection,
+                TextSearch,
+              ]}
+            />
+          </PdfViewerComponent>
+        ) : (
+          ""
+        )}
+        <br></br>
       </div>
     </div>
   );

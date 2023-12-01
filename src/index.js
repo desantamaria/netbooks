@@ -5,6 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 
+import { registerLicense } from '@syncfusion/ej2-base';
+registerLicense('Ngo9BigBOggjHTQxAR8/V1NHaF1cWWhIfEx1RXxbf1xzZFRGal1WTnZeUj0eQnxTdEZiWHxecnZUQWBeUEd0Wg==');
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
