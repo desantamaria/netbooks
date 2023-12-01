@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.css";
+import "./ViewAccount.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 // eslint-disable-next-line
@@ -35,14 +35,19 @@ const ViewAccount = () => {
   };
 
   return (
-    <div className="ViewAccount">
-      <Link to="/Catalog">
-        <button>Go Back</button>
+   <div className="ViewAccount">
+
+      <div>
+       <Link to="/Catalog">
+        <button className="btn">Go Back</button>
       </Link>
-
+     
+      <div className="container">
+        </div>
       <h1 className="create-account">{"Edit Account for: " + id}</h1>
+    
 
-      <form className="input-form">
+      <form className="Issue"> 
         <input
           type="text"
           id="password"
@@ -109,6 +114,7 @@ const ViewAccount = () => {
 
         <button>Update Account</button>
       </form>
+      </div>
     </div>
   );
 };
