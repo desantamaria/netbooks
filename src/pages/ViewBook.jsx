@@ -51,10 +51,6 @@ const Catalog = (props) => {
         config: {
           bucket: "pdf-storage171945-dev",
           region: "us-west-1",
-          credentials: {
-            accessKeyId: "AKIATUYN66HEY63NO23D",
-            secretAccessKey: "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",
-          },
         },
       });
 
