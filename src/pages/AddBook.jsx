@@ -94,13 +94,13 @@ const AddBook = (props) => {
 
   return (
     <div className="AddBook">
-      <div className="container">
         <div>
           <Link to="/Catalog">
             <button>Go Back</button>
           </Link>
+           <div className="container">
+            </div> 
           <h2 className="addBook-title">Add Book Information Here</h2>
-        </div>
 
         <form id="bookForm" className="Issue">
           <input
