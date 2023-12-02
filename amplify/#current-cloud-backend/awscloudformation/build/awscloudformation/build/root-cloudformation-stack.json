@@ -152,6 +152,20 @@
         }
       }
     },
+    "apibookAPI": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "Parameters": {
+          "AppSyncApiName": "bookAPI",
+          "DynamoDBBillingMode": "PAY_PER_REQUEST",
+          "DynamoDBEnableServerSideEncryption": false,
+          "S3DeploymentBucket": "amplify-amplifyreactapp-dev-171945-deployment",
+          "S3DeploymentRootKey": "amplify-appsync-files/e79c5c7841a30deab55ecb25c1119d7b3632da17",
+          "env": "dev"
+        }
+      }
+    },
     "authamplifyreactapp": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
@@ -199,20 +213,6 @@
           "breakCircularDependency": true,
           "useEnabledMfas": true,
           "dependsOn": "",
-          "env": "dev"
-        }
-      }
-    },
-    "apibookAPI": {
-      "Type": "AWS::CloudFormation::Stack",
-      "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/api/cloudformation-template.json",
-        "Parameters": {
-          "AppSyncApiName": "bookAPI",
-          "DynamoDBBillingMode": "PAY_PER_REQUEST",
-          "DynamoDBEnableServerSideEncryption": false,
-          "S3DeploymentBucket": "amplify-amplifyreactapp-dev-171945-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/e79c5c7841a30deab55ecb25c1119d7b3632da17",
           "env": "dev"
         }
       }

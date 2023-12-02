@@ -33,11 +33,12 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync",
-      "lastPushTimeStamp": "2023-12-02T02:13:19.657Z",
+      "lastPushTimeStamp": "2023-12-02T21:50:07.123Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apibookAPI"
-      }
+      },
+      "lastPushDirHash": "d/7XO9iyIdkb0FjtQVOYfWqcGBs="
     }
   },
   "auth": {
@@ -73,11 +74,12 @@
         "IdentityPoolName": "amplifyreactapp_identitypool_9ff7eac6__dev",
         "UserPoolName": "amplifyreactapp_userpool_9ff7eac6"
       },
-      "lastPushTimeStamp": "2023-12-02T02:13:19.658Z",
+      "lastPushTimeStamp": "2023-12-02T21:50:07.124Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/auth/amplifyreactapp-cloudformation-template.json",
         "logicalId": "authamplifyreactapp"
-      }
+      },
+      "lastPushDirHash": "FN2w9qwIKn3cxVjYMrAAsRnMIDk="
     }
   },
   "storage": {
@@ -89,11 +91,12 @@
         "BucketName": "pdf-storage171945-dev",
         "Region": "us-west-1"
       },
-      "lastPushTimeStamp": "2023-12-02T02:13:21.260Z",
+      "lastPushTimeStamp": "2023-12-02T21:50:09.055Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
         "logicalId": "storagepdfStorage"
-      }
+      },
+      "lastPushDirHash": "MVnQ4+1gE4OEgYbe6IXRF32QJhQ="
     }
   }
 }
