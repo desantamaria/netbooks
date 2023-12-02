@@ -7,6 +7,7 @@ import { useState } from "react";
 import Catalog from "./pages/Catalog";
 import ViewBook from "./pages/ViewBook";
 import ViewAccount from "./pages/ViewAccount";
+import EditBook from "./pages/EditBook";
 
 import { Amplify } from "aws-amplify";
 import AddBook from "./pages/AddBook";
@@ -67,7 +68,7 @@ const App = () => {
     },
     {
       path: "catalog/view/:id",
-      element: <ViewBook />,
+      element: <ViewBook user={loggedInUser.username} />,
     },
     {
       path: "catalog/account/:id",
@@ -76,6 +77,10 @@ const App = () => {
     {
       path: "catalog/addbook",
       element: <AddBook user={loggedInUser.username} />,
+    },
+    {
+      path: "catalog/view/edit/:id",
+      element: <EditBook user={loggedInUser.username} />,
     },
   ]);
 

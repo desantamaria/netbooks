@@ -4,22 +4,22 @@ import { useEffect, useState } from "react";
 import { getBooks } from "../graphql/queries";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { getUrl, list } from "aws-amplify/storage";
+import { getUrl } from "aws-amplify/storage";
 
 import {
   PdfViewerComponent,
   Toolbar,
   Magnification,
   Navigation,
-  LinkAnnotation,
+  //   LinkAnnotation,
   BookmarkView,
   ThumbnailView,
-  Print,
+  //   Print,
   TextSelection,
-  Annotation,
+  //   Annotation,
   TextSearch,
-  FormFields,
-  FormDesigner,
+  //   FormFields,
+  //   FormDesigner,
   Inject,
 } from "@syncfusion/ej2-react-pdfviewer";
 
@@ -32,10 +32,6 @@ const Catalog = (props) => {
   const [loading, setLoading] = useState(false);
 
   const [bookpdf, setpdfBook] = useState(null);
-
-  function downloadClicked() {
-    console.log("NO");
-  }
 
   useEffect(() => {
     setLoading(true);
@@ -118,6 +114,13 @@ const Catalog = (props) => {
         <Link to="/catalog">
           <button>Go Back</button>
         </Link>
+        {props.user === book.account ? (
+          <Link to={"/catalog/view/edit/" + book.id}>
+            <button>Edit Book</button>
+          </Link>
+        ) : (
+          ""
+        )}
         {/* <button onClick={getBook}>View Book</button> */}
         <h2>Book Details</h2>
         <h3>{book.title}</h3>
@@ -131,7 +134,6 @@ const Catalog = (props) => {
         <h2>Rental Terms</h2>
         <p>Time to Rent: {book.rentalTerm} days</p>
         <p>Rental Fee: ${book.rental_fee} USD</p>
-        <p>Status: {book.status}</p>
 
         {bookpdf !== null ? (
           //   <PDFViewer
@@ -153,7 +155,7 @@ const Catalog = (props) => {
             id="container"
             documentPath={bookpdf.url.href}
             serviceUrl="https://services.syncfusion.com/react/production/api/pdfviewer"
-            style={{ height: "950px" }}
+            style={{ height: "950px", span: "color: #89a042" }}
           >
             <Inject
               services={[

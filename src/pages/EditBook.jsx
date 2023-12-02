@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./AddBook.css";
-import { Link, useNavigate } from "react-router-dom";
+import "./EditBook.css";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 // eslint-disable-next-line
 import { createBooks } from "../graphql/mutations";
@@ -10,10 +10,11 @@ import { uploadData } from "aws-amplify/storage";
 
 const client = generateClient();
 
-const AddBook = (props) => {
+const EditBook = (props) => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [newBook, setNewBook] = useState({
-    id: "",
+    id: id,
     title: "",
     publisher: "",
     year: "",
@@ -29,22 +30,31 @@ const AddBook = (props) => {
   const [fileData, setFileData] = useState(null);
   const [fileStatus, setFileStatus] = useState(false);
 
-  const [isFileUploading, setIsFileUploading] = useState(false);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    let newerBook = newBook;
-    newerBook.account = props.user;
-    newerBook.filepath = fileData.name;
+    setNewBook((prevInputs) => ({
+      ...prevInputs,
+      account: props.user,
+    }));
+
+    setNewBook((prevInputs) => ({
+      ...prevInputs,
+      filepath: fileData.name,
+    }));
 
     if (fileData === null || fileData === undefined) {
       alert("please upload pdf");
     } else {
+      setNewBook((prevInputs) => ({
+        ...prevInputs,
+        filepath: fileData.name,
+      }));
       if (Object.values(newBook).some((value) => value === "")) {
         alert("All Data Fields are required.");
       } else {
         try {
+          uploadFile();
           await client.graphql({
             query: createBooks,
             variables: { input: newBook },
@@ -52,7 +62,7 @@ const AddBook = (props) => {
         } catch (error) {
           console.error(error);
         }
-        uploadFile();
+        console.log("sucess");
       }
     }
     // navigate("/catalog");
@@ -72,13 +82,11 @@ const AddBook = (props) => {
     console.log(fileData);
 
     try {
-      setIsFileUploading(true);
       const result = await uploadData({
         key: fileData.name,
         data: fileData,
       }).result;
       console.log("Succeeded: ", result);
-      setIsFileUploading(false);
       setFileStatus(true);
     } catch (error) {
       console.log("Error : ", error);
@@ -92,7 +100,7 @@ const AddBook = (props) => {
           <button>Go Back</button>
         </Link>
         <div className="container"></div>
-        <h2 className="addBook-title">Add Book Information Here</h2>
+        <h2 className="addBook-title">Edit Book</h2>
 
         <form id="bookForm" className="Issue">
           <input
@@ -182,7 +190,7 @@ const AddBook = (props) => {
                 setFileData(e.target.files[0]);
               }}
             />
-            {isFileUploading ? "Upload in Progress" : ""}
+            {/* <button onClick={uploadFile}>Upload File To S3</button> */}
             {fileStatus ? "File uploaded successfully" : ""}
           </div>
 
@@ -199,4 +207,4 @@ const AddBook = (props) => {
   );
 };
 
-export default AddBook;
+export default EditBook;
