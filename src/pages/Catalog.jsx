@@ -23,7 +23,7 @@ const Catalog = (props) => {
         const bookData = await client.graphql({ query: listBooks });
         const bookList = bookData.data.listBooks.items;
         setBooks(bookList);
-        console.log(bookList);
+        // console.log(bookList);
         setLoading(false);
       } catch (error) {
         console.log("error on fetching account", error);

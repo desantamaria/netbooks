@@ -62,7 +62,7 @@ const Catalog = (props) => {
     const bookFilePath = book.filepath;
     try {
       const fileAccessURL = await getUrl({
-        key: "intro-to-computer-math.pdf",
+        key: bookFilePath,
         options: { expiresIn: 60 },
         // Add the Amplify configuration explicitly
         level: "private",

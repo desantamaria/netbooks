@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./EditBook.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 // eslint-disable-next-line
-import { createBooks } from "../graphql/mutations";
+import { createBooks, updateBooks } from "../graphql/mutations";
+import { getBooks } from "../graphql/queries";
+
 import { generateClient } from "aws-amplify/api";
 
 import { uploadData } from "aws-amplify/storage";
@@ -12,10 +14,12 @@ const client = generateClient();
 
 const EditBook = (props) => {
   const { id } = useParams();
+
   const navigate = useNavigate();
-  const [newBook, setNewBook] = useState({
-    id: id,
+  const [book, setBook] = useState({
+    id: "",
     title: "",
+    author: "",
     publisher: "",
     year: "",
     language: "",
@@ -27,42 +31,57 @@ const EditBook = (props) => {
     rental_fee: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const [fileData, setFileData] = useState(null);
   const [fileStatus, setFileStatus] = useState(false);
+
+  const [isFileUploading, setIsFileUploading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchBooks = async () => {
+      try {
+        const bookData = await client.graphql({
+          query: getBooks,
+          variables: { id: id },
+        });
+        const bookItem = bookData.data.getBooks;
+        setBook(bookItem);
+        console.log(bookItem);
+        setLoading(false);
+      } catch (error) {
+        console.log("error on fetching account", error);
+      }
+    };
+
+    fetchBooks();
+
+    // eslint-disable-next-line
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setNewBook((prevInputs) => ({
-      ...prevInputs,
-      account: props.user,
-    }));
-
-    setNewBook((prevInputs) => ({
-      ...prevInputs,
-      filepath: fileData.name,
-    }));
+    let newerBook = book;
+    newerBook.account = props.user;
+    newerBook.filepath = fileData.name;
 
     if (fileData === null || fileData === undefined) {
       alert("please upload pdf");
     } else {
-      setNewBook((prevInputs) => ({
-        ...prevInputs,
-        filepath: fileData.name,
-      }));
-      if (Object.values(newBook).some((value) => value === "")) {
+      if (Object.values(book).some((value) => value === "")) {
         alert("All Data Fields are required.");
       } else {
         try {
-          uploadFile();
           await client.graphql({
             query: createBooks,
-            variables: { input: newBook },
+            variables: { input: book },
           });
         } catch (error) {
           console.error(error);
         }
-        console.log("sucess");
+        uploadFile();
       }
     }
     // navigate("/catalog");
@@ -70,7 +89,7 @@ const EditBook = (props) => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setNewBook((prev) => {
+    setBook((prev) => {
       return {
         ...prev,
         [name]: value,
@@ -82,11 +101,13 @@ const EditBook = (props) => {
     console.log(fileData);
 
     try {
+      setIsFileUploading(true);
       const result = await uploadData({
         key: fileData.name,
         data: fileData,
       }).result;
       console.log("Succeeded: ", result);
+      setIsFileUploading(false);
       setFileStatus(true);
     } catch (error) {
       console.log("Error : ", error);
@@ -95,12 +116,28 @@ const EditBook = (props) => {
 
   return (
     <div className="AddBook">
+      {loading ? (
+        <div className="lds-spinner">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ) : null}
       <div>
-        <Link to="/Catalog">
+        <Link to={"/Catalog/view/" + id}>
           <button>Go Back</button>
         </Link>
         <div className="container"></div>
-        <h2 className="addBook-title">Edit Book</h2>
+        <h2 className="addBook-title">Add Book Information Here</h2>
 
         <form id="bookForm" className="Issue">
           <input
@@ -108,6 +145,7 @@ const EditBook = (props) => {
             id="id"
             name="id"
             placeholder="ISBN"
+            defaultValue={book.id}
             onChange={handleChange}
           />
 
@@ -116,6 +154,7 @@ const EditBook = (props) => {
             id="title"
             name="title"
             placeholder="Title"
+            defaultValue={book.title}
             onChange={handleChange}
           />
 
@@ -124,6 +163,7 @@ const EditBook = (props) => {
             id="author"
             name="author"
             placeholder="Author"
+            defaultValue={book.author}
             onChange={handleChange}
           />
 
@@ -132,6 +172,7 @@ const EditBook = (props) => {
             id="publisher"
             name="publisher"
             placeholder="Publisher"
+            defaultValue={book.publisher}
             onChange={handleChange}
           />
 
@@ -140,6 +181,7 @@ const EditBook = (props) => {
             id="year"
             name="year"
             placeholder="Year"
+            defaultValue={book.year}
             onChange={handleChange}
           />
 
@@ -148,6 +190,7 @@ const EditBook = (props) => {
             id="language"
             name="language"
             placeholder="Language"
+            defaultValue={book.language}
             onChange={handleChange}
           />
           <input
@@ -155,6 +198,7 @@ const EditBook = (props) => {
             id="pages"
             name="pages"
             placeholder="Pages"
+            defaultValue={book.pages}
             onChange={handleChange}
           />
           <input
@@ -162,6 +206,7 @@ const EditBook = (props) => {
             id="subject"
             name="subject"
             placeholder="Subject"
+            defaultValue={book.subject}
             onChange={handleChange}
           />
 
@@ -170,6 +215,7 @@ const EditBook = (props) => {
             id="rentalTerm"
             name="rentalTerm"
             placeholder="Rental Term (in Days)"
+            defaultValue={book.rentalTerm}
             onChange={handleChange}
           />
           <input
@@ -177,6 +223,7 @@ const EditBook = (props) => {
             id="rental_fee"
             name="rental_fee"
             placeholder="Rental Fee USD$"
+            defaultValue={book.rental_fee}
             onChange={handleChange}
           />
 
@@ -190,7 +237,7 @@ const EditBook = (props) => {
                 setFileData(e.target.files[0]);
               }}
             />
-            {/* <button onClick={uploadFile}>Upload File To S3</button> */}
+            {isFileUploading ? "Upload in Progress" : ""}
             {fileStatus ? "File uploaded successfully" : ""}
           </div>
 

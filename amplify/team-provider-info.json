@@ -12,14 +12,11 @@
       "AmplifyAppId": "d1a7qeaihwrx81"
     },
     "categories": {
-      "api": {
-        "bookAPI": {}
+      "auth": {
+        "amplifyreactapp": {}
       },
       "storage": {
         "pdfStorage": {}
-      },
-      "auth": {
-        "amplifyreactapp": {}
       }
     }
   }
