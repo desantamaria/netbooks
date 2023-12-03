@@ -3,7 +3,7 @@ import "./EditBook.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 // eslint-disable-next-line
-import { createBooks, updateBooks } from "../graphql/mutations";
+import { createBooks, deleteBooks } from "../graphql/mutations";
 import { getBooks } from "../graphql/queries";
 
 import { generateClient } from "aws-amplify/api";
@@ -111,6 +111,19 @@ const EditBook = (props) => {
       setFileStatus(true);
     } catch (error) {
       console.log("Error : ", error);
+    }
+  };
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    try {
+      await client.graphql({
+        query: deleteBooks,
+        variables: { input: { id: book.id } },
+      });
+      navigate("/catalog");
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -242,11 +255,16 @@ const EditBook = (props) => {
           </div>
 
           {props.user === "" ? (
-            <p>You need to Login to add a Book.</p>
+            <p>You need to sign in to edit this Book.</p>
           ) : (
-            <button type="submit" onClick={handleSubmit}>
-              Submit
-            </button>
+            <>
+              <button type="submit" onClick={handleSubmit}>
+                Update Book
+              </button>
+              <button className="delete" type="submit" onClick={handleDelete}>
+                Delete Book
+              </button>
+            </>
           )}
         </form>
       </div>
