@@ -70,7 +70,7 @@ const SignUp = () => {
           onChange={handleChange}
         ></input>
         <input
-          type="text"
+          type="password"
           id="password"
           name="password"
           placeholder="Password"
@@ -78,7 +78,7 @@ const SignUp = () => {
           onChange={handleChange}
         ></input>
         <input
-          type="text"
+          type="password"
           id="password"
           name="password"
           placeholder="Re-enter Password"

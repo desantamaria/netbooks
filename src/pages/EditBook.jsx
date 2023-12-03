@@ -85,7 +85,6 @@ const EditBook = (props) => {
               filepath: book.filepath,
               rentalTerm: book.rentalTerm,
               rental_fee: book.rental_fee,
-              // Add other fields from the 'book' state as needed
             },
           },
         });
@@ -115,7 +114,6 @@ const EditBook = (props) => {
                 filepath: fileData.name,
                 rentalTerm: book.rentalTerm,
                 rental_fee: book.rental_fee,
-                // Add other fields from the 'book' state as needed
               },
             },
           });
