@@ -2,12 +2,15 @@ import React from "react";
 import "./SignUp.css";
 import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { createAccount } from "../graphql/mutations";
 
 import { generateClient } from "aws-amplify/api";
 const client = generateClient();
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     id: "",
     password: "",
@@ -41,6 +44,7 @@ const SignUp = () => {
             query: createAccount,
             variables: { input: credentials },
           });
+          navigate("/");
         } catch (error) {
           console.log("error on creating account", error);
         }

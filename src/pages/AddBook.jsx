@@ -56,7 +56,7 @@ const AddBook = (props) => {
         uploadFile();
       }
     }
-    // navigate("/catalog");
+    navigate("/catalog");
   };
 
   const handleChange = (event) => {
