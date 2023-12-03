@@ -112,7 +112,7 @@ const EditBook = (props) => {
                 pages: book.pages,
                 subject: book.subject,
                 account: book.account,
-                filepath: book.filepath,
+                filepath: fileData.name,
                 rentalTerm: book.rentalTerm,
                 rental_fee: book.rental_fee,
                 // Add other fields from the 'book' state as needed
@@ -194,14 +194,14 @@ const EditBook = (props) => {
         <h2 className="addBook-title">Add Book Information Here</h2>
 
         <form id="bookForm" className="Issue">
-          <input
+          {/* <input
             type="text"
             id="id"
             name="id"
             placeholder="ISBN"
             defaultValue={book.id}
             onChange={handleChange}
-          />
+          /> */}
 
           <input
             type="text"
