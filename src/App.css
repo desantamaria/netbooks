@@ -183,3 +183,15 @@ span {
   .title {
     color: white;
   }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .margin-zero {
+    margin-bottom: 5px;
+  }

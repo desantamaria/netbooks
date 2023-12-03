@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getUrl } from "aws-amplify/storage";
 
+import DateAge from "../components/DateAge";
+
 import { EmbedPDF } from "@simplepdf/react-embed-pdf";
 
 import { generateClient } from "aws-amplify/api";
@@ -106,12 +108,22 @@ const Catalog = (props) => {
         {/* <button onClick={getBook}>View Book</button> */}
         <h2>Book Details</h2>
         <h3>{book.title}</h3>
-        <h4>{book.id}</h4>
+        <h4>ISBN: {book.id}</h4>
         <p>Author(s): {book.author}</p>
         <p>Subject: {book.subject}</p>
         <p>Posted By: {book.account}</p>
-        <p>Posted At: {book.createdAt}</p>
-        <p>Edited At: {book.updatedAt}</p>
+
+        <div className="row">
+          <p className="margin-zero">Posted:</p>
+          <DateAge date={book.createdAt} />
+        </div>
+        <div className="row">
+          <p className="margin-zero">Updated:</p>
+          <DateAge date={book.updatedAt} />
+        </div>
+
+        {/* <p>Posted At: {book.createdAt}</p>
+        <p>Edited At: {book.updatedAt}</p> */}
 
         <h2>Rental Terms</h2>
         <p>Time to Rent: {book.rentalTerm} days</p>
