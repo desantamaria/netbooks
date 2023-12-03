@@ -7,7 +7,6 @@ import { createBooks } from "../graphql/mutations";
 import { generateClient } from "aws-amplify/api";
 
 import { uploadData } from "aws-amplify/storage";
-import { EmbedPDF } from "@simplepdf/react-embed-pdf";
 
 const client = generateClient();
 
@@ -56,7 +55,7 @@ const AddBook = (props) => {
         uploadFile();
       }
     }
-    navigate("/catalog");
+    // navigate("/catalog");
   };
 
   const handleChange = (event) => {
@@ -72,16 +71,11 @@ const AddBook = (props) => {
   const uploadFile = async () => {
     console.log(fileData);
 
-    let newFileData = fileData;
-
-    newFileData.metadata = "application/pdf";
-    console.log(newFileData);
-
     try {
       setIsFileUploading(true);
       const result = await uploadData({
-        key: newFileData.name,
-        data: newFileData,
+        key: fileData.name,
+        data: fileData,
       }).result;
       console.log("Succeeded: ", result);
       setIsFileUploading(false);
