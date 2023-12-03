@@ -195,3 +195,11 @@ span {
   .margin-zero {
     margin-bottom: 5px;
   }
+
+  .row-align {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

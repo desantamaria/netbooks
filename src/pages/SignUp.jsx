@@ -15,6 +15,7 @@ const SignUp = () => {
     id: "",
     password: "",
     fullname: "",
+    balance: 99.99,
   });
 
   const [passwordCheck, setPasswordCheck] = useState("");

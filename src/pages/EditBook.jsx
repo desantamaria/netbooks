@@ -27,8 +27,7 @@ const EditBook = (props) => {
     subject: "",
     account: "",
     filepath: "",
-    rentalTerm: "",
-    rental_fee: "",
+    price: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -83,8 +82,7 @@ const EditBook = (props) => {
               subject: book.subject,
               account: book.account,
               filepath: book.filepath,
-              rentalTerm: book.rentalTerm,
-              rental_fee: book.rental_fee,
+              price: book.price,
             },
           },
         });
@@ -112,8 +110,7 @@ const EditBook = (props) => {
                 subject: book.subject,
                 account: book.account,
                 filepath: fileData.name,
-                rentalTerm: book.rentalTerm,
-                rental_fee: book.rental_fee,
+                price: book.price,
               },
             },
           });
@@ -264,18 +261,10 @@ const EditBook = (props) => {
 
           <input
             type="text"
-            id="rentalTerm"
-            name="rentalTerm"
-            placeholder="Rental Term (in Days)"
-            defaultValue={book.rentalTerm}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            id="rental_fee"
-            name="rental_fee"
-            placeholder="Rental Fee USD$"
-            defaultValue={book.rental_fee}
+            id="price"
+            name="price"
+            placeholder="Price"
+            defaultValue={book.price}
             onChange={handleChange}
           />
 

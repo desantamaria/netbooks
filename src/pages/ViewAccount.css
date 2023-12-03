@@ -1,6 +1,9 @@
 .ViewAccount {
     margin-top: 50px;
-    
+}
+
+.balance {
+    text-align: center;
 }
 
 .Issue {

@@ -16,6 +16,7 @@ const ViewAccount = () => {
   const [account, setAccount] = useState({
     password: "",
     fullname: "",
+    balance: "",
   });
 
   const [passwordCheck, setPasswordCheck] = useState({
@@ -139,6 +140,10 @@ const ViewAccount = () => {
             <h1 className="create-account">{"View Account"}</h1>
             <h3>Username: {id}</h3>
             <h4>Full Name: {account.fullname}</h4>
+            <div className="balance">
+              <h1>Balance</h1>
+              <h3>${account.balance} USD</h3>
+            </div>
           </div>
 
           <div className="edit-account">

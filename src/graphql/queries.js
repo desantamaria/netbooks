@@ -7,7 +7,7 @@ export const getAccount = /* GraphQL */ `
       id
       password
       fullname
-      balanceAmount
+      balance
       purchased
       createdAt
       updatedAt
@@ -26,7 +26,7 @@ export const listAccounts = /* GraphQL */ `
         id
         password
         fullname
-        balanceAmount
+        balance
         purchased
         createdAt
         updatedAt

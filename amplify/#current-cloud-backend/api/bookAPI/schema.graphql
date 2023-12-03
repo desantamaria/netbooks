@@ -7,7 +7,7 @@ type Account @model {
   id: ID!
   password: String!
   fullname: String!
-  balanceAmount: Int!
+  balance: Float!
   purchased: [String]
 }
 
@@ -22,5 +22,5 @@ type Books @model {
   subject: String!
   account: String!
   filepath: String!
-  price: Int!
+  price: Float!
 }

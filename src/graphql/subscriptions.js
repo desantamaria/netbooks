@@ -7,7 +7,7 @@ export const onCreateAccount = /* GraphQL */ `
       id
       password
       fullname
-      balanceAmount
+      balance
       purchased
       createdAt
       updatedAt
@@ -21,7 +21,7 @@ export const onUpdateAccount = /* GraphQL */ `
       id
       password
       fullname
-      balanceAmount
+      balance
       purchased
       createdAt
       updatedAt
@@ -35,7 +35,7 @@ export const onDeleteAccount = /* GraphQL */ `
       id
       password
       fullname
-      balanceAmount
+      balance
       purchased
       createdAt
       updatedAt

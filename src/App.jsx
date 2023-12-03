@@ -41,6 +41,7 @@ const App = () => {
   const [loggedInUser, setLoggedInUser] = useState({
     username: "",
     password: "",
+    balance: "",
   });
   const manageSession = (data) => {
     setAuthenticated(!authenticated);
@@ -48,8 +49,18 @@ const App = () => {
     console.log("it worked?");
 
     setLoggedInUser({
-      username: data.username,
+      username: data.id,
       password: data.password,
+      balance: data.balance,
+    });
+  };
+
+  const updateBalance = (data) => {
+    setLoggedInUser((prev) => {
+      return {
+        ...prev,
+        balance: data.balance,
+      };
     });
   };
 
@@ -97,6 +108,9 @@ const App = () => {
         <ul className="nav-links">
           {authenticated ? (
             <>
+              <li>
+                <h6>Available Balance: ${loggedInUser.balance} USD</h6>
+              </li>
               <li>
                 <Link to={"/catalog/account/" + loggedInUser.username}>
                   <h6 className="login-link">{loggedInUser.username}</h6>

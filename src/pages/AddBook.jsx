@@ -22,8 +22,7 @@ const AddBook = (props) => {
     subject: "",
     account: "",
     filepath: "",
-    rentalTerm: "",
-    rental_fee: "",
+    price: "",
   });
 
   const [fileData, setFileData] = useState(null);
@@ -159,16 +158,9 @@ const AddBook = (props) => {
 
           <input
             type="text"
-            id="rentalTerm"
-            name="rentalTerm"
-            placeholder="Rental Term (in Days)"
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            id="rental_fee"
-            name="rental_fee"
-            placeholder="Rental Fee USD$"
+            id="price"
+            name="price"
+            placeholder="Price"
             onChange={handleChange}
           />
 

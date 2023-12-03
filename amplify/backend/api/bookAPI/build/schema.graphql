@@ -2,7 +2,7 @@ type Account {
   id: ID!
   password: String!
   fullname: String!
-  balanceAmount: Int!
+  balance: Float!
   purchased: [String]
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
@@ -19,7 +19,7 @@ type Books {
   subject: String!
   account: String!
   filepath: String!
-  price: Int!
+  price: Float!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -183,7 +183,7 @@ input ModelAccountFilterInput {
   id: ModelIDInput
   password: ModelStringInput
   fullname: ModelStringInput
-  balanceAmount: ModelIntInput
+  balance: ModelFloatInput
   purchased: ModelStringInput
   and: [ModelAccountFilterInput]
   or: [ModelAccountFilterInput]
@@ -200,7 +200,7 @@ type Query {
 input ModelAccountConditionInput {
   password: ModelStringInput
   fullname: ModelStringInput
-  balanceAmount: ModelIntInput
+  balance: ModelFloatInput
   purchased: ModelStringInput
   and: [ModelAccountConditionInput]
   or: [ModelAccountConditionInput]
@@ -211,7 +211,7 @@ input CreateAccountInput {
   id: ID
   password: String!
   fullname: String!
-  balanceAmount: Int!
+  balance: Float!
   purchased: [String]
 }
 
@@ -219,7 +219,7 @@ input UpdateAccountInput {
   id: ID!
   password: String
   fullname: String
-  balanceAmount: Int
+  balance: Float
   purchased: [String]
 }
 
@@ -240,7 +240,7 @@ input ModelSubscriptionAccountFilterInput {
   id: ModelSubscriptionIDInput
   password: ModelSubscriptionStringInput
   fullname: ModelSubscriptionStringInput
-  balanceAmount: ModelSubscriptionIntInput
+  balance: ModelSubscriptionFloatInput
   purchased: ModelSubscriptionStringInput
   and: [ModelSubscriptionAccountFilterInput]
   or: [ModelSubscriptionAccountFilterInput]
@@ -271,7 +271,7 @@ input ModelBooksFilterInput {
   subject: ModelStringInput
   account: ModelStringInput
   filepath: ModelStringInput
-  price: ModelIntInput
+  price: ModelFloatInput
   and: [ModelBooksFilterInput]
   or: [ModelBooksFilterInput]
   not: ModelBooksFilterInput
@@ -287,7 +287,7 @@ input ModelBooksConditionInput {
   subject: ModelStringInput
   account: ModelStringInput
   filepath: ModelStringInput
-  price: ModelIntInput
+  price: ModelFloatInput
   and: [ModelBooksConditionInput]
   or: [ModelBooksConditionInput]
   not: ModelBooksConditionInput
@@ -304,7 +304,7 @@ input CreateBooksInput {
   subject: String!
   account: String!
   filepath: String!
-  price: Int!
+  price: Float!
 }
 
 input UpdateBooksInput {
@@ -318,7 +318,7 @@ input UpdateBooksInput {
   subject: String
   account: String
   filepath: String
-  price: Int
+  price: Float
 }
 
 input DeleteBooksInput {
@@ -336,7 +336,7 @@ input ModelSubscriptionBooksFilterInput {
   subject: ModelSubscriptionStringInput
   account: ModelSubscriptionStringInput
   filepath: ModelSubscriptionStringInput
-  price: ModelSubscriptionIntInput
+  price: ModelSubscriptionFloatInput
   and: [ModelSubscriptionBooksFilterInput]
   or: [ModelSubscriptionBooksFilterInput]
 }

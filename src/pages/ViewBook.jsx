@@ -95,39 +95,49 @@ const Catalog = (props) => {
       ) : null}
 
       <div className="books-container">
-        <Link to="/catalog">
-          <button>Go Back</button>
-        </Link>
-        {props.user === book.account ? (
-          <Link to={"/catalog/view/edit/" + book.id}>
-            <button>Edit Book</button>
+        <div className="row">
+          <Link to="/catalog">
+            <button>Go Back</button>
           </Link>
-        ) : (
-          ""
-        )}
-        {/* <button onClick={getBook}>View Book</button> */}
-        <h2>Book Details</h2>
-        <h3>{book.title}</h3>
-        <h4>ISBN: {book.id}</h4>
-        <p>Author(s): {book.author}</p>
-        <p>Subject: {book.subject}</p>
-        <p>Posted By: {book.account}</p>
-
-        <div className="row">
-          <p className="margin-zero">Posted:</p>
-          <DateAge date={book.createdAt} />
+          {props.user === book.account ? (
+            <Link to={"/catalog/view/edit/" + book.id}>
+              <button>Edit Book</button>
+            </Link>
+          ) : (
+            <button>Buy Book</button>
+          )}
         </div>
-        <div className="row">
-          <p className="margin-zero">Updated:</p>
-          <DateAge date={book.updatedAt} />
+
+        {/* <button onClick={getBook}>View Book</button> */}
+        <div className="row-align">
+          <div>
+            <h2>Book Details</h2>
+            <h3>{book.title}</h3>
+            <h4>ISBN: {book.id}</h4>
+            <p>Author(s): {book.author}</p>
+            <p>Subject: {book.subject}</p>
+          </div>
+
+          <div>
+            <h2>Listing Details</h2>
+            <p>Posted By: {book.account}</p>
+            <div className="row">
+              <p>Posted:</p>
+              <DateAge date={book.createdAt} />
+            </div>
+            <div className="row">
+              <p>Updated:</p>
+              <DateAge date={book.updatedAt} />
+            </div>
+          </div>
+          <div>
+            <h2>Pricing</h2>
+            <p>${book.price} USD</p>
+          </div>
         </div>
 
         {/* <p>Posted At: {book.createdAt}</p>
         <p>Edited At: {book.updatedAt}</p> */}
-
-        <h2>Rental Terms</h2>
-        <p>Time to Rent: {book.rentalTerm} days</p>
-        <p>Rental Fee: ${book.rental_fee} USD</p>
 
         {bookpdf !== null ? (
           //   <PDFViewer

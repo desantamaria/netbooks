@@ -30,7 +30,7 @@ const Login = (props) => {
         fetchedLogin.data.getAccount != null &&
         loginInfo.password === fetchedLogin.data.getAccount.password
       ) {
-        props.loginUser(loginInfo);
+        props.loginUser(fetchedLogin.data.getAccount);
         navigate("/Catalog");
       } else {
         alert("Incorrect Credentials! Please try again.");

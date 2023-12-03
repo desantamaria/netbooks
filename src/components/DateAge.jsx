@@ -40,7 +40,7 @@ const DateAge = (props) => {
     }
   }, [ageInDays, ageInHours, ageInMinutes]);
 
-  return <p className="DateAge margin-zero">{DateAge}</p>;
+  return <p className="DateAge">{DateAge}</p>;
 };
 
 export default DateAge;
