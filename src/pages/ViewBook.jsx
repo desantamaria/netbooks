@@ -6,22 +6,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getUrl } from "aws-amplify/storage";
 
-import {
-  PdfViewerComponent,
-  Toolbar,
-  Magnification,
-  Navigation,
-  //   LinkAnnotation,
-  BookmarkView,
-  ThumbnailView,
-  //   Print,
-  TextSelection,
-  //   Annotation,
-  TextSearch,
-  //   FormFields,
-  //   FormDesigner,
-  Inject,
-} from "@syncfusion/ej2-react-pdfviewer";
+import { EmbedPDF } from "@simplepdf/react-embed-pdf";
 
 import { generateClient } from "aws-amplify/api";
 const client = generateClient();
@@ -44,6 +29,7 @@ const Catalog = (props) => {
         const bookItem = bookData.data.getBooks;
         setBook(bookItem);
         console.log(bookItem);
+        getBook(bookItem);
         setLoading(false);
       } catch (error) {
         console.log("error on fetching account", error);
@@ -51,23 +37,19 @@ const Catalog = (props) => {
     };
 
     fetchBooks();
-    getBook();
 
     // eslint-disable-next-line
   }, []);
 
-  const getBook = async () => {
+  const getBook = async (data) => {
     // console.log(book.filepath);
 
-    const bookFilePath = book.filepath;
+    const bookFilePath = data.filepath;
     try {
       const fileAccessURL = await getUrl({
         key: bookFilePath,
-        options: { expiresIn: 60 },
-        // Add the Amplify configuration explicitly
+        options: { expiresIn: 180 },
         level: "private",
-        // identityId: "YOUR_IDENTITY_ID", // Include if needed for user-specific access
-        // Provide the config directly to ensure credentials are used
         config: {
           bucket: "pdf-storage171945-dev",
           region: "us-west-1",
@@ -151,24 +133,10 @@ const Catalog = (props) => {
           //   >
           //     <Page pageNumber="0" />
           //   </Document>
-          <PdfViewerComponent
-            id="container"
-            documentPath={bookpdf.url.href}
-            serviceUrl="https://services.syncfusion.com/react/production/api/pdfviewer"
-            style={{ height: "950px", span: "color: #89a042" }}
-          >
-            <Inject
-              services={[
-                Toolbar,
-                Magnification,
-                Navigation,
-                BookmarkView,
-                ThumbnailView,
-                TextSelection,
-                TextSearch,
-              ]}
-            />
-          </PdfViewerComponent>
+
+          <EmbedPDF companyIdentifier="yourcompany">
+            <a href={bookpdf.url.href}>Click to View PDF</a>
+          </EmbedPDF>
         ) : (
           ""
         )}
