@@ -3,6 +3,10 @@
 
 const awsmobile = {
     "aws_project_region": "us-west-1",
+    "aws_appsync_graphqlEndpoint": "https://4lzmsis4wva53k3pwyvkxorcgy.appsync-api.us-west-1.amazonaws.com/graphql",
+    "aws_appsync_region": "us-west-1",
+    "aws_appsync_authenticationType": "API_KEY",
+    "aws_appsync_apiKey": "da2-74so3jigsngsxha3nvlz42xbdi",
     "aws_cognito_identity_pool_id": "us-west-1:57e88ade-eb08-451b-bca9-eb10a2392179",
     "aws_cognito_region": "us-west-1",
     "aws_user_pools_id": "us-west-1_MXVJWHwXS",
@@ -24,10 +28,6 @@ const awsmobile = {
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
     ],
-    "aws_appsync_graphqlEndpoint": "https://4lzmsis4wva53k3pwyvkxorcgy.appsync-api.us-west-1.amazonaws.com/graphql",
-    "aws_appsync_region": "us-west-1",
-    "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-74so3jigsngsxha3nvlz42xbdi",
     "aws_user_files_s3_bucket": "pdf-storage171945-dev",
     "aws_user_files_s3_bucket_region": "us-west-1"
 };

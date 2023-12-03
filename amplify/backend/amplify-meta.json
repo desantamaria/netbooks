@@ -20,7 +20,7 @@
           "additionalAuthenticationProviders": [],
           "defaultAuthentication": {
             "apiKeyConfig": {
-              "apiKeyExpirationDate": "2024-11-20T23:15:38.943Z",
+              "apiKeyExpirationDate": "2024-12-02T10:52:51.032Z",
               "apiKeyExpirationDays": 365,
               "description": ""
             },
@@ -33,12 +33,12 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync",
-      "lastPushTimeStamp": "2023-12-02T21:50:07.123Z",
+      "lastPushTimeStamp": "2023-12-03T11:17:54.887Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apibookAPI"
       },
-      "lastPushDirHash": "d/7XO9iyIdkb0FjtQVOYfWqcGBs="
+      "lastPushDirHash": "Vxg09EteyI2EkRkt2wShyi+emp4="
     }
   },
   "auth": {
@@ -74,12 +74,11 @@
         "IdentityPoolName": "amplifyreactapp_identitypool_9ff7eac6__dev",
         "UserPoolName": "amplifyreactapp_userpool_9ff7eac6"
       },
-      "lastPushTimeStamp": "2023-12-02T21:50:07.124Z",
+      "lastPushTimeStamp": "2023-12-03T11:17:52.668Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/auth/amplifyreactapp-cloudformation-template.json",
         "logicalId": "authamplifyreactapp"
-      },
-      "lastPushDirHash": "FN2w9qwIKn3cxVjYMrAAsRnMIDk="
+      }
     }
   },
   "storage": {
@@ -91,12 +90,11 @@
         "BucketName": "pdf-storage171945-dev",
         "Region": "us-west-1"
       },
-      "lastPushTimeStamp": "2023-12-02T21:50:09.055Z",
+      "lastPushTimeStamp": "2023-12-03T11:17:52.669Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreactapp-dev-171945-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
         "logicalId": "storagepdfStorage"
-      },
-      "lastPushDirHash": "MVnQ4+1gE4OEgYbe6IXRF32QJhQ="
+      }
     }
   }
 }

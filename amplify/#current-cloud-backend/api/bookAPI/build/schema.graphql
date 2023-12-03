@@ -2,6 +2,8 @@ type Account {
   id: ID!
   password: String!
   fullname: String!
+  balanceAmount: Int!
+  purchased: [String]
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -17,8 +19,7 @@ type Books {
   subject: String!
   account: String!
   filepath: String!
-  rentalTerm: String!
-  rental_fee: Int!
+  price: Int!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -182,6 +183,8 @@ input ModelAccountFilterInput {
   id: ModelIDInput
   password: ModelStringInput
   fullname: ModelStringInput
+  balanceAmount: ModelIntInput
+  purchased: ModelStringInput
   and: [ModelAccountFilterInput]
   or: [ModelAccountFilterInput]
   not: ModelAccountFilterInput
@@ -197,6 +200,8 @@ type Query {
 input ModelAccountConditionInput {
   password: ModelStringInput
   fullname: ModelStringInput
+  balanceAmount: ModelIntInput
+  purchased: ModelStringInput
   and: [ModelAccountConditionInput]
   or: [ModelAccountConditionInput]
   not: ModelAccountConditionInput
@@ -206,12 +211,16 @@ input CreateAccountInput {
   id: ID
   password: String!
   fullname: String!
+  balanceAmount: Int!
+  purchased: [String]
 }
 
 input UpdateAccountInput {
   id: ID!
   password: String
   fullname: String
+  balanceAmount: Int
+  purchased: [String]
 }
 
 input DeleteAccountInput {
@@ -231,6 +240,8 @@ input ModelSubscriptionAccountFilterInput {
   id: ModelSubscriptionIDInput
   password: ModelSubscriptionStringInput
   fullname: ModelSubscriptionStringInput
+  balanceAmount: ModelSubscriptionIntInput
+  purchased: ModelSubscriptionStringInput
   and: [ModelSubscriptionAccountFilterInput]
   or: [ModelSubscriptionAccountFilterInput]
 }
@@ -260,8 +271,7 @@ input ModelBooksFilterInput {
   subject: ModelStringInput
   account: ModelStringInput
   filepath: ModelStringInput
-  rentalTerm: ModelStringInput
-  rental_fee: ModelIntInput
+  price: ModelIntInput
   and: [ModelBooksFilterInput]
   or: [ModelBooksFilterInput]
   not: ModelBooksFilterInput
@@ -277,8 +287,7 @@ input ModelBooksConditionInput {
   subject: ModelStringInput
   account: ModelStringInput
   filepath: ModelStringInput
-  rentalTerm: ModelStringInput
-  rental_fee: ModelIntInput
+  price: ModelIntInput
   and: [ModelBooksConditionInput]
   or: [ModelBooksConditionInput]
   not: ModelBooksConditionInput
@@ -295,8 +304,7 @@ input CreateBooksInput {
   subject: String!
   account: String!
   filepath: String!
-  rentalTerm: String!
-  rental_fee: Int!
+  price: Int!
 }
 
 input UpdateBooksInput {
@@ -310,8 +318,7 @@ input UpdateBooksInput {
   subject: String
   account: String
   filepath: String
-  rentalTerm: String
-  rental_fee: Int
+  price: Int
 }
 
 input DeleteBooksInput {
@@ -329,8 +336,7 @@ input ModelSubscriptionBooksFilterInput {
   subject: ModelSubscriptionStringInput
   account: ModelSubscriptionStringInput
   filepath: ModelSubscriptionStringInput
-  rentalTerm: ModelSubscriptionStringInput
-  rental_fee: ModelSubscriptionIntInput
+  price: ModelSubscriptionIntInput
   and: [ModelSubscriptionBooksFilterInput]
   or: [ModelSubscriptionBooksFilterInput]
 }

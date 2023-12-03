@@ -7,6 +7,8 @@ export const onCreateAccount = /* GraphQL */ `
       id
       password
       fullname
+      balanceAmount
+      purchased
       createdAt
       updatedAt
       __typename
@@ -19,6 +21,8 @@ export const onUpdateAccount = /* GraphQL */ `
       id
       password
       fullname
+      balanceAmount
+      purchased
       createdAt
       updatedAt
       __typename
@@ -31,6 +35,8 @@ export const onDeleteAccount = /* GraphQL */ `
       id
       password
       fullname
+      balanceAmount
+      purchased
       createdAt
       updatedAt
       __typename
@@ -50,8 +56,7 @@ export const onCreateBooks = /* GraphQL */ `
       subject
       account
       filepath
-      rentalTerm
-      rental_fee
+      price
       createdAt
       updatedAt
       __typename
@@ -71,8 +76,7 @@ export const onUpdateBooks = /* GraphQL */ `
       subject
       account
       filepath
-      rentalTerm
-      rental_fee
+      price
       createdAt
       updatedAt
       __typename
@@ -92,8 +96,7 @@ export const onDeleteBooks = /* GraphQL */ `
       subject
       account
       filepath
-      rentalTerm
-      rental_fee
+      price
       createdAt
       updatedAt
       __typename

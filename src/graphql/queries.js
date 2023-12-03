@@ -7,6 +7,8 @@ export const getAccount = /* GraphQL */ `
       id
       password
       fullname
+      balanceAmount
+      purchased
       createdAt
       updatedAt
       __typename
@@ -24,6 +26,8 @@ export const listAccounts = /* GraphQL */ `
         id
         password
         fullname
+        balanceAmount
+        purchased
         createdAt
         updatedAt
         __typename
@@ -46,8 +50,7 @@ export const getBooks = /* GraphQL */ `
       subject
       account
       filepath
-      rentalTerm
-      rental_fee
+      price
       createdAt
       updatedAt
       __typename
@@ -72,8 +75,7 @@ export const listBooks = /* GraphQL */ `
         subject
         account
         filepath
-        rentalTerm
-        rental_fee
+        price
         createdAt
         updatedAt
         __typename

@@ -7,6 +7,8 @@ type Account @model {
   id: ID!
   password: String!
   fullname: String!
+  balanceAmount: Int!
+  purchased: [String]
 }
 
 type Books @model {
@@ -20,6 +22,5 @@ type Books @model {
   subject: String!
   account: String!
   filepath: String!
-  rentalTerm: String!
-  rental_fee: Int!
+  price: Int!
 }
