@@ -49,13 +49,13 @@ const AddBook = (props) => {
             query: createBooks,
             variables: { input: newBook },
           });
+          navigate("/catalog");
         } catch (error) {
           console.error(error);
         }
         uploadFile();
       }
     }
-    // navigate("/catalog");
   };
 
   const handleChange = (event) => {

@@ -3,7 +3,7 @@ import "./EditBook.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 // eslint-disable-next-line
-import { createBooks, deleteBooks } from "../graphql/mutations";
+import { createBooks, deleteBooks, updateBooks } from "../graphql/mutations";
 import { getBooks } from "../graphql/queries";
 
 import { generateClient } from "aws-amplify/api";
@@ -65,18 +65,59 @@ const EditBook = (props) => {
 
     let newerBook = book;
     newerBook.account = props.user;
-    newerBook.filepath = fileData.name;
+    // newerBook.filepath = fileData.name;
 
     if (fileData === null || fileData === undefined) {
-      alert("please upload pdf");
+      try {
+        await client.graphql({
+          query: updateBooks,
+          variables: {
+            input: {
+              id: id,
+              title: book.title,
+              author: book.author,
+              publisher: book.publisher,
+              year: book.year,
+              language: book.language,
+              pages: book.pages,
+              subject: book.subject,
+              account: book.account,
+              filepath: book.filepath,
+              rentalTerm: book.rentalTerm,
+              rental_fee: book.rental_fee,
+              // Add other fields from the 'book' state as needed
+            },
+          },
+        });
+        navigate("/catalog/view/" + id);
+      } catch (error) {
+        console.error(error);
+        alert(error);
+      }
     } else {
       if (Object.values(book).some((value) => value === "")) {
         alert("All Data Fields are required.");
       } else {
         try {
           await client.graphql({
-            query: createBooks,
-            variables: { input: book },
+            query: updateBooks,
+            variables: {
+              input: {
+                id: id,
+                title: book.title,
+                author: book.author,
+                publisher: book.publisher,
+                year: book.year,
+                language: book.language,
+                pages: book.pages,
+                subject: book.subject,
+                account: book.account,
+                filepath: book.filepath,
+                rentalTerm: book.rentalTerm,
+                rental_fee: book.rental_fee,
+                // Add other fields from the 'book' state as needed
+              },
+            },
           });
         } catch (error) {
           console.error(error);
