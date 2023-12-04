@@ -186,7 +186,7 @@ const Catalog = (props) => {
           Object.values(props.user.purchased).some(
             (value) => value === book.id
           )) ||
-        book.account === props.user.id ? (
+        (bookpdf !== null && book.account === props.user.id) ? (
           //   <PDFViewer
           //     document={{
           //       url: bookpdf.url.href,
