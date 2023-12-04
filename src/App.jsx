@@ -121,7 +121,7 @@ const App = () => {
                 <h6>Available Balance: ${loggedInUser.balance} USD</h6>
               </li>
               <li>
-                <Link to={"/catalog/account/" + loggedInUser.username}>
+                <Link to={"/catalog/account/" + loggedInUser.id}>
                   <h6 className="login-link">
                     View Account: {loggedInUser.id}
                   </h6>
