@@ -41,18 +41,17 @@ const App = () => {
   const [loggedInUser, setLoggedInUser] = useState({
     username: "",
     password: "",
+    fullname: "",
     balance: 0.0,
+    purchased: [],
   });
   const manageSession = (data) => {
     setAuthenticated(!authenticated);
 
     console.log("it worked?");
 
-    setLoggedInUser({
-      username: data.id,
-      password: data.password,
-      balance: data.balance,
-    });
+    setLoggedInUser(data);
+    console.log(data);
   };
 
   const updateBalance = (data) => {
@@ -60,6 +59,16 @@ const App = () => {
       return {
         ...prev,
         balance: data,
+      };
+    });
+  };
+
+  const updateUser = (data) => {
+    setLoggedInUser(data);
+    setLoggedInUser((prev) => {
+      return {
+        ...prev,
+        balance: data.balance,
       };
     });
   };
@@ -79,7 +88,7 @@ const App = () => {
     },
     {
       path: "catalog/view/:id",
-      element: <ViewBook user={loggedInUser.username} />,
+      element: <ViewBook user={loggedInUser} update={updateUser} />,
     },
     {
       path: "catalog/account/:id",
@@ -87,11 +96,11 @@ const App = () => {
     },
     {
       path: "catalog/addbook",
-      element: <AddBook user={loggedInUser.username} />,
+      element: <AddBook user={loggedInUser} />,
     },
     {
       path: "catalog/view/edit/:id",
-      element: <EditBook user={loggedInUser.username} />,
+      element: <EditBook user={loggedInUser} />,
     },
   ]);
 
@@ -114,7 +123,7 @@ const App = () => {
               <li>
                 <Link to={"/catalog/account/" + loggedInUser.username}>
                   <h6 className="login-link">
-                    View Account: {loggedInUser.username}
+                    View Account: {loggedInUser.id}
                   </h6>
                 </Link>
               </li>

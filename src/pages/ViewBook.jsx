@@ -9,6 +9,7 @@ import { getUrl } from "aws-amplify/storage";
 import DateAge from "../components/DateAge";
 
 import { EmbedPDF } from "@simplepdf/react-embed-pdf";
+import { deleteAccount, updateAccount } from "../graphql/mutations";
 
 import { generateClient } from "aws-amplify/api";
 const client = generateClient();
@@ -39,7 +40,6 @@ const Catalog = (props) => {
     };
 
     fetchBooks();
-
     // eslint-disable-next-line
   }, []);
 
@@ -75,6 +75,45 @@ const Catalog = (props) => {
     // }
   };
 
+  const buyBook = async () => {
+    console.log(props.user.balance);
+
+    let updatedUser = props.user;
+
+    if (props.user.balance < book.price || props.user.id === "") {
+      alert("Insufficient Funds");
+    } else {
+      const newBalance = parseFloat(
+        (props.user.balance - book.price).toFixed(2)
+      );
+
+      updatedUser.balance = newBalance;
+
+      updatedUser.purchased.push(book.id);
+
+      //   console.log(updatedUser.purchased);
+      // console.log(updatedUser.purchased.includes(book.id));
+
+      try {
+        await client.graphql({
+          query: updateAccount,
+          variables: {
+            input: {
+              id: updatedUser.id,
+              password: updatedUser.password,
+              fullname: updatedUser.fullname,
+              balance: updatedUser.balance,
+              purchased: updatedUser.purchased,
+            },
+          },
+        });
+        props.update(updatedUser);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <div className="Catalog">
       {loading ? (
@@ -99,12 +138,16 @@ const Catalog = (props) => {
           <Link to="/catalog">
             <button>Go Back</button>
           </Link>
-          {props.user === book.account ? (
+          {props.user.id === book.account ? (
             <Link to={"/catalog/view/edit/" + book.id}>
               <button>Edit Book</button>
             </Link>
+          ) : Object.values(props.user.purchased).some(
+              (value) => value === book.id
+            ) ? (
+            ""
           ) : (
-            <button>Buy Book</button>
+            <button onClick={buyBook}>Buy Book</button>
           )}
         </div>
 
@@ -139,7 +182,10 @@ const Catalog = (props) => {
         {/* <p>Posted At: {book.createdAt}</p>
         <p>Edited At: {book.updatedAt}</p> */}
 
-        {bookpdf !== null ? (
+        {bookpdf !== null &&
+        Object.values(props.user.purchased).some(
+          (value) => value === book.id
+        ) ? (
           //   <PDFViewer
           //     document={{
           //       url: bookpdf.url.href,

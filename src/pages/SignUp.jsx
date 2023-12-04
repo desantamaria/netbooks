@@ -16,6 +16,7 @@ const SignUp = () => {
     password: "",
     fullname: "",
     balance: 99.99,
+    purchased: [],
   });
 
   const [passwordCheck, setPasswordCheck] = useState("");

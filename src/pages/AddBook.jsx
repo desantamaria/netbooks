@@ -22,7 +22,7 @@ const AddBook = (props) => {
     subject: "",
     account: "",
     filepath: "",
-    price: "",
+    price: 0.0,
   });
 
   const [fileData, setFileData] = useState(null);
@@ -34,7 +34,7 @@ const AddBook = (props) => {
     event.preventDefault();
 
     let newerBook = newBook;
-    newerBook.account = props.user;
+    newerBook.account = props.user.id;
     newerBook.filepath = fileData.name;
 
     if (fileData === null || fileData === undefined) {
@@ -46,7 +46,7 @@ const AddBook = (props) => {
         try {
           await client.graphql({
             query: createBooks,
-            variables: { input: newBook },
+            variables: { input: newerBook },
           });
           navigate("/catalog");
         } catch (error) {
@@ -65,6 +65,7 @@ const AddBook = (props) => {
         [name]: value,
       };
     });
+    console.log(newBook);
   };
 
   const uploadFile = async () => {

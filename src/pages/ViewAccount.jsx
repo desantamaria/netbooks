@@ -17,6 +17,7 @@ const ViewAccount = (props) => {
     password: "",
     fullname: "",
     balance: 0.0,
+    purchased: [],
   });
 
   const [passwordCheck, setPasswordCheck] = useState({
@@ -101,6 +102,7 @@ const ViewAccount = (props) => {
                 password: newerAccount.password,
                 fullname: account.fullname,
                 balance: account.balance,
+                purchased: account.purchased,
               },
             },
           });

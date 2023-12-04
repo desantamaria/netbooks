@@ -10,7 +10,7 @@ const client = generateClient();
 
 const Login = (props) => {
   const [loginInfo, setLoginInfo] = useState({
-    username: "",
+    id: "",
     password: "",
     balance: 0.0,
     purchased: [],
