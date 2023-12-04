@@ -80,7 +80,7 @@ const EditBook = (props) => {
               language: book.language,
               pages: book.pages,
               subject: book.subject,
-              account: book.account,
+              account: book.account.id,
               filepath: book.filepath,
               price: book.price,
             },
@@ -108,7 +108,7 @@ const EditBook = (props) => {
                 language: book.language,
                 pages: book.pages,
                 subject: book.subject,
-                account: book.account,
+                account: book.account.id,
                 filepath: fileData.name,
                 price: book.price,
               },
@@ -141,6 +141,9 @@ const EditBook = (props) => {
       const result = await uploadData({
         key: fileData.name,
         data: fileData,
+        options: {
+          contentType: "application/pdf",
+        },
       }).result;
       console.log("Succeeded: ", result);
       setIsFileUploading(false);

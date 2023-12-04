@@ -48,7 +48,7 @@ const AddBook = (props) => {
             query: createBooks,
             variables: { input: newerBook },
           });
-          navigate("/catalog");
+          //   navigate("/catalog");
         } catch (error) {
           console.error(error);
         }
@@ -76,6 +76,9 @@ const AddBook = (props) => {
       const result = await uploadData({
         key: fileData.name,
         data: fileData,
+        options: {
+          contentType: "application/pdf",
+        },
       }).result;
       console.log("Succeeded: ", result);
       setIsFileUploading(false);

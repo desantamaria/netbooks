@@ -187,25 +187,9 @@ const Catalog = (props) => {
             (value) => value === book.id
           )) ||
         (bookpdf !== null && book.account === props.user.id) ? (
-          //   <PDFViewer
-          //     document={{
-          //       url: bookpdf.url.href,
-          //     }}
-          //   />
-          //   <Document
-          //     file={{
-          //       url: bookpdf.url.href,
-          //     }}
-          //     onLoadSuccess={() => {
-          //       console.log("sucess");
-          //     }}
-          //   >
-          //     <Page pageNumber="0" />
-          //   </Document>
-
-          <EmbedPDF companyIdentifier="yourcompany">
-            <a href={bookpdf.url.href}>Click to View PDF</a>
-          </EmbedPDF>
+          <div>
+            <iframe src={bookpdf.url.href} width="100%" height="1000px" />
+          </div>
         ) : (
           ""
         )}
