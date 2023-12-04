@@ -182,10 +182,11 @@ const Catalog = (props) => {
         {/* <p>Posted At: {book.createdAt}</p>
         <p>Edited At: {book.updatedAt}</p> */}
 
-        {bookpdf !== null &&
-        Object.values(props.user.purchased).some(
-          (value) => value === book.id
-        ) ? (
+        {(bookpdf !== null &&
+          Object.values(props.user.purchased).some(
+            (value) => value === book.id
+          )) ||
+        book.account === props.user.id ? (
           //   <PDFViewer
           //     document={{
           //       url: bookpdf.url.href,
