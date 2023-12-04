@@ -12,9 +12,11 @@ const client = generateClient();
 const Catalog = (props) => {
   const [books, setBooks] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
+  const [filteredResults2, setFilteredResults2] = useState([]);
 
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [filter, setfilter] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -23,6 +25,7 @@ const Catalog = (props) => {
         const bookData = await client.graphql({ query: listBooks });
         const bookList = bookData.data.listBooks.items;
         setBooks(bookList);
+        setFilteredResults(bookList);
         // console.log(bookList);
         setLoading(false);
       } catch (error) {
@@ -34,6 +37,51 @@ const Catalog = (props) => {
 
     // eslint-disable-next-line
   }, []);
+
+  const searchPosts = (searchValue) => {
+    setSearchInput(searchValue);
+    if (searchValue !== "") {
+      if (filter) {
+        setSearchInput("");
+        const filteredData = filteredResults.filter((book) =>
+          book.title.toLowerCase().includes(searchValue.toLowerCase())
+        );
+        setFilteredResults(filteredData);
+      } else {
+        setSearchInput("");
+        const filteredData = filteredResults.filter((book) =>
+          book.title.toLowerCase().includes(searchValue.toLowerCase())
+        );
+        setFilteredResults(filteredData);
+      }
+    } else {
+      if (filter) {
+        setFilteredResults(filteredResults2);
+      } else {
+        setFilteredResults(books);
+      }
+    }
+
+    setSearchInput(searchValue);
+  };
+
+  const toggleFilter = () => {
+    const negate = !filter;
+    console.log(negate);
+
+    if (negate) {
+      const filteredArray = filteredResults.filter((value) =>
+        props.user.purchased.includes(value.id)
+      );
+      console.log(filteredArray);
+      setFilteredResults(filteredArray);
+      setFilteredResults2(filteredArray);
+    } else {
+      setFilteredResults(books);
+    }
+
+    setfilter(!filter);
+  };
 
   return (
     <div className="Catalog">
@@ -60,6 +108,21 @@ const Catalog = (props) => {
           <Link to="/catalog/addbook">
             <button>Add Book</button>
           </Link>
+          <div className="row">
+            {" "}
+            <input type="checkbox" onChange={toggleFilter} />
+            <label className="switch">Filter by purchased books</label>
+          </div>
+        </div>
+        <div className="row">
+          <input
+            className="search-bar"
+            type="text"
+            name="title"
+            placeholder="Search"
+            onChange={(inputString) => searchPosts(inputString.target.value)}
+          />
+          <div></div>
         </div>
 
         {books && books.length > 0
@@ -77,7 +140,7 @@ const Catalog = (props) => {
                   title={book.title}
                 />
               ))
-            : books.map((book, index) => (
+            : filteredResults.map((book, index) => (
                 <Card
                   key={book.id}
                   id={book.id}

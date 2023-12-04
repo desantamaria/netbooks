@@ -84,7 +84,7 @@ const App = () => {
     },
     {
       path: "/catalog",
-      element: <Catalog />,
+      element: <Catalog user={loggedInUser} />,
     },
     {
       path: "catalog/view/:id",

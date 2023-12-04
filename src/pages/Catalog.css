@@ -16,3 +16,32 @@
     align-items: center;
     gap: 20px;
 }
+
+
+/* input[type="checkbox"] {
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid currentColor;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+  } */
+
+
+  .search-bar {
+    margin-top: 10px;
+    /* width: 80vw; */
+    width: 80vw;
+    height: 45px;
+    border-radius: 8px;
+    border: 1px solid black;
+    font-size: 20px;
+    padding-left: 10px;
+}
+.search-bar:focus {
+    border-color: #b6c099;
+}
