@@ -41,7 +41,7 @@ const App = () => {
   const [loggedInUser, setLoggedInUser] = useState({
     username: "",
     password: "",
-    balance: "",
+    balance: 0.0,
   });
   const manageSession = (data) => {
     setAuthenticated(!authenticated);
@@ -59,7 +59,7 @@ const App = () => {
     setLoggedInUser((prev) => {
       return {
         ...prev,
-        balance: data.balance,
+        balance: data,
       };
     });
   };
@@ -83,7 +83,7 @@ const App = () => {
     },
     {
       path: "catalog/account/:id",
-      element: <ViewAccount />,
+      element: <ViewAccount setBalance={updateBalance} />,
     },
     {
       path: "catalog/addbook",
@@ -113,7 +113,9 @@ const App = () => {
               </li>
               <li>
                 <Link to={"/catalog/account/" + loggedInUser.username}>
-                  <h6 className="login-link">{loggedInUser.username}</h6>
+                  <h6 className="login-link">
+                    View Account: {loggedInUser.username}
+                  </h6>
                 </Link>
               </li>
               <li>

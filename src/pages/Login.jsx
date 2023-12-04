@@ -12,7 +12,7 @@ const Login = (props) => {
   const [loginInfo, setLoginInfo] = useState({
     username: "",
     password: "",
-    balance: "",
+    balance: 0.0,
     purchased: [],
   });
   const navigate = useNavigate();

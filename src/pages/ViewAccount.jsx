@@ -9,14 +9,14 @@ import { deleteAccount, updateAccount } from "../graphql/mutations";
 
 const client = generateClient();
 
-const ViewAccount = () => {
+const ViewAccount = (props) => {
   const navigate = useNavigate();
   const { id } = useParams();
 
   const [account, setAccount] = useState({
     password: "",
     fullname: "",
-    balance: "",
+    balance: 0.0,
   });
 
   const [passwordCheck, setPasswordCheck] = useState({
@@ -100,6 +100,7 @@ const ViewAccount = () => {
                 id: id,
                 password: newerAccount.password,
                 fullname: account.fullname,
+                balance: account.balance,
               },
             },
           });
@@ -113,6 +114,37 @@ const ViewAccount = () => {
           console.error(error);
         }
       }
+    }
+  };
+
+  const addToBalance = async (event) => {
+    event.preventDefault();
+
+    let addBalance = parseFloat(account.balance) + 24.99;
+    console.log(addBalance);
+    let newBalance = addBalance.toFixed(2);
+
+    try {
+      await client.graphql({
+        query: updateAccount,
+        variables: {
+          input: {
+            id: id,
+            password: account.password,
+            fullname: account.fullname,
+            balance: newBalance,
+          },
+        },
+      });
+      setAccount((prev) => {
+        return {
+          ...prev,
+          balance: newBalance,
+        };
+      });
+      props.setBalance(newBalance);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -143,6 +175,7 @@ const ViewAccount = () => {
             <div className="balance">
               <h1>Balance</h1>
               <h3>${account.balance} USD</h3>
+              <button onClick={addToBalance}>Add to Balance</button>
             </div>
           </div>
 
