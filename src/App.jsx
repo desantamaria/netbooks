@@ -14,26 +14,6 @@ import AddBook from "./pages/AddBook";
 
 import amplifyconfig from "./amplifyconfiguration.json";
 
-// Amplify.configure({
-//   API: {
-//     GraphQL: {
-//       endpoint:
-//         "https://4lzmsis4wva53k3pwyvkxorcgy.appsync-api.us-west-1.amazonaws.com/graphql",
-//       region: "us-west-1",
-//       defaultAuthMode: "apiKey",
-//       apiKey: "da2-74so3jigsngsxha3nvlz42xbdi",
-//     },
-//     Storage: {
-//       bucket: "pdf-storage171945-dev",
-//       region: "us-west-1",
-//       credentials: {
-//         accessKeyId: "AKIATUYN66HEY63NO23D",
-//         secretAccessKey: "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",
-//       },
-//     },
-//   },
-// });
-
 Amplify.configure(amplifyconfig);
 
 const App = () => {
