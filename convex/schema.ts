@@ -5,7 +5,7 @@ export default defineSchema({
   // Books table
   books: defineTable({
     title: v.string(),
-    author: v.string(),
+    authorIds: v.array(v.id("authors")),
     isbn: v.string(),
     description: v.string(),
     price: v.number(),
@@ -25,6 +25,18 @@ export default defineSchema({
     .index("by_isbn", ["isbn"])
     .index("by_category", ["categoryId"])
     .index("by_featured", ["featured"]),
+
+  // Authors table
+  authors: defineTable({
+    name: v.string(),
+    biography: v.optional(v.string()),
+    birthDate: v.optional(v.string()),
+    nationality: v.optional(v.string()),
+    photoUrl: v.optional(v.string()),
+    websiteUrl: v.optional(v.string()),
+    createdAt: v.string(),
+    updatedAt: v.string(),
+  }).index("by_name", ["name"]),
 
   // Categories table
   categories: defineTable({
