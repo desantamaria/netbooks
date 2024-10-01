@@ -2,62 +2,118 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-    // Book table
-    books: defineTable({
-        isbn: v.string(), // Ensure isbn is unique
-        title: v.string(),
-        rating: v.number(), // Could be computed as an aggregate from reviews
-        price: v.number(),
-        discountPrice: v.optional(v.number()),
-        edition: v.string(),
-        otherEdtn: v.optional(v.array(v.string())),
-        genreIds: v.optional(v.id("genres")), // Linked to genres table
-        publicationDate: v.optional(v.string()),
-        publisher: v.optional(v.string()),
-        pageCount: v.optional(v.number()),
-        language: v.optional(v.string()),
-        format: v.optional(v.string()),
-        inventoryCount: v.optional(v.number()),
-        coverImageUrl: v.optional(v.string()),
-        description: v.optional(v.string()),
-        tags: v.optional(v.array(v.string())),
-        userId: v.id("users"), // Reference to users table (who added the book)
-    }).index("by_isbn", ["isbn"]),
+  // Books table
+  books: defineTable({
+    title: v.string(),
+    author: v.string(),
+    isbn: v.string(),
+    description: v.string(),
+    price: v.number(),
+    discountPrice: v.optional(v.number()),
+    stockQuantity: v.number(),
+    categoryId: v.id("categories"),
+    publisherId: v.id("publishers"),
+    publicationDate: v.string(),
+    language: v.string(),
+    format: v.union(v.literal("hardcover"), v.literal("paperback"), v.literal("ebook"), v.literal("audiobook")),
+    pageCount: v.optional(v.number()),
+    coverImageUrl: v.string(),
+    featured: v.boolean(),
+    createdAt: v.string(),
+    updatedAt: v.string(),
+  })
+    .index("by_isbn", ["isbn"])
+    .index("by_category", ["categoryId"])
+    .index("by_featured", ["featured"]),
 
-    // Authors table
-    authors: defineTable({
-        name: v.string(),
-        bio: v.optional(v.string()),
-        birthDate: v.optional(v.string()),
-        nationality: v.optional(v.string()),
-        // Removed userId unless necessary
-    }).index("by_name", ["name"]),
+  // Categories table
+  categories: defineTable({
+    name: v.string(),
+    description: v.optional(v.string()),
+    parentCategoryId: v.optional(v.id("categories")),
+    createdAt: v.string(),
+    updatedAt: v.string(),
+  }).index("by_name", ["name"]),
 
-    // Genres table
-    genres: defineTable({
-        name: v.string(), // Ensures unique genre names
-    }).index("by_name", ["name"]),
+  // Publishers table
+  publishers: defineTable({
+    name: v.string(),
+    description: v.optional(v.string()),
+    website: v.optional(v.string()),
+    createdAt: v.string(),
+    updatedAt: v.string(),
+  }).index("by_name", ["name"]),
 
-    // Users table
-    users: defineTable({
-        name: v.string(),
-        email: v.string(), // Enforce unique emails
-        role: v.optional(v.string()), // Role like "admin" or "customer"
-        // Removed userId since Convex automatically generates an ID
-    }).index("by_email", ["email"]),
+  // Users table
+  users: defineTable({
+    name: v.string(),
+    email: v.string(),
+    role: v.union(v.literal("admin"), v.literal("customer")),
+    addresses: v.array(v.object({
+      street: v.string(),
+      city: v.string(),
+      state: v.string(),
+      zipCode: v.string(),
+      country: v.string(),
+      isDefault: v.boolean(),
+    })),
+    createdAt: v.string(),
+    updatedAt: v.string(),
+  }).index("by_email", ["email"]),
 
-    // Reviews table
-    reviews: defineTable({
-        bookId: v.id("book"), // Reference to the book being reviewed
-        userId: v.id("users"), // Reference to the user who wrote the review
-        rating: v.number(), // Rating (e.g., 1-5 stars)
-        reviewText: v.optional(v.string()), // The review text
-        reviewDate: v.string(), // Date the review was posted
-    }).index("by_book_id", ["bookId"]), // Index by bookId for efficient book review queries
+  // Orders table
+  orders: defineTable({
+    userId: v.id("users"),
+    items: v.array(v.object({
+      bookId: v.id("books"),
+      quantity: v.number(),
+      priceAtPurchase: v.number(),
+    })),
+    totalAmount: v.number(),
+    status: v.union(v.literal("pending"), v.literal("processing"), v.literal("shipped"), v.literal("delivered"), v.literal("fulfilled"), v.literal("cancelled")),
+    shippingAddress: v.optional(v.object({
+      street: v.string(),
+      city: v.string(),
+      state: v.string(),
+      zipCode: v.string(),
+      country: v.string(),
+    })),
+    trackingNumber: v.optional(v.string()),
+    createdAt: v.string(),
+    updatedAt: v.string(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_status", ["status"]),
 
-    // BookAuthors table to model the many-to-many relationship
-    bookAuthors: defineTable({
-        bookId: v.id("book"), // Reference to the book
-        authorId: v.id("authors"), // Reference to the author
-    }).index("by_book_and_author", ["bookId", "authorId"]), // Composite index for efficient lookups
+  // Reviews table
+  reviews: defineTable({
+    bookId: v.id("books"),
+    userId: v.id("users"),
+    rating: v.number(),
+    comment: v.string(),
+    createdAt: v.string(),
+    updatedAt: v.string(),
+  })
+    .index("by_book", ["bookId"])
+    .index("by_user", ["userId"]),
+
+  // Cart table
+  cart: defineTable({
+    userId: v.id("users"),
+    items: v.array(v.object({
+      bookId: v.id("books"),
+      quantity: v.number(),
+    })),
+    createdAt: v.string(),
+    updatedAt: v.string(),
+  }).index("by_user", ["userId"]),
+
+  // Wishlist table
+  wishlist: defineTable({
+    userId: v.id("users"),
+    bookId: v.id("books"),
+    createdAt: v.string(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_book", ["bookId"]),
 });
