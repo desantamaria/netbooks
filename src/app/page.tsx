@@ -1,7 +1,7 @@
 "use client";
 import { SignInButton, UserButton } from "@clerk/nextjs";
 import { Authenticated, AuthLoading, Unauthenticated } from "convex/react";
-import BookListings from "./_components/BookListings";
+import { BookListings } from "./_components/book_listings";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
       <div className="">
         <Authenticated>
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold">To-Do List</h1>
+            <h1 className="text-xl font-bold">Book Listings</h1>
             <UserButton />
           </div>
           <BookListings />

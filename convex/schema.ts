@@ -11,7 +11,7 @@ export default defineSchema({
         discountPrice: v.optional(v.number()),
         edition: v.string(),
         otherEdtn: v.optional(v.array(v.string())),
-        genreIds: v.array(v.id("genres")), // Linked to genres table
+        genreIds: v.optional(v.id("genres")), // Linked to genres table
         publicationDate: v.optional(v.string()),
         publisher: v.optional(v.string()),
         pageCount: v.optional(v.number()),
