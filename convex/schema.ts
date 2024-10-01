@@ -3,7 +3,7 @@ import { v } from "convex/values";
 
 export default defineSchema({
     // Book table
-    book: defineTable({
+    books: defineTable({
         isbn: v.string(), // Ensure isbn is unique
         title: v.string(),
         rating: v.number(), // Could be computed as an aggregate from reviews
