@@ -2,6 +2,7 @@
 import { SignInButton, UserButton } from "@clerk/nextjs";
 import { Authenticated, AuthLoading, Unauthenticated } from "convex/react";
 import { BookListings } from "./_components/book_listings";
+import { Button } from "@/components/ui/Button";
 
 export default function Home() {
   return (
@@ -20,9 +21,9 @@ export default function Home() {
           <div className="h-screen flex items-center justify-center flex-col gap-3">
             <p className="text-white">Please sign in to continue</p>
             <SignInButton>
-              <button className="bg-purple-500 hover:bg-purple-700">
+              <Button className="bg-purple-500 hover:bg-purple-700">
                 Sign in
-              </button>
+              </Button>
             </SignInButton>
           </div>
         </Unauthenticated>
