@@ -1,8 +1,8 @@
 export default {
-    providers: [
-      {
-        domain: "https://knowing-feline-78.clerk.accounts.dev",
-        applicationID: "convex",
-      },
-    ]
-  };
+  providers: [
+    {
+      domain: process.env.CONVEX_SITE_URL,
+      applicationID: "convex",
+    },
+  ],
+};
