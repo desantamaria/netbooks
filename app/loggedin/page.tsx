@@ -2,7 +2,7 @@
 
 import { Code } from "@/components/typography/code";
 import { Link } from "@/components/typography/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { Skeleton } from "@/components/ui/skeleton";

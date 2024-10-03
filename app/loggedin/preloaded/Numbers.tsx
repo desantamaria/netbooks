@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@/components/typography/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { api } from "@/convex/_generated/api";
 import { Preloaded, useMutation, usePreloadedQuery } from "convex/react";
 

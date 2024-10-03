@@ -2,7 +2,7 @@
 
 import { auth, signIn } from "@/auth";
 import { StickyHeader } from "@/components/layout/sticky-header";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { redirect } from "next/navigation";
 
 export default function Home() {

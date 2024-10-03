@@ -3,7 +3,7 @@
 import ConvexClientProvider from "@/app/ConvexClientProvider";
 import { auth, signOut } from "@/auth";
 import { StickyHeader } from "@/components/layout/sticky-header";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 
 export default async function LoggedInLayout({
   children,
