@@ -1,5 +1,4 @@
 "use client";
-import { SignInButton, UserButton } from "@clerk/nextjs";
 import { Authenticated, AuthLoading, Unauthenticated } from "convex/react";
 import { BookListings } from "./_components/book_listings";
 import { Button } from "@/components/ui/Button";
@@ -13,18 +12,15 @@ export default function Home() {
         <Authenticated>
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-bold">Book Listings</h1>
-            <UserButton />
           </div>
           <BookListings />
         </Authenticated>
         <Unauthenticated>
           <div className="h-screen flex items-center justify-center flex-col gap-3">
             <p className="text-white">Please sign in to continue</p>
-            <SignInButton>
-              <Button className="bg-purple-500 hover:bg-purple-700">
-                Sign in
-              </Button>
-            </SignInButton>
+            <Button className="bg-purple-500 hover:bg-purple-700">
+              Sign in
+            </Button>
           </div>
         </Unauthenticated>
         <AuthLoading>
