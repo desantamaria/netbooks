@@ -1,7 +1,6 @@
 import { ConvexAdapter } from "@/app/ConvexAdapter";
 import { SignJWT, importPKCS8 } from "jose";
 import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
 import Resend from "next-auth/providers/resend";
 import GoogleProvider from "next-auth/providers/google";
 
