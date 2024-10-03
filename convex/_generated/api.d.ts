@@ -15,6 +15,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as authAdapter from "../authAdapter.js";
 import type * as functions from "../functions.js";
 import type * as helpers from "../helpers.js";
 
@@ -27,6 +28,7 @@ import type * as helpers from "../helpers.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  authAdapter: typeof authAdapter;
   functions: typeof functions;
   helpers: typeof helpers;
 }>;
