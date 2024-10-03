@@ -30,7 +30,7 @@ const adapterMutation = customMutation(mutation, {
 });
 
 function checkSecret(secret: string) {
-	if (process.env.CONVEX_AUTH_ADAPTER_SECRET === undefined) {
+  if (process.env.CONVEX_AUTH_ADAPTER_SECRET === undefined) {
     throw new Error(
       "Missing CONVEX_AUTH_ADAPTER_SECRET Convex environment variable",
     );

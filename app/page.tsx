@@ -1,19 +1,28 @@
-import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/Button";
+/* eslint-disable @typescript-eslint/no-misused-promises */
+
 import { auth, signIn } from "@/auth";
+import { StickyHeader } from "@/components/layout/sticky-header";
+import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
 export default function Home() {
   return (
-    <div className="h-screen w-screen p-4">
-      <h1 className="text-xl font-semibold">NetBooks</h1>
-      <p className="text-white">Please sign in to continue</p>
-      <SignIn />
-      {/* <Button className="bg-purple-500 hover:bg-purple-700">Sign in</Button> */}
-      {/* <div className="h-screen w-screen flex justify-center items-center"> */}
-      {/* <div className="h-screen flex items-center justify-center flex-col gap-3">
-          <p>Loading...</p>
-        </div> */}
-    </div>
+    <>
+      <StickyHeader className="px-4 py-2">
+        <div className="flex justify-between items-center">
+          Convex + Next.js + Auth.js
+          <SignIn />
+        </div>
+      </StickyHeader>
+      <main className="container max-w-2xl flex flex-col gap-8">
+        <h1 className="text-4xl font-extrabold my-8 text-center">
+          Convex + Next.js + Auth.js
+        </h1>
+        <p>Here is where your marketing message goes.</p>
+        <p>The user doesn&apos;t need to log in to see it.</p>
+        <p>To interact with the app log in via the button up top.</p>
+      </main>
+    </>
   );
 }
 
@@ -31,9 +40,7 @@ export function SignIn() {
         await signIn(undefined, { redirectTo: "/loggedin" });
       }}
     >
-      <Button color="primary" type="submit">
-        Sign in
-      </Button>
+      <Button type="submit">Sign in</Button>
     </form>
   );
 }
