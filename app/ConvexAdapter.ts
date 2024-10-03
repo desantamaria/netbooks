@@ -8,13 +8,13 @@ import type {
   } from "@auth/core/adapters";
   import { fetchMutation, fetchQuery } from "convex/nextjs";
   import { FunctionArgs, FunctionReference } from "convex/server";
-  import { api } from "../../convex/_generated/api";
-  import { Doc, Id } from "../../convex/_generated/dataModel";
+  import { Doc, Id } from "../convex/_generated/dataModel";
+import { api } from "@/convex/_generated/api";
   
   type User = AdapterUser & { id: Id<"users"> };
   type Session = AdapterSession & { userId: Id<"users"> };
   type Account = AdapterAccount & { userId: Id<"users"> };
-  type Authenticator = AdapterAuthenticator & { userId: Id<"users">, transports?: string | undefined; };
+  type Authenticator = AdapterAuthenticator & { userId: Id<"users"> };
   
   export const ConvexAdapter: Adapter = {
     async createAuthenticator(authenticator: Authenticator) {

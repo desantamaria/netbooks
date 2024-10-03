@@ -1,6 +1,6 @@
+import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import React from "react";
-import { api } from "../../../convex/_generated/api";
 
 export function BookListings() {
   const books = useQuery(api.functions.listBooks);
