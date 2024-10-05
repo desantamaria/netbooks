@@ -8,10 +8,10 @@ export default function Home() {
     "use server";
     // Skip sign-in screen if the user is already signed in
     if ((await auth()) !== null) {
-      redirect("/account");
+      redirect("/settings");
     }
 
-    await signIn(undefined, { redirectTo: "/account" });
+    await signIn(undefined, { redirectTo: "/settings" });
   }
 
   return (
