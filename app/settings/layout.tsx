@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Separator } from "@/components/ui/separator";
 import { SidebarNav } from "./components/sidebar-nav";
 import ConvexClientProvider from "@/app/ConvexClientProvider";

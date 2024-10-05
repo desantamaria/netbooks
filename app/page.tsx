@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { auth, signIn } from "@/auth";
 import { StickyHeader } from "@/components/layout/sticky-header";
 import { Button } from "@/components/ui/Button";

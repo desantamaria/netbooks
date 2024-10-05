@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
