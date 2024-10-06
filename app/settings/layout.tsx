@@ -7,6 +7,9 @@ import ConvexClientProvider from "@/app/ConvexClientProvider";
 import { auth, signOut } from "@/auth";
 import { StickyHeader } from "@/components/layout/sticky-header";
 import { Button } from "@/components/ui/Button";
+import { Search } from "@/components/navbar/search";
+import { MainNav } from "@/components/navbar/main-nav";
+import { UserNav } from "@/components/navbar/user-nav";
 
 export const metadata: Metadata = {
   title: "Forms",
@@ -44,12 +47,17 @@ export default async function SettingsLayout({
   const session = await auth();
   return (
     <>
-      <StickyHeader className="px-4 py-2">
-        <div className="flex justify-between items-center">
-          NetBooks
-          <SignOut />
+      <div className="border-b">
+        <div className="flex h-16 items-center px-4">
+          <p className="font-bold text-green-600">Netbooks</p>
+          <MainNav className="mx-6" />
+          <div className="ml-auto flex items-center space-x-4">
+            <Search />
+            <UserNav />
+          </div>
         </div>
-      </StickyHeader>
+      </div>
+
       <main className="container w-screen flex flex-col gap-8">
         <ConvexClientProvider session={session}>
           <div className="hidden space-y-6 p-10 pb-16 md:block">

@@ -7,9 +7,8 @@ import { Validator, v } from "convex/values";
 export const userSchema = {
     email: v.string(),
     name: v.optional(v.string()),
-    emailVerified: v.optional(v.number()),
     image: v.optional(v.string()),
-    role: v.optional(v.union(v.literal("admin"), v.literal("customer"))),
+    isAdmin: v.optional(v.boolean()),
     addresses: v.optional(v.array(v.object({
       street: v.string(),
       city: v.string(),
@@ -18,7 +17,6 @@ export const userSchema = {
       country: v.string(),
       isDefault: v.boolean(),
     }))),
-    createdAt: v.optional(v.string()),
     updatedAt: v.optional(v.string()),
   };
   
@@ -93,9 +91,9 @@ export default defineSchema({
     isbn: v.string(),
     description: v.string(),
     price: v.number(),
-    discountPrice: v.optional(v.number()),
+    discount: v.optional(v.number()),
     stockQuantity: v.number(),
-    categoryId: v.id("categories"),
+    category: v.array(v.object({id: v.id("categories"), name: v.string()})),
     publisherId: v.id("publishers"),
     publicationDate: v.string(),
     language: v.string(),
@@ -107,7 +105,7 @@ export default defineSchema({
     updatedAt: v.string(),
   })
     .index("by_isbn", ["isbn"])
-    .index("by_category", ["categoryId"])
+    .index("by_category", ["category"])
     .index("by_featured", ["featured"]),
 
   // Authors table
