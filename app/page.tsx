@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { auth, signIn } from "@/auth";
-import { StickyHeader } from "@/components/layout/sticky-header";
-import { UserNav } from "@/components/navbar/user-nav";
 import { Button } from "@/components/ui/Button";
 import { redirect } from "next/navigation";
 import { MainNav } from "@/components/navbar/main-nav";
