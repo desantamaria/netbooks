@@ -5,7 +5,6 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarNav } from "./components/sidebar-nav";
 import ConvexClientProvider from "@/app/ConvexClientProvider";
 import { auth, signOut } from "@/auth";
-import { StickyHeader } from "@/components/layout/sticky-header";
 import { Button } from "@/components/ui/Button";
 import { Search } from "@/components/navbar/search";
 import { MainNav } from "@/components/navbar/main-nav";
