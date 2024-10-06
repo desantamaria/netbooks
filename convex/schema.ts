@@ -8,6 +8,7 @@ export const userSchema = {
     email: v.string(),
     name: v.optional(v.string()),
     image: v.optional(v.string()),
+    emailVerified: v.optional(v.number()),
     isAdmin: v.optional(v.boolean()),
     addresses: v.optional(v.array(v.object({
       street: v.string(),
