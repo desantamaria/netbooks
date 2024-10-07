@@ -4,8 +4,7 @@ import { Metadata } from "next";
 import { Separator } from "@/components/ui/separator";
 import { SidebarNav } from "./components/sidebar-nav";
 import ConvexClientProvider from "@/app/ConvexClientProvider";
-import { auth, signOut } from "@/auth";
-import { Button } from "@/components/ui/Button";
+import { auth } from "@/auth";
 import { Search } from "@/components/navbar/search";
 import { MainNav } from "@/components/navbar/main-nav";
 import { UserNav } from "@/components/navbar/user-nav";
@@ -46,19 +45,19 @@ export default async function SettingsLayout({
   const session = await auth();
   return (
     <>
-      <div className="border-b">
-        <div className="flex h-16 items-center px-4">
-          <p className="font-bold text-green-600">Netbooks</p>
-          <MainNav className="mx-6" />
-          <div className="ml-auto flex items-center space-x-4">
-            <Search />
-            <UserNav />
+      <ConvexClientProvider session={session}>
+        <div className="border-b">
+          <div className="flex h-16 items-center px-4">
+            <p className="font-bold text-green-600">Netbooks</p>
+            <MainNav className="mx-6" />
+            <div className="ml-auto flex items-center space-x-4">
+              <Search />
+              <UserNav />
+            </div>
           </div>
         </div>
-      </div>
 
-      <main className="container w-screen flex flex-col gap-8">
-        <ConvexClientProvider session={session}>
+        <main className="container w-screen flex flex-col gap-8">
           <div className="hidden space-y-6 p-10 pb-16 md:block">
             <div className="space-y-0.5">
               <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
@@ -74,21 +73,8 @@ export default async function SettingsLayout({
               <div className="flex-1 lg:max-w-2xl">{children}</div>
             </div>
           </div>
-        </ConvexClientProvider>
-      </main>
+        </main>
+      </ConvexClientProvider>
     </>
-  );
-}
-
-export function SignOut() {
-  return (
-    <form
-      action={async () => {
-        "use server";
-        await signOut({ redirectTo: "/" });
-      }}
-    >
-      <Button type="submit">Sign out</Button>
-    </form>
   );
 }
