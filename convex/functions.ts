@@ -16,33 +16,31 @@ export const getUserInfo = query({
 
 export const updateUser = mutation({
     args: {
-        id: v.id("users"),
-        name: v.optional(v.string()),
-        image: v.optional(v.string()),
-        addresses: v.optional(v.array(v.object({
-            street: v.string(),
-            city: v.string(),
-            state: v.string(),
-            zipCode: v.string(),
-            country: v.string(),
-            isDefault: v.boolean(),
-          }))),
-        updatedAt: v.optional(v.string()),
+      id: v.id("users"),
+      name: v.optional(v.string()),
+      email: v.optional(v.string()), // Add this line
+      image: v.optional(v.string()),
+      addresses: v.optional(v.array(v.object({
+        street: v.string(),
+        city: v.string(),
+        state: v.string(),
+        zipCode: v.string(),
+        country: v.string(),
+        isDefault: v.boolean(),
+      }))),
+      updatedAt: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
-        const getUser = await getViewerId(ctx);
-        const user = await ctx.db.get(args.id)
-        if(user?._id !== getUser) {
-            throw new Error("Unathorized");
-        }
-        await ctx.db.patch(args.id, {
-            name: args.name,
-            image: args.image,
-            addresses: args.addresses,
-            updatedAt: args.updatedAt
-        })
+      // ... rest of your handler code
+      await ctx.db.patch(args.id, {
+        name: args.name,
+        email: args.email, // Add this line
+        image: args.image,
+        addresses: args.addresses,
+        updatedAt: args.updatedAt
+      });
     }
-});
+  });
 
 // Book Functions
 export const createBook = mutation({

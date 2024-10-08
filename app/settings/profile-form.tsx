@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
 
 // import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,6 +29,8 @@ import { Input } from "@/components/ui/input";
 // } from "@/components/ui/select";
 // import { Textarea } from "@/components/ui/textarea";
 
+import { useQuery, useMutation } from "convex/react";
+
 import { toast } from "@/hooks/use-toast";
 
 const profileFormSchema = z.object({
@@ -41,23 +42,25 @@ const profileFormSchema = z.object({
     .max(30, {
       message: "Username must not be longer than 30 characters.",
     }),
-  email: z
-    .string({
-      required_error: "Please select an email to display.",
-    })
-    .email(),
+  //   email: z
+  //     .string({
+  //       required_error: "Please select an email to display.",
+  //     })
+  //     .email(),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export function ProfileForm() {
   const viewerInfo = useQuery(api.functions.getUserInfo);
+  const updateUser = useMutation(api.functions.updateUser);
+
   //   console.log(viewerInfo);
 
   // This can come from your database or API.
   const defaultValues: Partial<ProfileFormValues> = {
     name: `${viewerInfo && viewerInfo[0]?.name ? viewerInfo[0].name : ""}`,
-    email: `${viewerInfo && viewerInfo[0]?.email ? viewerInfo[0].email : ""}`,
+    // email: `${viewerInfo && viewerInfo[0]?.email ? viewerInfo[0].email : ""}`,
   };
 
   const form = useForm<ProfileFormValues>({
@@ -71,12 +74,40 @@ export function ProfileForm() {
   //     control: form.control,
   //   });
 
-  function onSubmit(data: ProfileFormValues) {
-    console.log(JSON.stringify(data, null, 2));
-    toast({
-      title: "Changes Submitted Sucessfully",
-    });
-  }
+  const onSubmit = (data: ProfileFormValues) => {
+    if (!viewerInfo || viewerInfo.length === 0) {
+      console.error("Viewer information is missing.");
+      toast({
+        title: "Error",
+        description: "User information is missing. Please try again later.",
+      });
+      return; // Stop the function if viewerInfo is undefined
+    }
+
+    const dbUser = viewerInfo[0]; // Safely access the first element
+    const id = dbUser._id;
+
+    updateUser({
+      id,
+      name: data.name,
+      email: dbUser.email,
+      image: dbUser.image,
+      addresses: dbUser.addresses,
+      updatedAt: new Date().toISOString(),
+    })
+      .then(() => {
+        toast({
+          title: "Changes Submitted Successfully",
+        });
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+        toast({
+          title: "Error",
+          description: "Failed to update user information. Please try again.",
+        });
+      });
+  };
 
   return (
     <Form {...form}>
@@ -98,7 +129,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
@@ -107,34 +138,14 @@ export function ProfileForm() {
               <FormControl>
                 <Input placeholder="Email" {...field} />
               </FormControl>
-              {/* <FormDescription>
+              <FormDescription>
                 This is your public display name. It can be your real name or a
                 pseudonym. You can only change this once every 30 days.
-              </FormDescription> */}
+              </FormDescription>
               <FormMessage />
             </FormItem>
-            // <FormItem>
-            //   <FormLabel>Email</FormLabel>
-            //   <Select onValueChange={field.onChange} defaultValue={field.value}>
-            //     <FormControl>
-            //       <SelectTrigger>
-            //         <SelectValue placeholder="Select a verified email to display" />
-            //       </SelectTrigger>
-            //     </FormControl>
-            //     <SelectContent>
-            //       <SelectItem value="m@example.com">m@example.com</SelectItem>
-            //       <SelectItem value="m@google.com">m@google.com</SelectItem>
-            //       <SelectItem value="m@support.com">m@support.com</SelectItem>
-            //     </SelectContent>
-            //   </Select>
-            //   <FormDescription>
-            //     You can manage verified email addresses in your{" "}
-            //     <Link href="/examples/forms">email settings</Link>.
-            //   </FormDescription>
-            //   <FormMessage />
-            // </FormItem>
           )}
-        />
+        /> */}
         {/* <FormField
           control={form.control}
           name="bio"
