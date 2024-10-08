@@ -18,7 +18,7 @@ import { api } from "@/convex/_generated/api";
 import { handleSignOut } from "@/auth/serverAction";
 
 export function UserNav() {
-  const viewerInfo = useQuery(api.myFunctions.getUserInfo);
+  const viewerInfo = useQuery(api.functions.getUserInfo);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
