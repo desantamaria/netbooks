@@ -34,14 +34,64 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 const addressFormSchema = z.object({
-  name: z
+  country: z.string().min(1, {
+    message: "Required",
+  }),
+  fname: z
     .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
+    .min(2, { message: "First Name must be at least 2 characters." })
     .max(30, {
-      message: "Name must not be longer than 30 characters.",
+      message: "First Name must not be longer than 30 characters.",
     }),
+  lname: z
+    .string()
+    .min(2, { message: "First Name must be at least 2 characters." })
+    .max(30, {
+      message: "Last Name must not be longer than 30 characters.",
+    }),
+  street: z
+    .string()
+    .min(2, { message: "First Name must be at least 2 characters." })
+    .max(30, {
+      message: "Last Name must not be longer than 30 characters.",
+    }),
+  aptSuiteUnit: z
+    .string()
+    .max(30, {
+      message: "Must not be longer than 30 characters.",
+    })
+    .optional(),
+  city: z
+    .string()
+    .min(2, { message: "City must be at least 2 characters." })
+    .max(30, {
+      message: "City must not be longer than 30 characters.",
+    }),
+  state: z
+    .string()
+    .min(2, { message: "City must be at least 2 characters." })
+    .max(30, {
+      message: "City must not be longer than 30 characters.",
+    }),
+  zipCode: z
+    .string()
+    .min(2, { message: "Zip Code must be at least 2 characters." })
+    .max(10, {
+      message: "Zip Code must not be longer than 10 characters.",
+    }),
+  phone: z
+    .string()
+    .min(2, { message: "Phone must be at least 2 characters." })
+    .max(10, {
+      message: "Phone must not be longer than 10 characters.",
+    }),
+  company: z
+    .string()
+    .min(2, { message: "Phone must be at least 2 characters." })
+    .max(10, {
+      message: "Phone must not be longer than 10 characters.",
+    }),
+  isDefualt: z.boolean(),
 });
 
 type AddressFormValues = z.infer<typeof addressFormSchema>;
@@ -88,17 +138,13 @@ export function AddressForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
-                name="name"
+                name="country"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Street Address</FormLabel>
                     <FormControl>
                       <Input placeholder="Street Address" {...field} />
                     </FormControl>
-                    {/* <FormDescription>
-                      This is the name that will be displayed on your account
-                      and in emails.
-                    </FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
