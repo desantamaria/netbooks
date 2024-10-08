@@ -1,13 +1,15 @@
 "use client";
-
 /* eslint-disable @typescript-eslint/no-misused-promises */
+
+import { api } from "@/convex/_generated/api";
+import { useQuery } from "convex/react";
+
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { cn } from "@/lib/utils";
-import { toast } from "@/components/hooks/use-toast";
 import { Button } from "@/components/ui/Button";
 import {
   Form,
@@ -27,6 +29,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+
+import { toast } from "@/hooks/use-toast";
 
 const profileFormSchema = z.object({
   username: z
@@ -64,6 +68,9 @@ const defaultValues: Partial<ProfileFormValues> = {
 };
 
 export function ProfileForm() {
+  const viewerInfo = useQuery(api.functions.getUserInfo);
+  //   console.log(viewerInfo);
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
@@ -76,13 +83,9 @@ export function ProfileForm() {
   });
 
   function onSubmit(data: ProfileFormValues) {
+    console.log(JSON.stringify(data, null, 2));
     toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+      title: "Changes Submitted Sucessfully",
     });
   }
 
@@ -96,7 +99,14 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input
+                  placeholder={
+                    viewerInfo && viewerInfo[0]?.name
+                      ? viewerInfo[0].name
+                      : "Name"
+                  }
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 This is your public display name. It can be your real name or a

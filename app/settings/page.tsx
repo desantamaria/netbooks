@@ -1,12 +1,9 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
 import { ProfileForm } from "./profile-form";
-import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function SettingsProfilePage() {
-  const viewerInfo = useQuery(api.myFunctions.getUserInfo);
-  console.log(viewerInfo);
   return (
     <div className="space-y-6">
       <div>
@@ -17,6 +14,7 @@ export default function SettingsProfilePage() {
       </div>
       <Separator />
       <ProfileForm />
+      <Toaster />
     </div>
   );
 }
