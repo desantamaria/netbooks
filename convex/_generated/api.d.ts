@@ -17,7 +17,7 @@ import type {
 import type * as auth from "../auth.js";
 import type * as authAdapter from "../authAdapter.js";
 import type * as http from "../http.js";
-import type * as myFunctions from "../myFunctions.js";
+import type * as myFunctions from "../functions.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
