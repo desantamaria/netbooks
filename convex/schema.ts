@@ -104,6 +104,7 @@ export default defineSchema({
     featured: v.boolean(),
     createdAt: v.string(),
     updatedAt: v.string(),
+    userId: v.id("users"),
   })
     .index("by_isbn", ["isbn"])
     .index("by_category", ["category"])
