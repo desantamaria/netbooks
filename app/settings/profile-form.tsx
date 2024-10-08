@@ -4,12 +4,12 @@
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 
-import Link from "next/link";
+// import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import {
   Form,
@@ -21,22 +21,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
+// import { Textarea } from "@/components/ui/textarea";
 
 import { toast } from "@/hooks/use-toast";
 
 const profileFormSchema = z.object({
-  username: z
+  name: z
     .string()
     .min(2, {
-      message: "Username must be at least 2 characters.",
+      message: "Name must be at least 2 characters.",
     })
     .max(30, {
       message: "Username must not be longer than 30 characters.",
@@ -46,30 +46,19 @@ const profileFormSchema = z.object({
       required_error: "Please select an email to display.",
     })
     .email(),
-  bio: z.string().max(160).min(4),
-  urls: z
-    .array(
-      z.object({
-        value: z.string().url({ message: "Please enter a valid URL." }),
-      })
-    )
-    .optional(),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-// This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  bio: "I own a computer.",
-  urls: [
-    { value: "https://shadcn.com" },
-    { value: "http://twitter.com/shadcn" },
-  ],
-};
-
 export function ProfileForm() {
   const viewerInfo = useQuery(api.functions.getUserInfo);
   //   console.log(viewerInfo);
+
+  // This can come from your database or API.
+  const defaultValues: Partial<ProfileFormValues> = {
+    name: `${viewerInfo && viewerInfo[0]?.name ? viewerInfo[0].name : ""}`,
+    email: `${viewerInfo && viewerInfo[0]?.email ? viewerInfo[0].email : ""}`,
+  };
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -77,10 +66,10 @@ export function ProfileForm() {
     mode: "onChange",
   });
 
-  const { fields, append } = useFieldArray({
-    name: "urls",
-    control: form.control,
-  });
+  //   const { fields, append } = useFieldArray({
+  //     name: "urls",
+  //     control: form.control,
+  //   });
 
   function onSubmit(data: ProfileFormValues) {
     console.log(JSON.stringify(data, null, 2));
@@ -94,24 +83,17 @@ export function ProfileForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="username"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input
-                  placeholder={
-                    viewerInfo && viewerInfo[0]?.name
-                      ? viewerInfo[0].name
-                      : "Name"
-                  }
-                  {...field}
-                />
+                <Input placeholder="Name" {...field} />
               </FormControl>
-              <FormDescription>
+              {/* <FormDescription>
                 This is your public display name. It can be your real name or a
                 pseudonym. You can only change this once every 30 days.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
@@ -122,27 +104,38 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
-              </FormDescription>
+              <FormControl>
+                <Input placeholder="Email" {...field} />
+              </FormControl>
+              {/* <FormDescription>
+                This is your public display name. It can be your real name or a
+                pseudonym. You can only change this once every 30 days.
+              </FormDescription> */}
               <FormMessage />
             </FormItem>
+            // <FormItem>
+            //   <FormLabel>Email</FormLabel>
+            //   <Select onValueChange={field.onChange} defaultValue={field.value}>
+            //     <FormControl>
+            //       <SelectTrigger>
+            //         <SelectValue placeholder="Select a verified email to display" />
+            //       </SelectTrigger>
+            //     </FormControl>
+            //     <SelectContent>
+            //       <SelectItem value="m@example.com">m@example.com</SelectItem>
+            //       <SelectItem value="m@google.com">m@google.com</SelectItem>
+            //       <SelectItem value="m@support.com">m@support.com</SelectItem>
+            //     </SelectContent>
+            //   </Select>
+            //   <FormDescription>
+            //     You can manage verified email addresses in your{" "}
+            //     <Link href="/examples/forms">email settings</Link>.
+            //   </FormDescription>
+            //   <FormMessage />
+            // </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="bio"
           render={({ field }) => (
@@ -162,8 +155,8 @@ export function ProfileForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
-        <div>
+        /> */}
+        {/* <div>
           {fields.map((field, index) => (
             <FormField
               control={form.control}
@@ -194,8 +187,8 @@ export function ProfileForm() {
           >
             Add URL
           </Button>
-        </div>
-        <Button type="submit">Update profile</Button>
+        </div> */}
+        <Button type="submit">Update Account</Button>
       </form>
     </Form>
   );
