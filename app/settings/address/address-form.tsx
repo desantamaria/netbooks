@@ -45,7 +45,7 @@ const languages = [
   { label: "Chinese", value: "zh" },
 ] as const;
 
-const accountFormSchema = z.object({
+const addressFormSchema = z.object({
   name: z
     .string()
     .min(2, {
@@ -59,21 +59,21 @@ const accountFormSchema = z.object({
   }),
 });
 
-type AccountFormValues = z.infer<typeof accountFormSchema>;
+type AddressFormValues = z.infer<typeof addressFormSchema>;
 
 // This can come from your database or API.
-const defaultValues: Partial<AccountFormValues> = {
+const defaultValues: Partial<AddressFormValues> = {
   // name: "Your name",
   // dob: new Date("2023-01-23"),
 };
 
-export function AccountForm() {
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
+export function AddressForm() {
+  const form = useForm<AddressFormValues>({
+    resolver: zodResolver(addressFormSchema),
     defaultValues,
   });
 
-  function onSubmit(data: AccountFormValues) {
+  function onSubmit(data: AddressFormValues) {
     toast({
       title: "You submitted the following values:",
       description: (
@@ -97,7 +97,7 @@ export function AccountForm() {
                 <Input placeholder="Your name" {...field} />
               </FormControl>
               <FormDescription>
-                This is the name that will be displayed on your profile and in
+                This is the name that will be displayed on your account and in
                 emails.
               </FormDescription>
               <FormMessage />
@@ -167,7 +167,7 @@ export function AccountForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Update account</Button>
+        <Button type="submit">Update address</Button>
       </form>
     </Form>
   );

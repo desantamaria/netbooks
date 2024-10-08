@@ -10,31 +10,19 @@ import { MainNav } from "@/components/navbar/main-nav";
 import { UserNav } from "@/components/navbar/user-nav";
 
 export const metadata: Metadata = {
-  title: "Forms",
-  description: "Advanced form example using react-hook-form and Zod.",
+  title: "Account",
+  description: "Manage your Account",
 };
 
 const sidebarNavItems = [
   {
-    title: "Profile",
+    title: "My Account",
     href: "/settings",
   },
   {
-    title: "Account",
-    href: "/settings/account",
+    title: "Address",
+    href: "/settings/address",
   },
-  //   {
-  //     title: "Appearance",
-  //     href: "/settings/appearance",
-  //   },
-  //   {
-  //     title: "Notifications",
-  //     href: "/settings/notifications",
-  //   },
-  //   {
-  //     title: "Display",
-  //     href: "/settings/display",
-  //   },
 ];
 
 export default async function SettingsLayout({
@@ -60,9 +48,9 @@ export default async function SettingsLayout({
         <main className="container w-screen flex flex-col gap-8">
           <div className="hidden space-y-6 p-10 pb-16 md:block">
             <div className="space-y-0.5">
-              <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
+              <h2 className="text-2xl font-bold tracking-tight">Account</h2>
               <p className="text-muted-foreground">
-                Manage your account settings and set e-mail preferences.
+                Manage your account settings and preferences.
               </p>
             </div>
             <Separator className="my-6" />

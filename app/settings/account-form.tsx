@@ -33,7 +33,7 @@ import { useQuery, useMutation } from "convex/react";
 
 import { toast } from "@/hooks/use-toast";
 
-const profileFormSchema = z.object({
+const accountFormSchema = z.object({
   name: z
     .string()
     .min(2, {
@@ -49,22 +49,22 @@ const profileFormSchema = z.object({
   //     .email(),
 });
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
+type AccountFormValues = z.infer<typeof accountFormSchema>;
 
-export function ProfileForm() {
+export function AccountForm() {
   const viewerInfo = useQuery(api.functions.getUserInfo);
   const updateUser = useMutation(api.functions.updateUser);
 
   //   console.log(viewerInfo);
 
   // This can come from your database or API.
-  const defaultValues: Partial<ProfileFormValues> = {
+  const defaultValues: Partial<AccountFormValues> = {
     name: `${viewerInfo && viewerInfo[0]?.name ? viewerInfo[0].name : ""}`,
     // email: `${viewerInfo && viewerInfo[0]?.email ? viewerInfo[0].email : ""}`,
   };
 
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
+  const form = useForm<AccountFormValues>({
+    resolver: zodResolver(accountFormSchema),
     defaultValues,
     mode: "onChange",
   });
@@ -74,7 +74,7 @@ export function ProfileForm() {
   //     control: form.control,
   //   });
 
-  const onSubmit = (data: ProfileFormValues) => {
+  const onSubmit = (data: AccountFormValues) => {
     if (!viewerInfo || viewerInfo.length === 0) {
       console.error("Viewer information is missing.");
       toast({
@@ -179,7 +179,7 @@ export function ProfileForm() {
                     URLs
                   </FormLabel>
                   <FormDescription className={cn(index !== 0 && "sr-only")}>
-                    Add links to your website, blog, or social media profiles.
+                    Add links to your website, blog, or social media accounts.
                   </FormDescription>
                   <FormControl>
                     <Input {...field} />
