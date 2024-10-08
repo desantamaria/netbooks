@@ -21,11 +21,16 @@ export const updateUser = mutation({
       email: v.optional(v.string()), // Add this line
       image: v.optional(v.string()),
       addresses: v.optional(v.array(v.object({
+        country: v.string(),
+        fname: v.string(),
+        lname: v.string(),
         street: v.string(),
+        aptSuiteUnit: v.optional(v.string()),
         city: v.string(),
         state: v.string(),
         zipCode: v.string(),
-        country: v.string(),
+        phone: v.string(),
+        company: v.optional(v.string()),
         isDefault: v.boolean(),
       }))),
       updatedAt: v.optional(v.string()),
