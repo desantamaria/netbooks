@@ -2,7 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/Button";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -60,20 +60,18 @@ export function UserNav() {
               Manage Account
             </Link>
           </DropdownMenuItem>
-
-          <DropdownMenuItem>
+          {/* <DropdownMenuItem>
+          <Link href="/loggedin/library" className="w-full">
             My Digital Library
-            {/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
-          </DropdownMenuItem>
+          </Link>
+            </DropdownMenuItem> */}
           <DropdownMenuItem>
-            Address Book
-            {/* <DropdownMenuShortcut>⌘S</DropdownMenuShortcut> */}
+            <Link href="/loggedin/settings/address">Address Book</Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <SignOut />
-          {/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

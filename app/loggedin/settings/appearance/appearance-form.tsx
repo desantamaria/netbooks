@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/hooks/use-toast";
-import { Button, buttonVariants } from "@/components/ui/Button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,

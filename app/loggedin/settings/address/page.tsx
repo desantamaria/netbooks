@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { AddressForm } from "./address-form";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function SettingsAddressPage() {
   return (
@@ -12,6 +13,7 @@ export default function SettingsAddressPage() {
       </div>
       <Separator />
       <AddressForm />
+      <Toaster />
     </div>
   );
 }

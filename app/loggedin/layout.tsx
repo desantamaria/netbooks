@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Separator } from "@/components/ui/separator";
 import ConvexClientProvider from "@/app/ConvexClientProvider";
 import { auth } from "@/auth";
 import { Search } from "@/components/navbar/search";
@@ -12,17 +11,6 @@ export const metadata: Metadata = {
   title: "Account",
   description: "Manage your Account",
 };
-
-const sidebarNavItems = [
-  {
-    title: "My Account",
-    href: "/loggedin/settings",
-  },
-  {
-    title: "Address",
-    href: "/loggedin/settings/address",
-  },
-];
 
 export default async function LoggedInLayout({
   children,

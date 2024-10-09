@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { toast } from "@/components/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import {
   Form,
   FormControl,
@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -45,8 +45,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { FunctionReference } from "convex/server";
-import { GenericId } from "convex/values";
 
 const addressFormSchema = z.object({
   country: z.string({ required_error: "Please select country." }),
@@ -111,6 +109,7 @@ const defaultValues: Partial<AddressFormValues> = {
   // dob: new Date("2023-01-23"),
   country: "US",
   state: "CA",
+  isDefault: false,
 };
 
 export function AddressForm() {

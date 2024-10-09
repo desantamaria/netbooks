@@ -18,7 +18,7 @@ export const updateUser = mutation({
     args: {
       id: v.id("users"),
       name: v.optional(v.string()),
-      email: v.optional(v.string()), // Add this line
+      email: v.optional(v.string()),
       image: v.optional(v.string()),
       addresses: v.optional(v.array(v.object({
         country: v.string(),
@@ -36,10 +36,9 @@ export const updateUser = mutation({
       updatedAt: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
-      // ... rest of your handler code
       await ctx.db.patch(args.id, {
         name: args.name,
-        email: args.email, // Add this line
+        email: args.email,
         image: args.image,
         addresses: args.addresses,
         updatedAt: args.updatedAt

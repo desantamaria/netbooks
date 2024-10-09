@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { auth, signIn } from "@/auth";
-import { Button } from "@/components/ui/Button";
 import { redirect } from "next/navigation";
 import { MainNav } from "@/components/navbar/main-nav";
 import { Search } from "@/components/navbar/search";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   async function SignIn() {
