@@ -9,7 +9,6 @@ import { toast } from "@/components/hooks/use-toast";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,19 +16,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/Button";
-import {
-  AlertDialogHeader,
-  AlertDialogFooter,
-} from "@/components/ui/alert-dialog";
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -51,6 +37,14 @@ import {
 import { cn } from "@/lib/utils";
 import countries from "@/data/countries";
 import states from "@/data/us_states";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const addressFormSchema = z.object({
   country: z.string({ required_error: "Please select country." }),
@@ -113,6 +107,8 @@ type AddressFormValues = z.infer<typeof addressFormSchema>;
 const defaultValues: Partial<AddressFormValues> = {
   // name: "Your name",
   // dob: new Date("2023-01-23"),
+  country: "US",
+  state: "CA",
 };
 
 export function AddressForm() {
@@ -139,17 +135,15 @@ export function AddressForm() {
 
   return (
     <>
-      <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogTrigger asChild>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
           <Button variant="outline">Edit</Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Edit Address</AlertDialogTitle>
-            <AlertDialogDescription>
-              Enter Address Details.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Address</DialogTitle>
+            <DialogDescription>Enter Address Details.</DialogDescription>
+          </DialogHeader>
           <div className="max-h-[75vh] overflow-scroll">
             <Form {...form}>
               <form
@@ -175,7 +169,8 @@ export function AddressForm() {
                             >
                               {field.value
                                 ? countries.find(
-                                    (language) => language.value === field.value
+                                    (countries) =>
+                                      countries.value === field.value
                                   )?.label
                                 : "Select Country"}
                               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -186,7 +181,7 @@ export function AddressForm() {
                           <Command>
                             <CommandInput placeholder="Search country..." />
                             <CommandList>
-                              <CommandEmpty>No language found.</CommandEmpty>
+                              <CommandEmpty>No countries found.</CommandEmpty>
                               <CommandGroup>
                                 {countries.map(
                                   (country: {
@@ -430,15 +425,19 @@ export function AddressForm() {
                     </FormItem>
                   )}
                 />
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                {/* 
+                <Button>
+                  <DialogClose>Cancel</DialogClose>
+                </Button> */}
+
                 <Button className="mx-3" type="submit">
                   Update address
                 </Button>
               </form>
             </Form>
           </div>
-        </AlertDialogContent>
-      </AlertDialog>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
