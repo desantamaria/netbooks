@@ -10,10 +10,10 @@ export default function Home() {
     "use server";
     // Skip sign-in screen if the user is already signed in
     if ((await auth()) !== null) {
-      redirect("/settings");
+      redirect("/loggedin");
     }
 
-    await signIn(undefined, { redirectTo: "/settings" });
+    await signIn(undefined, { redirectTo: "/loggedin" });
   }
 
   return (
