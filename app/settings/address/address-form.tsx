@@ -32,6 +32,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
 
 const addressFormSchema = z.object({
   country: z.string().min(1, {
@@ -90,8 +92,9 @@ const addressFormSchema = z.object({
     .min(2, { message: "Phone must be at least 2 characters." })
     .max(10, {
       message: "Phone must not be longer than 10 characters.",
-    }),
-  isDefualt: z.boolean(),
+    })
+    .optional(),
+  isDefault: z.boolean(),
 });
 
 type AddressFormValues = z.infer<typeof addressFormSchema>;
@@ -103,6 +106,7 @@ const defaultValues: Partial<AddressFormValues> = {
 };
 
 export function AddressForm() {
+  const [open, setOpen] = useState(false);
   const viewerInfo = useQuery(api.functions.getUserInfo);
 
   const form = useForm<AddressFormValues>({
@@ -119,11 +123,12 @@ export function AddressForm() {
         </pre>
       ),
     });
+    setOpen(false);
   }
 
   return (
     <>
-      <AlertDialog>
+      <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogTrigger asChild>
           <Button variant="outline">Edit</Button>
         </AlertDialogTrigger>
@@ -134,27 +139,171 @@ export function AddressForm() {
               Enter Address Details.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Street Address</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Street Address" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <Button className="mx-3" type="submit">
-                Update address
-              </Button>
-            </form>
-          </Form>
+          <div className="max-h-[75vh] overflow-scroll">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <FormField
+                  control={form.control}
+                  name="country"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Country" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="fname"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="First Name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lname"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Last Name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="street"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Street Address</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Street Address" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="aptSuiteUnit"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Apt/Suite/Unit (optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Apt/Suite/Unit (optional)"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input placeholder="City" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="state"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>State</FormLabel>
+                      <FormControl>
+                        <Input placeholder="State" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="zipCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Zip Code</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Zip Code" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Phone Number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="company"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company Name (optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Company Name (optional)"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="isDefault"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Checkbox
+                          className="mx-2"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel>Set Address as Default</FormLabel>
+                    </FormItem>
+                  )}
+                />
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <Button className="mx-3" type="submit">
+                  Update address
+                </Button>
+              </form>
+            </Form>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
     </>
