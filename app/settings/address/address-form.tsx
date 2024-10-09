@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/Button";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
@@ -45,6 +45,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { FunctionReference } from "convex/server";
+import { GenericId } from "convex/values";
 
 const addressFormSchema = z.object({
   country: z.string({ required_error: "Please select country." }),
@@ -115,6 +117,7 @@ export function AddressForm() {
   const [open, setOpen] = useState(false);
 
   const viewerInfo = useQuery(api.functions.getUserInfo);
+  const updateUser = useMutation(api.functions.updateUser);
 
   const form = useForm<AddressFormValues>({
     resolver: zodResolver(addressFormSchema),
@@ -122,15 +125,42 @@ export function AddressForm() {
   });
 
   function onSubmit(data: AddressFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    if (!viewerInfo || viewerInfo.length === 0) {
+      console.error("Viewer information is missing.");
+      toast({
+        title: "Error",
+        description: "User information is missing. Please try again later.",
+      });
+      return;
+    }
+
+    const dbUser = viewerInfo[0];
+    const id = dbUser._id;
+
+    updateUser({
+      id,
+      name: dbUser.name,
+      email: dbUser.email,
+      image: dbUser.image,
+      addresses: [data],
+      updatedAt: new Date().toISOString(),
+    })
+      .then(() => {
+        toast({
+          title: "Changes Submitted Successfully",
+        });
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+        toast({
+          title: "Error",
+          description: "Failed to update user information. Please try again.",
+        });
+      });
+
     setOpen(false);
+
+    toast({ title: "Address updated successfully" });
   }
 
   return (
