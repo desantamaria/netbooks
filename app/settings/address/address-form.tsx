@@ -34,11 +34,26 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { cn } from "@/lib/utils";
+import countries from "@/data/countries";
+import states from "@/data/us_states";
 
 const addressFormSchema = z.object({
-  country: z.string().min(1, {
-    message: "Required",
-  }),
+  country: z.string({ required_error: "Please select country." }),
   fname: z
     .string()
     .min(2, { message: "First Name must be at least 2 characters." })
@@ -69,12 +84,7 @@ const addressFormSchema = z.object({
     .max(30, {
       message: "City must not be longer than 30 characters.",
     }),
-  state: z
-    .string()
-    .min(2, { message: "City must be at least 2 characters." })
-    .max(30, {
-      message: "City must not be longer than 30 characters.",
-    }),
+  state: z.string({ required_error: "Please select state." }),
   zipCode: z
     .string()
     .min(2, { message: "Zip Code must be at least 2 characters." })
@@ -107,6 +117,7 @@ const defaultValues: Partial<AddressFormValues> = {
 
 export function AddressForm() {
   const [open, setOpen] = useState(false);
+
   const viewerInfo = useQuery(api.functions.getUserInfo);
 
   const form = useForm<AddressFormValues>({
@@ -149,11 +160,63 @@ export function AddressForm() {
                   control={form.control}
                   name="country"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex flex-col">
                       <FormLabel>Country</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Country" {...field} />
-                      </FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                "w-[200px] justify-between",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value
+                                ? countries.find(
+                                    (language) => language.value === field.value
+                                  )?.label
+                                : "Select Country"}
+                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[200px] p-0">
+                          <Command>
+                            <CommandInput placeholder="Search country..." />
+                            <CommandList>
+                              <CommandEmpty>No language found.</CommandEmpty>
+                              <CommandGroup>
+                                {countries.map(
+                                  (country: {
+                                    label: string;
+                                    value: string;
+                                  }) => (
+                                    <CommandItem
+                                      value={country.label}
+                                      key={country.value}
+                                      onSelect={() => {
+                                        form.setValue("country", country.value);
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          country.value === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                      {country.label}
+                                    </CommandItem>
+                                  )
+                                )}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -213,32 +276,102 @@ export function AddressForm() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="city"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>City</FormLabel>
-                      <FormControl>
-                        <Input placeholder="City" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="state"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>State</FormLabel>
-                      <FormControl>
-                        <Input placeholder="State" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {form.getValues("country") === "US" ? (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="city"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>City</FormLabel>
+                          <FormControl>
+                            <Input placeholder="City" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="state"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>State</FormLabel>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant="outline"
+                                  role="combobox"
+                                  className={cn(
+                                    "w-[200px] justify-between",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                >
+                                  {field.value
+                                    ? states.find(
+                                        (state) => state.value === field.value
+                                      )?.label
+                                    : "Select State"}
+                                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[200px] p-0">
+                              <Command>
+                                <CommandInput placeholder="Search state..." />
+                                <CommandList>
+                                  <CommandEmpty>No states found.</CommandEmpty>
+                                  <CommandGroup>
+                                    {states.map(
+                                      (state: {
+                                        label: string;
+                                        value: string;
+                                      }) => (
+                                        <CommandItem
+                                          value={state.label}
+                                          key={state.value}
+                                          onSelect={() => {
+                                            form.setValue("state", state.value);
+                                          }}
+                                        >
+                                          <Check
+                                            className={cn(
+                                              "mr-2 h-4 w-4",
+                                              state.value === field.value
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                            )}
+                                          />
+                                          {state.label}
+                                        </CommandItem>
+                                      )
+                                    )}
+                                  </CommandGroup>
+                                </CommandList>
+                              </Command>
+                            </PopoverContent>
+                          </Popover>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </>
+                ) : (
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>State</FormLabel>
+                        <FormControl>
+                          <Input placeholder="State" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
                 <FormField
                   control={form.control}
                   name="zipCode"
