@@ -89,7 +89,7 @@ const addressFormSchema = z.object({
   phone: z
     .string()
     .min(2, { message: "Phone must be at least 2 characters." })
-    .max(10, {
+    .max(20, {
       message: "Phone must not be longer than 10 characters.",
     }),
   company: z
