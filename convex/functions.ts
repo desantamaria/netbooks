@@ -46,6 +46,32 @@ export const updateUser = mutation({
     }
   });
 
+  export const updateAddress = mutation({
+    args: {
+      id: v.id("users"),
+      addresses: v.optional(v.array(v.object({
+        country: v.string(),
+        fname: v.string(),
+        lname: v.string(),
+        street: v.string(),
+        aptSuiteUnit: v.optional(v.string()),
+        city: v.string(),
+        state: v.string(),
+        zipCode: v.string(),
+        phone: v.string(),
+        company: v.optional(v.string()),
+        isDefault: v.boolean(),
+      }))),
+      updatedAt: v.optional(v.string()),
+    },
+    handler: async (ctx, args) => {
+      await ctx.db.patch(args.id, {
+        addresses: args.addresses,
+        updatedAt: args.updatedAt
+      });
+    }
+  });
+
 // Book Functions
 export const createBook = mutation({
     args: {

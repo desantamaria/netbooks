@@ -16,7 +16,18 @@ import { AddressForm } from "./address-form";
 
 const AddressList = () => {
   const viewerInfo = useQuery(api.functions.getUserInfo);
-  const updateUser = useMutation(api.functions.updateUser);
+  const updateAddress = useMutation(api.functions.updateAddress);
+
+  const removeAddress = (index: number) => {
+    if (viewerInfo && viewerInfo[0].addresses) {
+      const updatedAddresses = [...viewerInfo[0].addresses];
+      updatedAddresses.splice(index, 1);
+
+      updateAddress({ id: viewerInfo[0]._id, addresses: updatedAddresses });
+    } else {
+      console.error("Missing User Info");
+    }
+  };
   return (
     <div className="flex flex-col gap-5">
       {viewerInfo ? (
@@ -54,9 +65,14 @@ const AddressList = () => {
                       Mark as Default <Check className="ml-1" />
                     </Button>
                   )}
-
                   <AddressForm type="edit" />
-                  <Button>Delete</Button>
+                  <Button
+                    onClick={() => {
+                      removeAddress(index);
+                    }}
+                  >
+                    Remove
+                  </Button>
                 </div>
               </CardFooter>
             </Card>
