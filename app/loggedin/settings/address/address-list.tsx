@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { Button } from "@/components/ui/button";
 import {
   Card,
