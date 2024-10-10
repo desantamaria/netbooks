@@ -98,7 +98,7 @@ const AddressList = () => {
                       Mark as Default <Check className="ml-1" />
                     </Button>
                   )}
-                  <AddressForm type="edit" />
+                  <AddressForm type="edit" index={index} />
                   <Button
                     onClick={() => {
                       removeAddress(index);

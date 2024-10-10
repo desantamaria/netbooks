@@ -116,9 +116,11 @@ const defaultValues: Partial<AddressFormValues> = {
 export function AddressForm({
   className,
   type,
+  index,
 }: {
   className?: string;
   type: "add" | "edit";
+  index?: number;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -130,6 +132,14 @@ export function AddressForm({
     defaultValues,
   });
 
+  const removeDefaultAddress = (addresses: Array<any>) => {
+    const updatedAddresses = addresses;
+    for (let index = 0; index < updatedAddresses.length; index++) {
+      updatedAddresses[index].isDefault = false;
+    }
+    return updatedAddresses;
+  };
+
   function onSubmit(data: AddressFormValues) {
     if (!viewerInfo || viewerInfo.length === 0) {
       console.error("Viewer information is missing.");
@@ -140,12 +150,27 @@ export function AddressForm({
       return;
     }
 
-    const updatedAddresses = viewerInfo[0].addresses;
+    let updatedAddresses = viewerInfo[0].addresses;
     const id = viewerInfo[0]._id;
 
     if (type == "add") {
       updatedAddresses?.push(data);
-    } else {
+      if (data.isDefault && updatedAddresses) {
+        for (let i = 0; i < updatedAddresses.length; i++) {
+          updatedAddresses[i].isDefault = false;
+        }
+        updatedAddresses[updatedAddresses.length - 1].isDefault = true;
+      }
+    } else if (type == "edit") {
+      if (updatedAddresses && index != undefined && index != null) {
+        updatedAddresses[index] = data;
+        if (data.isDefault && updatedAddresses) {
+          for (let i = 0; i < updatedAddresses.length; i++) {
+            updatedAddresses[i].isDefault = false;
+          }
+          updatedAddresses[index].isDefault = true;
+        }
+      }
     }
 
     updateAddress({
