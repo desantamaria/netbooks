@@ -19,14 +19,14 @@ const AddressList = () => {
   const viewerInfo = useQuery(api.functions.getUserInfo);
   const updateAddress = useMutation(api.functions.updateAddress);
 
-  const removeAddress = (index: number) => {
+  const removeAddress = async (index: number) => {
     if (viewerInfo && viewerInfo[0].addresses) {
       const updatedAddresses = [...viewerInfo[0].addresses];
       updatedAddresses.splice(index, 1);
 
       const updatedAt = new Date().toISOString();
 
-      updateAddress({
+      await updateAddress({
         id: viewerInfo[0]._id,
         addresses: updatedAddresses,
         updatedAt: updatedAt,
@@ -38,15 +38,15 @@ const AddressList = () => {
     }
   };
 
-  const makeAddressDefault = (index: number) => {
+  const makeAddressDefault = async (index: number) => {
     if (viewerInfo && viewerInfo[0].addresses) {
-      let updatedAddresses = [...viewerInfo[0].addresses];
+      const updatedAddresses = [...viewerInfo[0].addresses];
       for (let index = 0; index < updatedAddresses.length; index++) {
         updatedAddresses[index].isDefault = false;
       }
       updatedAddresses[index].isDefault = true;
       const updatedAt = new Date().toISOString();
-      updateAddress({
+      await updateAddress({
         id: viewerInfo[0]._id,
         addresses: updatedAddresses,
         updatedAt: updatedAt,
@@ -70,7 +70,7 @@ const AddressList = () => {
                 <CardTitle>Address {index + 1}:</CardTitle>
               </CardHeader>
               <CardContent>
-                <div>
+                <div key={index}>
                   <p>
                     {fname} {lname}
                   </p>

@@ -45,7 +45,6 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { updateAddress } from "@/convex/functions";
 
 const addressFormSchema = z.object({
   country: z.string({ required_error: "Please select country." }),
@@ -118,7 +117,7 @@ export function AddressForm({
   const viewerInfo = useQuery(api.functions.getUserInfo);
   const updateAddress = useMutation(api.functions.updateAddress);
 
-  let defaultValues: Partial<AddressFormValues> = {};
+  const defaultValues: Partial<AddressFormValues> = {};
 
   // Update default values when viewerInfo changes
   useEffect(() => {
@@ -168,7 +167,7 @@ export function AddressForm({
       return;
     }
 
-    let updatedAddresses = viewerInfo[0].addresses;
+    const updatedAddresses = viewerInfo[0].addresses;
     const id = viewerInfo[0]._id;
 
     // Operation Changes based on passed 'type'
