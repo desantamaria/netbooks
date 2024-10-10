@@ -112,7 +112,13 @@ const defaultValues: Partial<AddressFormValues> = {
   isDefault: false,
 };
 
-export function AddressForm() {
+export function AddressForm({
+  className,
+  type,
+}: {
+  className?: string;
+  type: "add" | "edit";
+}) {
   const [open, setOpen] = useState(false);
 
   const viewerInfo = useQuery(api.functions.getUserInfo);
@@ -166,11 +172,15 @@ export function AddressForm() {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Edit</Button>
+          <Button className={className}>
+            {type == "add" ? "Add New Address" : "Edit"}
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Address</DialogTitle>
+            <DialogTitle>
+              {type == "add" ? "Add New Address" : "Edit Address"}
+            </DialogTitle>
             <DialogDescription>Enter Address Details.</DialogDescription>
           </DialogHeader>
           <div className="max-h-[75vh] overflow-scroll">
@@ -460,7 +470,7 @@ export function AddressForm() {
                 </Button> */}
 
                 <Button className="mx-3" type="submit">
-                  Update address
+                  {type == "add" ? "Add address" : "Update address"}
                 </Button>
               </form>
             </Form>
