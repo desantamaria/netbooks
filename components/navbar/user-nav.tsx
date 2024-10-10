@@ -66,8 +66,20 @@ export function UserNav() {
           </Link>
             </DropdownMenuItem> */}
           <DropdownMenuItem>
-            <Link href="/loggedin/settings/address">Address Book</Link>
+            <Link href="/loggedin/settings/address" className="w-full">
+              Address Book
+            </Link>
           </DropdownMenuItem>
+
+          {viewerInfo && viewerInfo[0]?.isAdmin ? (
+            <DropdownMenuItem>
+              <Link href="/loggedin/settings/address" className="w-full">
+                My Book Listings
+              </Link>
+            </DropdownMenuItem>
+          ) : (
+            <></>
+          )}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>

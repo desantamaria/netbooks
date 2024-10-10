@@ -21,9 +21,9 @@ export default function Home() {
       <div className="border-b">
         <div className="flex h-16 items-center px-4">
           <p className="font-bold text-green-600">Netbooks</p>
-          <MainNav className="mx-6" />
+          {/* <MainNav className="mx-6" /> */}
           <div className="ml-auto flex items-center space-x-4">
-            <Search />
+            {/* <Search /> */}
             <form action={SignIn}>
               <Button type="submit">Sign in</Button>
             </form>

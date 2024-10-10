@@ -12,28 +12,28 @@ export function MainNav({
       {...props}
     >
       <Link
-        href="/examples/dashboard"
+        href="/loggedin/books"
         className="text-sm font-medium transition-colors hover:text-primary"
       >
-        Overview
+        Books
       </Link>
       <Link
-        href="/examples/dashboard"
+        href="/loggedin/books"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Customers
+        Fiction
       </Link>
       <Link
-        href="/examples/dashboard"
+        href="/loggedin/books"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Products
+        NonFiction
       </Link>
       <Link
-        href="/examples/dashboard"
+        href="/loggedin/books"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Settings
+        eBooks
       </Link>
     </nav>
   );

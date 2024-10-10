@@ -5,8 +5,8 @@ export function Search() {
     <div>
       <Input
         type="search"
-        placeholder="Search..."
-        className="md:w-[100px] lg:w-[300px]"
+        placeholder="Search by Title, Author, Keyword or ISBN"
+        className="w-[150px] lg:w-[400px]"
       />
     </div>
   );
