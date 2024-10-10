@@ -11,16 +11,20 @@ export const metadata: Metadata = {
 
 const sidebarNavItems = [
   {
-    title: "My Account",
-    href: "/loggedin/settings",
+    title: "Create Book Listings",
+    href: "/loggedin/admin",
   },
   {
-    title: "Address",
-    href: "/loggedin/settings/address",
+    title: "Authors",
+    href: "/loggedin/admin/authors",
+  },
+  {
+    title: "Categories",
+    href: "/loggedin/admin/categories",
   },
 ];
 
-export default async function SettingsLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -30,9 +34,12 @@ export default async function SettingsLayout({
       <main className="container w-screen flex flex-col gap-8">
         <div className="hidden space-y-6 p-10 pb-16 md:block">
           <div className="space-y-0.5">
-            <h2 className="text-2xl font-bold tracking-tight">Account</h2>
+            <h2 className="text-2xl font-bold tracking-tight">
+              Admin Dashboard
+            </h2>
             <p className="text-muted-foreground">
-              Manage your account settings and preferences.
+              Create Book listings, manage Author Information and Category
+              Information.
             </p>
           </div>
           <Separator className="my-6" />

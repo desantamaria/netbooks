@@ -16,6 +16,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { handleSignOut } from "@/auth/serverAction";
 import Link from "next/link";
+import { MonitorCog } from "lucide-react";
 
 export function UserNav() {
   const viewerInfo = useQuery(api.functions.getUserInfo);
@@ -42,9 +43,7 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {viewerInfo && viewerInfo[0]?.name
-                ? viewerInfo[0].name
-                : "example@user.com"}
+              {viewerInfo && viewerInfo[0]?.name ? viewerInfo[0].name : "User"}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
               {viewerInfo && viewerInfo[0]?.email
@@ -56,7 +55,7 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Link href="/loggedin/settings" className="w-full">
+            <Link href="/loggedin/settings" className="w-full h-full">
               Manage Account
             </Link>
           </DropdownMenuItem>
@@ -66,15 +65,18 @@ export function UserNav() {
           </Link>
             </DropdownMenuItem> */}
           <DropdownMenuItem>
-            <Link href="/loggedin/settings/address" className="w-full">
+            <Link href="/loggedin/settings/address" className="w-full h-full">
               Address Book
             </Link>
           </DropdownMenuItem>
 
           {viewerInfo && viewerInfo[0]?.isAdmin ? (
             <DropdownMenuItem>
-              <Link href="/loggedin/newbooklisting" className="w-full">
-                Create Book Listings
+              <Link
+                href="/loggedin/admin"
+                className="w-full h-full flex items-center gap-2"
+              >
+                Admin <MonitorCog className="w-4 h-4" />
               </Link>
             </DropdownMenuItem>
           ) : (
