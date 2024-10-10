@@ -167,12 +167,16 @@ export function AddressForm({
       return;
     }
 
-    const updatedAddresses = viewerInfo[0].addresses;
+    let updatedAddresses = viewerInfo[0].addresses;
     const id = viewerInfo[0]._id;
 
     // Operation Changes based on passed 'type'
     if (type == "add") {
-      updatedAddresses?.push(data);
+      if (updatedAddresses == undefined) {
+        updatedAddresses = [data];
+      } else {
+        updatedAddresses?.push(data);
+      }
 
       // Perform if set Default was Checked
       if (data.isDefault && updatedAddresses) {
