@@ -20,7 +20,7 @@ export default function Home() {
     <>
       <div className="border-b">
         <div className="flex h-16 items-center px-4">
-          <p className="font-bold text-green-600">Netbooks</p>
+          <p className="font-bold text-primary">Netbooks</p>
           {/* <MainNav className="mx-6" /> */}
           <div className="ml-auto flex items-center space-x-4">
             {/* <Search /> */}
@@ -31,7 +31,7 @@ export default function Home() {
         </div>
       </div>
       <main className="container max-w-2xl flex flex-col gap-8">
-        <h1 className="text-4xl font-extrabold my-8 text-center text-green-600">
+        <h1 className="text-4xl font-extrabold my-8 text-center text-primary">
           NetBooks
         </h1>
         <p>The user doesn&apos;t need to log in to see this.</p>
