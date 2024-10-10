@@ -26,13 +26,17 @@ const AddressList = () => {
 
       const updatedAt = new Date().toISOString();
 
-      await updateAddress({
-        id: viewerInfo[0]._id,
-        addresses: updatedAddresses,
-        updatedAt: updatedAt,
-      }).then(() => {
+      try {
+        await updateAddress({
+          id: viewerInfo[0]._id,
+          addresses: updatedAddresses,
+          updatedAt: updatedAt,
+        });
         toast({ title: "Address removed successfully" });
-      });
+      } catch (error) {
+        console.error("Error removing address:", error);
+        toast({ title: "Error removing address" });
+      }
     } else {
       console.error("Missing User Info");
     }
@@ -41,18 +45,23 @@ const AddressList = () => {
   const makeAddressDefault = async (index: number) => {
     if (viewerInfo && viewerInfo[0].addresses) {
       const updatedAddresses = [...viewerInfo[0].addresses];
-      for (let index = 0; index < updatedAddresses.length; index++) {
-        updatedAddresses[index].isDefault = false;
+      for (let i = 0; i < updatedAddresses.length; i++) {
+        updatedAddresses[i].isDefault = false;
       }
       updatedAddresses[index].isDefault = true;
       const updatedAt = new Date().toISOString();
-      await updateAddress({
-        id: viewerInfo[0]._id,
-        addresses: updatedAddresses,
-        updatedAt: updatedAt,
-      }).then(() => {
+
+      try {
+        await updateAddress({
+          id: viewerInfo[0]._id,
+          addresses: updatedAddresses,
+          updatedAt: updatedAt,
+        });
         toast({ title: "Default Address updated successfully" });
-      });
+      } catch (error) {
+        console.error("Error updating default address:", error);
+        toast({ title: "Error updating default address" });
+      }
     } else {
       console.error("Missing User Info");
     }
@@ -65,12 +74,12 @@ const AddressList = () => {
             { fname, lname, street, city, state, zipCode, phone, isDefault },
             index
           ) => (
-            <Card>
+            <Card key={index}>
               <CardHeader>
                 <CardTitle>Address {index + 1}:</CardTitle>
               </CardHeader>
               <CardContent>
-                <div key={index}>
+                <div>
                   <p>
                     {fname} {lname}
                   </p>
