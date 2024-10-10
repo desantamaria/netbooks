@@ -13,6 +13,7 @@ import { useMutation, useQuery } from "convex/react";
 import { Check } from "lucide-react";
 import React from "react";
 import { AddressForm } from "./address-form";
+import { toast } from "@/hooks/use-toast";
 
 const AddressList = () => {
   const viewerInfo = useQuery(api.functions.getUserInfo);
@@ -23,7 +24,30 @@ const AddressList = () => {
       const updatedAddresses = [...viewerInfo[0].addresses];
       updatedAddresses.splice(index, 1);
 
-      updateAddress({ id: viewerInfo[0]._id, addresses: updatedAddresses });
+      updateAddress({
+        id: viewerInfo[0]._id,
+        addresses: updatedAddresses,
+      }).then(() => {
+        toast({ title: "Address removed successfully" });
+      });
+    } else {
+      console.error("Missing User Info");
+    }
+  };
+
+  const makeAddressDefault = (index: number) => {
+    if (viewerInfo && viewerInfo[0].addresses) {
+      let updatedAddresses = [...viewerInfo[0].addresses];
+      for (let index = 0; index < updatedAddresses.length; index++) {
+        updatedAddresses[index].isDefault = false;
+      }
+      updatedAddresses[index].isDefault = true;
+      updateAddress({
+        id: viewerInfo[0]._id,
+        addresses: updatedAddresses,
+      }).then(() => {
+        toast({ title: "Default Address updated successfully" });
+      });
     } else {
       console.error("Missing User Info");
     }
@@ -61,7 +85,11 @@ const AddressList = () => {
                       <Check className="ml-1" />
                     </Button>
                   ) : (
-                    <Button>
+                    <Button
+                      onClick={() => {
+                        makeAddressDefault(index);
+                      }}
+                    >
                       Mark as Default <Check className="ml-1" />
                     </Button>
                   )}

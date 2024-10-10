@@ -1,5 +1,4 @@
 import { Separator } from "@/components/ui/separator";
-import { AddressForm } from "./address-form";
 import { Toaster } from "@/components/ui/toaster";
 import AddressList from "./address-list";
 
@@ -14,7 +13,6 @@ export default function SettingsAddressPage() {
       </div>
       <Separator />
       <AddressList />
-      {/* <AddressForm /> */}
       <Toaster />
     </div>
   );
