@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -104,15 +104,6 @@ const addressFormSchema = z.object({
 
 type AddressFormValues = z.infer<typeof addressFormSchema>;
 
-// This can come from your database or API.
-const defaultValues: Partial<AddressFormValues> = {
-  // name: "Your name",
-  // dob: new Date("2023-01-23"),
-  country: "US",
-  state: "CA",
-  isDefault: false,
-};
-
 export function AddressForm({
   className,
   type,
@@ -127,18 +118,45 @@ export function AddressForm({
   const viewerInfo = useQuery(api.functions.getUserInfo);
   const updateAddress = useMutation(api.functions.updateAddress);
 
+  let defaultValues: Partial<AddressFormValues> = {};
+
+  // Update default values when viewerInfo changes
+  useEffect(() => {
+    if (
+      type === "edit" &&
+      viewerInfo &&
+      viewerInfo[0].addresses &&
+      index != undefined
+    ) {
+      const fetchedAddress = viewerInfo[0].addresses[index];
+      if (fetchedAddress) {
+        form.reset({
+          fname: fetchedAddress.fname,
+          lname: fetchedAddress.lname,
+          street: fetchedAddress.street,
+          aptSuiteUnit: fetchedAddress.aptSuiteUnit,
+          city: fetchedAddress.city,
+          state: fetchedAddress.state,
+          country: fetchedAddress.country,
+          zipCode: fetchedAddress.zipCode,
+          phone: fetchedAddress.phone,
+          company: fetchedAddress.company,
+          isDefault: fetchedAddress.isDefault,
+        });
+      }
+    } else if (type === "add") {
+      form.reset({
+        country: "US",
+        state: "CA",
+        isDefault: false,
+      });
+    }
+  }, [viewerInfo, type, index]); // Depend on viewerInfo, type, and index
+
   const form = useForm<AddressFormValues>({
     resolver: zodResolver(addressFormSchema),
     defaultValues,
   });
-
-  const removeDefaultAddress = (addresses: Array<any>) => {
-    const updatedAddresses = addresses;
-    for (let index = 0; index < updatedAddresses.length; index++) {
-      updatedAddresses[index].isDefault = false;
-    }
-    return updatedAddresses;
-  };
 
   function onSubmit(data: AddressFormValues) {
     if (!viewerInfo || viewerInfo.length === 0) {
@@ -153,8 +171,11 @@ export function AddressForm({
     let updatedAddresses = viewerInfo[0].addresses;
     const id = viewerInfo[0]._id;
 
+    // Operation Changes based on passed 'type'
     if (type == "add") {
       updatedAddresses?.push(data);
+
+      // Perform if set Default was Checked
       if (data.isDefault && updatedAddresses) {
         for (let i = 0; i < updatedAddresses.length; i++) {
           updatedAddresses[i].isDefault = false;
@@ -164,6 +185,8 @@ export function AddressForm({
     } else if (type == "edit") {
       if (updatedAddresses && index != undefined && index != null) {
         updatedAddresses[index] = data;
+
+        // Perform if set Default was Checked
         if (data.isDefault && updatedAddresses) {
           for (let i = 0; i < updatedAddresses.length; i++) {
             updatedAddresses[i].isDefault = false;
