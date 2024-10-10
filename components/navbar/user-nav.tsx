@@ -73,8 +73,8 @@ export function UserNav() {
 
           {viewerInfo && viewerInfo[0]?.isAdmin ? (
             <DropdownMenuItem>
-              <Link href="/loggedin/settings/address" className="w-full">
-                My Book Listings
+              <Link href="/loggedin/newbooklisting" className="w-full">
+                Create Book Listings
               </Link>
             </DropdownMenuItem>
           ) : (

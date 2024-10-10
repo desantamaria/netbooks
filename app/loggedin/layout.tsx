@@ -7,6 +7,7 @@ import { Search } from "@/components/navbar/search";
 import { MainNav } from "@/components/navbar/main-nav";
 import { UserNav } from "@/components/navbar/user-nav";
 import { ModeToggle } from "@/components/theme/theme-button";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Account",
@@ -24,7 +25,11 @@ export default async function LoggedInLayout({
       <ConvexClientProvider session={session}>
         <div className="border-b">
           <div className="flex h-16 items-center px-4">
-            <p className="font-bold text-primary">Netbooks</p>
+            <Link href="/loggedin">
+              <p className="font-bold text-primary hover:text-primary-foreground transition-colors">
+                Netbooks
+              </p>
+            </Link>
             <MainNav className="mx-6" />
             <div className="ml-auto flex items-center space-x-4">
               <Search />
