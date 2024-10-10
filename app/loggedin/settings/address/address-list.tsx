@@ -24,9 +24,12 @@ const AddressList = () => {
       const updatedAddresses = [...viewerInfo[0].addresses];
       updatedAddresses.splice(index, 1);
 
+      const updatedAt = new Date().toISOString();
+
       updateAddress({
         id: viewerInfo[0]._id,
         addresses: updatedAddresses,
+        updatedAt: updatedAt,
       }).then(() => {
         toast({ title: "Address removed successfully" });
       });
@@ -42,9 +45,11 @@ const AddressList = () => {
         updatedAddresses[index].isDefault = false;
       }
       updatedAddresses[index].isDefault = true;
+      const updatedAt = new Date().toISOString();
       updateAddress({
         id: viewerInfo[0]._id,
         addresses: updatedAddresses,
+        updatedAt: updatedAt,
       }).then(() => {
         toast({ title: "Default Address updated successfully" });
       });

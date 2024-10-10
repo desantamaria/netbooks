@@ -45,6 +45,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { updateAddress } from "@/convex/functions";
 
 const addressFormSchema = z.object({
   country: z.string({ required_error: "Please select country." }),
@@ -122,7 +123,7 @@ export function AddressForm({
   const [open, setOpen] = useState(false);
 
   const viewerInfo = useQuery(api.functions.getUserInfo);
-  const updateUser = useMutation(api.functions.updateUser);
+  const updateAddress = useMutation(api.functions.updateAddress);
 
   const form = useForm<AddressFormValues>({
     resolver: zodResolver(addressFormSchema),
@@ -139,15 +140,17 @@ export function AddressForm({
       return;
     }
 
-    const dbUser = viewerInfo[0];
-    const id = dbUser._id;
+    const updatedAddresses = viewerInfo[0].addresses;
+    const id = viewerInfo[0]._id;
 
-    updateUser({
+    if (type == "add") {
+      updatedAddresses?.push(data);
+    } else {
+    }
+
+    updateAddress({
       id,
-      name: dbUser.name,
-      email: dbUser.email,
-      image: dbUser.image,
-      addresses: [data],
+      addresses: updatedAddresses,
       updatedAt: new Date().toISOString(),
     })
       .then(() => {
