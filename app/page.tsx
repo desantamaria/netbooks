@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { auth, signIn } from "@/auth";
 import { redirect } from "next/navigation";
-import { MainNav } from "@/components/navbar/main-nav";
-import { Search } from "@/components/navbar/search";
+
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/theme/theme-button";
 
 export default function Home() {
   async function SignIn() {
@@ -24,6 +24,7 @@ export default function Home() {
           {/* <MainNav className="mx-6" /> */}
           <div className="ml-auto flex items-center space-x-4">
             {/* <Search /> */}
+            <ModeToggle />
             <form action={SignIn}>
               <Button type="submit">Sign in</Button>
             </form>

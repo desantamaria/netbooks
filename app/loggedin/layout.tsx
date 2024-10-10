@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { Search } from "@/components/navbar/search";
 import { MainNav } from "@/components/navbar/main-nav";
 import { UserNav } from "@/components/navbar/user-nav";
+import { ModeToggle } from "@/components/theme/theme-button";
 
 export const metadata: Metadata = {
   title: "Account",
@@ -27,6 +28,7 @@ export default async function LoggedInLayout({
             <MainNav className="mx-6" />
             <div className="ml-auto flex items-center space-x-4">
               <Search />
+              <ModeToggle />
               <UserNav />
             </div>
           </div>
