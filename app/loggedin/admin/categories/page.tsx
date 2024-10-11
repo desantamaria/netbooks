@@ -8,7 +8,7 @@ export default function CategoriesPage() {
       <div>
         <h3 className="text-lg font-medium">Categories</h3>
         <p className="text-sm text-muted-foreground">
-          Update your Book listing.
+          View create and edit Categories.
         </p>
       </div>
       <Separator />

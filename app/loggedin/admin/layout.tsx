@@ -5,8 +5,8 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarNav } from "../../../components/sidebar-nav";
 
 export const metadata: Metadata = {
-  title: "Account",
-  description: "Manage your Account",
+  title: "Netbooks Admin",
+  description: "View Edit and Create Listings",
 };
 
 const sidebarNavItems = [
@@ -21,6 +21,10 @@ const sidebarNavItems = [
   {
     title: "Categories",
     href: "/loggedin/admin/categories",
+  },
+  {
+    title: "Publishers",
+    href: "/loggedin/admin/publishers",
   },
 ];
 
@@ -38,7 +42,7 @@ export default async function AdminLayout({
               Admin Dashboard
             </h2>
             <p className="text-muted-foreground">
-              Create Book listings, manage Author Information and Category
+              Create Book listings, manage Author, Category and Publisher
               Information.
             </p>
           </div>
