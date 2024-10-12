@@ -1,6 +1,7 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/toaster";
+import AuthorsList from "./authors-list";
 
 export default function AuthorsPage() {
   return (
@@ -12,6 +13,7 @@ export default function AuthorsPage() {
         </p>
       </div>
       <Separator />
+      <AuthorsList />
       <Toaster />
     </div>
   );

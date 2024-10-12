@@ -1,7 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { getViewerId } from "./auth";
 import { v } from "convex/values"
-import { Id } from "./_generated/dataModel";
 
 // Write your Convex functions in any file inside this directory (`convex`).
 // See https://docs.convex.dev/functions for more.
