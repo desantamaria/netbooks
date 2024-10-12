@@ -55,10 +55,10 @@ const AuthorsList = () => {
       {authorsList ? (
         authorsList?.map(
           ({ _id, name, createdAt, photoUrl, updatedAt }, index) => (
-            <Link href={"/loggedin/admin"}>
+            <Link href={`/loggedin/author/${_id}`}>
               <Card
                 key={_id}
-                className="hover:bg-stone-900 transition-colors duration-300"
+                className="hover:shadow-lg transition-all duration-300"
               >
                 <CardHeader>
                   <div className="flex items-center gap-4">
