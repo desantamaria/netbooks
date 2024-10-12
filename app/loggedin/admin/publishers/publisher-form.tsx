@@ -46,7 +46,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 
-const authorFormSchema = z.object({
+const publisherFormSchema = z.object({
   country: z.string({ required_error: "Please select country." }),
   fname: z
     .string()
@@ -101,9 +101,9 @@ const authorFormSchema = z.object({
   isDefault: z.boolean(),
 });
 
-type AuthorFormValues = z.infer<typeof authorFormSchema>;
+type PublisherFormValues = z.infer<typeof publisherFormSchema>;
 
-export function AuthorForm({
+export function PublisherForm({
   className,
   type,
   index,
@@ -115,31 +115,31 @@ export function AuthorForm({
   const [open, setOpen] = useState(false);
 
   const viewerInfo = useQuery(api.functions.getUserInfo);
-  const updateAuthor = useMutation(api.functions.updateAuthor);
+  const updatePublisher = useMutation(api.functions.updatePublisher);
 
-  const defaultValues: Partial<AuthorFormValues> = {};
+  const defaultValues: Partial<PublisherFormValues> = {};
 
-  const form = useForm<AuthorFormValues>({
-    resolver: zodResolver(authorFormSchema),
+  const form = useForm<PublisherFormValues>({
+    resolver: zodResolver(publisherFormSchema),
     defaultValues,
   });
 
-  function onSubmit(data: AuthorFormValues) {}
+  function onSubmit(data: PublisherFormValues) {}
 
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className={className}>
-            {type == "add" ? "Add New Author" : "Edit"}
+            {type == "add" ? "Add New Publisher" : "Edit"}
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {type == "add" ? "Add New Author" : "Edit Author"}
+              {type == "add" ? "Add New Publisher" : "Edit Publisher"}
             </DialogTitle>
-            <DialogDescription>Enter Author Details.</DialogDescription>
+            <DialogDescription>Enter Publisher Details.</DialogDescription>
           </DialogHeader>
           <div className="max-h-[75vh] overflow-scroll">
             <Form {...form}>
@@ -244,9 +244,9 @@ export function AuthorForm({
                   name="street"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Street Author</FormLabel>
+                      <FormLabel>Street Publisher</FormLabel>
                       <FormControl>
-                        <Input placeholder="Street Author" {...field} />
+                        <Input placeholder="Street Publisher" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -418,7 +418,7 @@ export function AuthorForm({
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel>Set Author as Default</FormLabel>
+                      <FormLabel>Set Publisher as Default</FormLabel>
                     </FormItem>
                   )}
                 />
@@ -428,7 +428,7 @@ export function AuthorForm({
                 </Button> */}
 
                 <Button className="mx-3" type="submit">
-                  {type == "add" ? "Add author" : "Update author"}
+                  {type == "add" ? "Add publisher" : "Update publisher"}
                 </Button>
               </form>
             </Form>

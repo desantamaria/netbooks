@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import React, { useState } from "react";
-import { AuthorForm } from "./author-form";
+import { PublisherForm } from "./publisher-form";
 
 import { Id } from "@/convex/_generated/dataModel";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -90,7 +90,7 @@ const AuthorsList = () => {
       ) : (
         <p>No authors found.</p>
       )}
-      <AuthorForm className="w-full" type="add" />
+      <PublisherForm className="w-full" type="add" />
     </div>
   );
 };
