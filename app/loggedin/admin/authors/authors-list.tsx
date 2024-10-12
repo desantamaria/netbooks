@@ -18,6 +18,7 @@ import { toast } from "@/hooks/use-toast";
 
 import { Id } from "@/convex/_generated/dataModel";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import Link from "next/link";
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString);
@@ -54,33 +55,39 @@ const AuthorsList = () => {
       {authorsList ? (
         authorsList?.map(
           ({ _id, name, createdAt, photoUrl, updatedAt }, index) => (
-            <Card key={_id}>
-              <CardHeader>
-                <CardTitle>{name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Avatar>
-                  <AvatarImage src={photoUrl} />
-                  <AvatarFallback>A</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p>Created At: {formatDate(createdAt)}</p>
-                  <p>Updated At: {formatDate(updatedAt)}</p>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <div className="flex w-full justify-end gap-2">
-                  <AuthorsForm type="edit" index={index} />
-                  <Button
-                    onClick={() => {
-                      removeAddress(_id);
-                    }}
-                  >
-                    Remove
-                  </Button>
-                </div>
-              </CardFooter>
-            </Card>
+            <Link href={"/loggedin/admin"}>
+              <Card
+                key={_id}
+                className="hover:bg-stone-900 transition-colors duration-300"
+              >
+                <CardHeader>
+                  <div className="flex items-center gap-4">
+                    <Avatar>
+                      <AvatarImage src={photoUrl} />
+                      <AvatarFallback>A</AvatarFallback>
+                    </Avatar>
+
+                    <CardTitle>{name}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div>
+                    <p>Created At: {formatDate(createdAt)}</p>
+                    <p>Updated At: {formatDate(updatedAt)}</p>
+                  </div>
+                  <div className="flex w-full justify-end gap-2">
+                    <AuthorsForm type="edit" index={index} />
+                    <Button
+                      onClick={() => {
+                        removeAddress(_id);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           )
         )
       ) : (
