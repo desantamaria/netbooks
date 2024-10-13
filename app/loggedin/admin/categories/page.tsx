@@ -1,6 +1,7 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/toaster";
+import CategoriesList from "./categories-list";
 
 export default function CategoriesPage() {
   return (
@@ -12,6 +13,7 @@ export default function CategoriesPage() {
         </p>
       </div>
       <Separator />
+      <CategoriesList />
       <Toaster />
     </div>
   );

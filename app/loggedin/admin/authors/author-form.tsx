@@ -70,10 +70,6 @@ export function AuthorForm({
 
   const author = id ? useQuery(api.functions.getAuthor, { id: id }) : null;
 
-  console.log(
-    `THIS IS A ${type} of FORM SURELY IT WORKS CORRECTELY WHEN I SUBMIT`
-  );
-
   // Update default values when viewerInfo changes
   useEffect(() => {
     if (type === "edit" && id) {

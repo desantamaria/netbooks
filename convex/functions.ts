@@ -215,7 +215,6 @@ export const createCategory = mutation({
     args: {
       name: v.string(),
       description: v.optional(v.string()),
-      parentCategoryId: v.optional(v.id("categories")),
     },
     handler: async (ctx, args) => {
       const categoryId = await ctx.db.insert("categories", {
@@ -245,7 +244,6 @@ export const updateCategory = mutation({
       id: v.id("categories"),
       name: v.optional(v.string()),
       description: v.optional(v.string()),
-      parentCategoryId: v.optional(v.id("categories")),
     },
     handler: async (ctx, args) => {
       const { id, ...updateFields } = args;

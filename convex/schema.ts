@@ -131,7 +131,6 @@ export default defineSchema({
   categories: defineTable({
     name: v.string(),
     description: v.optional(v.string()),
-    parentCategoryId: v.optional(v.id("categories")),
     createdAt: v.string(),
     updatedAt: v.string(),
   }).index("by_name", ["name"]),
