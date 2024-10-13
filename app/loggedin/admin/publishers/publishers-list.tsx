@@ -8,7 +8,6 @@ import React, { useState } from "react";
 import { PublisherForm } from "./publisher-form";
 
 import { Id } from "@/convex/_generated/dataModel";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 
@@ -26,17 +25,16 @@ function formatDate(isoString: string): string {
   return new Intl.DateTimeFormat("en-US", options).format(date);
 }
 
-const AuthorsList = () => {
+const PublishersList = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const viewerInfo = useQuery(api.functions.getUserInfo);
-  const authorsList = useQuery(api.functions.listAuthors);
-  console.log(authorsList);
-  const removeAuthor = useMutation(api.functions.deleteAuthor);
+  const publishersList = useQuery(api.functions.listPublishers);
+  const removePublisher = useMutation(api.functions.deletePublisher);
 
-  const removeAddress = async (id: Id<"authors">) => {
+  const removeAddress = async (id: Id<"publishers">) => {
     if (viewerInfo) {
-      await removeAuthor({
+      await removePublisher({
         id: id,
       });
     } else {
@@ -44,55 +42,53 @@ const AuthorsList = () => {
     }
   };
 
-  const filteredAuthors = authorsList?.filter((author) =>
-    author.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPublishers = publishersList?.filter((publisher) =>
+    publisher.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
   return (
     <div className="flex flex-col gap-5">
       <Input
-        placeholder="Search Author"
+        placeholder="Search Publisher"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      {filteredAuthors && filteredAuthors.length > 0 ? (
-        filteredAuthors.map(
-          ({ _id, name, createdAt, photoUrl, updatedAt }, index) => (
-            <Link href={`/loggedin/author/${_id}`} key={_id}>
-              <Card className="hover:shadow-lg transition-all duration-300">
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <Avatar>
-                      <AvatarImage src={photoUrl} />
-                      <AvatarFallback>A</AvatarFallback>
-                    </Avatar>
-                    <CardTitle>{name}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div>
-                    <p>Created At: {formatDate(createdAt)}</p>
-                    <p>Updated At: {formatDate(updatedAt)}</p>
-                  </div>
-                  <div className="flex w-full justify-end gap-2">
-                    <Button
-                      onClick={() => {
-                        removeAddress(_id);
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          )
-        )
+      {filteredPublishers && filteredPublishers.length > 0 ? (
+        filteredPublishers.map(({ _id, name, createdAt, updatedAt }, index) => (
+          // <Link href={`/loggedin/publisher/${_id}`} key={_id}>
+          <Card
+            className="hover:shadow-lg transition-all duration-300"
+            key={_id}
+          >
+            <CardHeader>
+              <div className="flex items-center gap-4">
+                <CardTitle>{name}</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div>
+                <p>Created At: {formatDate(createdAt)}</p>
+                <p>Updated At: {formatDate(updatedAt)}</p>
+              </div>
+              <div className="flex w-full justify-end gap-2">
+                <PublisherForm type="edit" id={_id} />
+                <Button
+                  onClick={() => {
+                    removeAddress(_id);
+                  }}
+                >
+                  Remove
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+          // </Link>
+        ))
       ) : (
-        <p>No authors found.</p>
+        <p>No publishers found.</p>
       )}
       <PublisherForm className="w-full" type="add" />
     </div>
   );
 };
 
-export default AuthorsList;
+export default PublishersList;

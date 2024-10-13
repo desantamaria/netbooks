@@ -1,6 +1,7 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/toaster";
+import PublishersList from "./publishers-list";
 
 export default function PublishersPage() {
   return (
@@ -12,6 +13,7 @@ export default function PublishersPage() {
         </p>
       </div>
       <Separator />
+      <PublishersList />
       <Toaster />
     </div>
   );
