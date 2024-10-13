@@ -87,10 +87,10 @@ const publisherFormSchema = z.object({
     }),
   phone: z
     .string()
-    .min(2, { message: "Phone must be at least 2 characters." })
-    .max(20, {
-      message: "Phone must not be longer than 10 characters.",
-    }),
+    .regex(
+      /^\d{3}-\d{3}-\d{4}$/,
+      "Please enter the phone number in XXX-XXX-XXXX format."
+    ),
   company: z
     .string()
     .min(2, { message: "Phone must be at least 2 characters." })

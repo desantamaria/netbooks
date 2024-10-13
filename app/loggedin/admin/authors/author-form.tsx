@@ -16,25 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useEffect, useState } from "react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import { cn } from "@/lib/utils";
-import countries from "@/data/countries";
-import states from "@/data/us_states";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -44,61 +26,28 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { Id } from "@/convex/_generated/dataModel";
 
 const authorFormSchema = z.object({
-  country: z.string({ required_error: "Please select country." }),
-  fname: z
+  name: z
     .string()
-    .min(2, { message: "First Name must be at least 2 characters." })
-    .max(30, {
-      message: "First Name must not be longer than 30 characters.",
-    }),
-  lname: z
+    .min(2, { message: "Name must be at least 2 characters." })
+    .max(50, { message: "Name must not be longer than 50 characters." }),
+  biography: z.string().optional(),
+  birthDate: z
     .string()
-    .min(2, { message: "First Name must be at least 2 characters." })
-    .max(30, {
-      message: "Last Name must not be longer than 30 characters.",
-    }),
-  street: z
-    .string()
-    .min(2, { message: "First Name must be at least 2 characters." })
-    .max(30, {
-      message: "Last Name must not be longer than 30 characters.",
-    }),
-  aptSuiteUnit: z
-    .string()
-    .max(30, {
-      message: "Must not be longer than 30 characters.",
-    })
+    .regex(
+      /^\d{4}-\d{2}-\d{2}$/,
+      "Please enter the birth date in YYYY-MM-DD format."
+    )
     .optional(),
-  city: z
+  nationality: z
     .string()
-    .min(2, { message: "City must be at least 2 characters." })
-    .max(30, {
-      message: "City must not be longer than 30 characters.",
-    }),
-  state: z.string({ required_error: "Please select state." }),
-  zipCode: z
-    .string()
-    .min(2, { message: "Zip Code must be at least 2 characters." })
-    .max(10, {
-      message: "Zip Code must not be longer than 10 characters.",
-    }),
-  phone: z
-    .string()
-    .min(2, { message: "Phone must be at least 2 characters." })
-    .max(20, {
-      message: "Phone must not be longer than 10 characters.",
-    }),
-  company: z
-    .string()
-    .min(2, { message: "Phone must be at least 2 characters." })
-    .max(10, {
-      message: "Phone must not be longer than 10 characters.",
-    })
+    .max(50, { message: "Nationality must not exceed 50 characters." })
     .optional(),
-  isDefault: z.boolean(),
+  photoUrl: z.string().url("Please enter a valid URL.").optional(),
+  websiteUrl: z.string().url("Please enter a valid URL.").optional(),
 });
 
 type AuthorFormValues = z.infer<typeof authorFormSchema>;
@@ -106,25 +55,71 @@ type AuthorFormValues = z.infer<typeof authorFormSchema>;
 export function AuthorForm({
   className,
   type,
-  index,
+  id,
 }: {
   className?: string;
   type: "add" | "edit";
-  index?: number;
+  id?: Id<"authors">;
 }) {
   const [open, setOpen] = useState(false);
 
-  const viewerInfo = useQuery(api.functions.getUserInfo);
+  const addAuthor = useMutation(api.functions.createAuthor);
   const updateAuthor = useMutation(api.functions.updateAuthor);
 
   const defaultValues: Partial<AuthorFormValues> = {};
+
+  const author = id ? useQuery(api.functions.getAuthor, { id: id }) : null;
+
+  console.log(
+    `THIS IS A ${type} of FORM SURELY IT WORKS CORRECTELY WHEN I SUBMIT`
+  );
+
+  // Update default values when viewerInfo changes
+  useEffect(() => {
+    if (type === "edit" && id) {
+      if (author) {
+        form.reset({
+          name: author.name,
+          biography: author.biography,
+          birthDate: author.birthDate,
+          nationality: author.nationality,
+          photoUrl: author.photoUrl,
+          websiteUrl: author.websiteUrl,
+        });
+      }
+    }
+  }, [author]);
 
   const form = useForm<AuthorFormValues>({
     resolver: zodResolver(authorFormSchema),
     defaultValues,
   });
 
-  function onSubmit(data: AuthorFormValues) {}
+  async function onSubmit(data: AuthorFormValues) {
+    if (type === "add") {
+      try {
+        await addAuthor(data);
+        toast({ title: "Author added successfully!" });
+        setOpen(false);
+      } catch (error) {
+        toast({ title: "Failed to add the author." });
+      }
+    } else if (type === "edit" && id) {
+      try {
+        await updateAuthor({
+          id: id,
+          name: data.name,
+          nationality: data.nationality,
+          photoUrl: data.photoUrl,
+          websiteUrl: data.websiteUrl,
+        });
+        toast({ title: "Author updated successfully!" });
+        setOpen(false);
+      } catch (error) {
+        toast({ title: "Failed to update the author." });
+      }
+    }
+  }
 
   return (
     <>
@@ -139,7 +134,10 @@ export function AuthorForm({
             <DialogTitle>
               {type == "add" ? "Add New Author" : "Edit Author"}
             </DialogTitle>
-            <DialogDescription>Enter Author Details.</DialogDescription>
+            <DialogDescription>
+              Enter Author Details.{" "}
+              <span className="text-red-500">* Required</span>
+            </DialogDescription>
           </DialogHeader>
           <div className="max-h-[75vh] overflow-scroll">
             <Form {...form}>
@@ -149,78 +147,14 @@ export function AuthorForm({
               >
                 <FormField
                   control={form.control}
-                  name="country"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Country</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-[200px] justify-between",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value
-                                ? countries.find(
-                                    (countries) =>
-                                      countries.value === field.value
-                                  )?.label
-                                : "Select Country"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command>
-                            <CommandInput placeholder="Search country..." />
-                            <CommandList>
-                              <CommandEmpty>No countries found.</CommandEmpty>
-                              <CommandGroup>
-                                {countries.map(
-                                  (country: {
-                                    label: string;
-                                    value: string;
-                                  }) => (
-                                    <CommandItem
-                                      value={country.label}
-                                      key={country.value}
-                                      onSelect={() => {
-                                        form.setValue("country", country.value);
-                                      }}
-                                    >
-                                      <Check
-                                        className={cn(
-                                          "mr-2 h-4 w-4",
-                                          country.value === field.value
-                                            ? "opacity-100"
-                                            : "opacity-0"
-                                        )}
-                                      />
-                                      {country.label}
-                                    </CommandItem>
-                                  )
-                                )}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="fname"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>First Name</FormLabel>
+                      <FormLabel>
+                        Name <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <Input placeholder="First Name" {...field} />
+                        <Input placeholder="Author's Name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -228,12 +162,12 @@ export function AuthorForm({
                 />
                 <FormField
                   control={form.control}
-                  name="lname"
+                  name="biography"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Last Name</FormLabel>
+                      <FormLabel>Biography</FormLabel>
                       <FormControl>
-                        <Input placeholder="Last Name" {...field} />
+                        <Input placeholder="Biography" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -241,12 +175,12 @@ export function AuthorForm({
                 />
                 <FormField
                   control={form.control}
-                  name="street"
+                  name="birthDate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Street Author</FormLabel>
+                      <FormLabel>Birth Date (YYYY-MM-DD)</FormLabel>
                       <FormControl>
-                        <Input placeholder="Street Author" {...field} />
+                        <Input placeholder="Birth Date" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -254,124 +188,12 @@ export function AuthorForm({
                 />
                 <FormField
                   control={form.control}
-                  name="aptSuiteUnit"
+                  name="nationality"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Apt/Suite/Unit (optional)</FormLabel>
+                      <FormLabel>Nationality</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Apt/Suite/Unit (optional)"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {form.getValues("country") === "US" ? (
-                  <>
-                    <FormField
-                      control={form.control}
-                      name="city"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>City</FormLabel>
-                          <FormControl>
-                            <Input placeholder="City" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="state"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                          <FormLabel>State</FormLabel>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <FormControl>
-                                <Button
-                                  variant="outline"
-                                  role="combobox"
-                                  className={cn(
-                                    "w-[200px] justify-between",
-                                    !field.value && "text-muted-foreground"
-                                  )}
-                                >
-                                  {field.value
-                                    ? states.find(
-                                        (state) => state.value === field.value
-                                      )?.label
-                                    : "Select State"}
-                                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-[200px] p-0">
-                              <Command>
-                                <CommandInput placeholder="Search state..." />
-                                <CommandList>
-                                  <CommandEmpty>No states found.</CommandEmpty>
-                                  <CommandGroup>
-                                    {states.map(
-                                      (state: {
-                                        label: string;
-                                        value: string;
-                                      }) => (
-                                        <CommandItem
-                                          value={state.label}
-                                          key={state.value}
-                                          onSelect={() => {
-                                            form.setValue("state", state.value);
-                                          }}
-                                        >
-                                          <Check
-                                            className={cn(
-                                              "mr-2 h-4 w-4",
-                                              state.value === field.value
-                                                ? "opacity-100"
-                                                : "opacity-0"
-                                            )}
-                                          />
-                                          {state.label}
-                                        </CommandItem>
-                                      )
-                                    )}
-                                  </CommandGroup>
-                                </CommandList>
-                              </Command>
-                            </PopoverContent>
-                          </Popover>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </>
-                ) : (
-                  <FormField
-                    control={form.control}
-                    name="state"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>State</FormLabel>
-                        <FormControl>
-                          <Input placeholder="State" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                )}
-                <FormField
-                  control={form.control}
-                  name="zipCode"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Zip Code</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Zip Code" {...field} />
+                        <Input placeholder="Nationality" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -379,12 +201,12 @@ export function AuthorForm({
                 />
                 <FormField
                   control={form.control}
-                  name="phone"
+                  name="photoUrl"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
+                      <FormLabel>Photo URL</FormLabel>
                       <FormControl>
-                        <Input placeholder="Phone Number" {...field} />
+                        <Input placeholder="Photo URL" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -392,41 +214,17 @@ export function AuthorForm({
                 />
                 <FormField
                   control={form.control}
-                  name="company"
+                  name="websiteUrl"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company Name (optional)</FormLabel>
+                      <FormLabel>Website URL</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Company Name (optional)"
-                          {...field}
-                        />
+                        <Input placeholder="Website URL" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="isDefault"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Checkbox
-                          className="mx-2"
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormLabel>Set Author as Default</FormLabel>
-                    </FormItem>
-                  )}
-                />
-                {/* 
-                <Button>
-                  <DialogClose>Cancel</DialogClose>
-                </Button> */}
-
                 <Button className="mx-3" type="submit">
                   {type == "add" ? "Add author" : "Update author"}
                 </Button>
