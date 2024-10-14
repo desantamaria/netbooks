@@ -19,12 +19,12 @@ const sidebarNavItems = [
     href: "/loggedin/admin/authors",
   },
   {
-    title: "Categories",
-    href: "/loggedin/admin/categories",
-  },
-  {
     title: "Publishers",
     href: "/loggedin/admin/publishers",
+  },
+  {
+    title: "Categories",
+    href: "/loggedin/admin/categories",
   },
 ];
 
