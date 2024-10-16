@@ -34,6 +34,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Id } from "@/convex/_generated/dataModel";
 
 const languages = [
   { label: "English", value: "en" },
@@ -65,9 +66,7 @@ const bookFormSchema = z.object({
   language: z.string({
     required_error: "Please select a language.",
   }),
-  format: z.string({
-    required_error: "Please select a format.",
-  }),
+  format: z.enum(["hardcover", "paperback", "ebook", "audiobook"]),
   pageCount: z.optional(z.number()),
   featured: z.boolean(),
 });
@@ -82,7 +81,7 @@ export function BookForm({
   index?: number;
 }) {
   const viewerInfo = useQuery(api.functions.getUserInfo);
-  const updateBook = useMutation(api.functions.updateBook);
+  const addBook = useMutation(api.functions.createBook);
 
   const defaultValues: Partial<BookFormValues> = {};
 
@@ -91,8 +90,29 @@ export function BookForm({
     defaultValues,
   });
 
-  function onSubmit(data: BookFormValues) {
-    toast({ title: "Book updated successfully" });
+  async function onSubmit(data: BookFormValues) {
+    if (type === "add") {
+      try {
+        const authorId: Id<"authors"> =
+          "m17bz91pqyj9y3t4g856r1jfb572hy17" as Id<"authors">;
+        const categoryID: Id<"categories"> =
+          "kh7a632jj52vpyb5nxaek0010972jg7r" as Id<"categories">;
+        const categoryName = "Mystery";
+
+        const publisherId: Id<"publishers"> =
+          "ks77jk0d7gaw1eg4fmfrm0a9bd72kkxg" as Id<"publishers">;
+
+        await addBook({
+          authorIds: [authorId],
+          category: [{ id: categoryID, name: categoryName }],
+          publisherId: publisherId,
+          ...data,
+        });
+        toast({ title: "Book added successfully!" });
+      } catch (error) {
+        toast({ title: "Failed to add the book." });
+      }
+    }
   }
 
   return (

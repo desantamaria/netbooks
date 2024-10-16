@@ -88,7 +88,7 @@ export const createBook = mutation({
       language: v.string(),
       format: v.union(v.literal("hardcover"), v.literal("paperback"), v.literal("ebook"), v.literal("audiobook")),
       pageCount: v.optional(v.number()),
-      coverImageUrl: v.string(),
+      coverImageUrl: v.optional(v.string()),
       featured: v.boolean(),
     },
     handler: async (ctx, args) => {
