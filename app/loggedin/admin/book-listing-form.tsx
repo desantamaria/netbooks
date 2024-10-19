@@ -69,6 +69,14 @@ const bookFormSchema = z.object({
   format: z.enum(["hardcover", "paperback", "ebook", "audiobook"]),
   pageCount: z.optional(z.number()),
   featured: z.boolean(),
+  file: z.string().refine(
+    (val) => {
+      return val.endsWith(".mp3") || val.endsWith(".pdf");
+    },
+    {
+      message: "File must be an MP3 or PDF",
+    }
+  ),
 });
 
 type BookFormValues = z.infer<typeof bookFormSchema>;
@@ -257,6 +265,25 @@ export function BookForm({
               </FormItem>
             )}
           />
+
+          {form.getValues("format") === "ebook" ||
+          form.getValues("format") === "audiobook" ? (
+            <FormField
+              control={form.control}
+              name="file"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Upload Book PDF</FormLabel>
+                  <FormControl>
+                    <Input id="book-pdf" type="file" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : (
+            <></>
+          )}
           <FormField
             control={form.control}
             name="language"
