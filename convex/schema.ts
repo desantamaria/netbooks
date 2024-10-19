@@ -99,8 +99,8 @@ export default defineSchema({
     price: v.number(),
     discount: v.optional(v.number()),
     stockQuantity: v.number(),
-    category: v.array(v.object({id: v.id("categories"), name: v.string()})),
-    publisherId: v.id("publishers"),
+    categories: v.array(v.object({id: v.id("categories"), name: v.string()})),
+    publisherIds: v.id("publishers"),
     publicationDate: v.string(),
     language: v.string(),
     format: v.union(v.literal("hardcover"), v.literal("paperback"), v.literal("ebook"), v.literal("audiobook")),
@@ -112,7 +112,7 @@ export default defineSchema({
     userId: v.id("users"),
   })
     .index("by_isbn", ["isbn"])
-    .index("by_category", ["category"])
+    .index("by_category", ["categories"])
     .index("by_featured", ["featured"]),
 
   // Authors table

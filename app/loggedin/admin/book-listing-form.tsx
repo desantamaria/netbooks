@@ -35,6 +35,8 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Id } from "@/convex/_generated/dataModel";
+import { useEffect, useState } from "react";
+import { GenericId } from "convex/values";
 
 const languages = [
   { label: "English", value: "en" },
@@ -55,12 +57,23 @@ const format = [
   { label: "Audiobook", value: "audiobook" },
 ] as const;
 
+const categories = [];
+
+const publishers = [];
+
+const authors: { label: string; value: GenericId<"authors"> }[] = [];
+
 const bookFormSchema = z.object({
   title: z.string(),
   isbn: z.string(),
+  authorIds: z.array(z.custom<GenericId<"authors">>()),
+  categories: z.array(
+    z.object({ id: z.custom<GenericId<"categories">>(), name: z.string() })
+  ),
+  publisherIds: z.array(z.custom<GenericId<"publishers">>()),
   description: z.string(),
   price: z.number(),
-  discount: z.optional(z.number()),
+  discount: z.number().optional(),
   stockQuantity: z.number(),
   publicationDate: z.string(),
   language: z.string({
@@ -91,12 +104,37 @@ export function BookForm({
   const viewerInfo = useQuery(api.functions.getUserInfo);
   const addBook = useMutation(api.functions.createBook);
 
+  const authorsList = useQuery(api.functions.listAuthors);
+  const publishersList = useQuery(api.functions.listPublishers);
+  const categoriesList = useQuery(api.functions.listCategories);
+
+  const [selectedAuthors, setSelectedAuthors] = useState<
+    GenericId<"authors">[]
+  >([]);
+
+  useEffect(() => {
+    categoriesList?.forEach((category) => {
+      categories.push({ label: category.name, value: category._id });
+    });
+    publishersList?.forEach((publisher) => {
+      publishers.push({ label: publisher.name, value: publisher._id });
+    });
+    authorsList?.forEach((author) => {
+      authors.push({ label: author.name, value: author._id });
+    });
+  }, [authorsList, publishersList, categoriesList]);
+
   const defaultValues: Partial<BookFormValues> = {};
 
   const form = useForm<BookFormValues>({
     resolver: zodResolver(bookFormSchema),
     defaultValues,
   });
+
+  const updateAuthorIds = (authorId: GenericId<"authors">) => {
+    setSelectedAuthors((prev) => [...prev, authorId]);
+    form.setValue("authorIds", [...selectedAuthors, authorId]);
+  };
 
   async function onSubmit(data: BookFormValues) {
     if (type === "add") {
@@ -109,13 +147,12 @@ export function BookForm({
 
         const publisherId: Id<"publishers"> =
           "ks77jk0d7gaw1eg4fmfrm0a9bd72kkxg" as Id<"publishers">;
-
-        await addBook({
-          authorIds: [authorId],
-          category: [{ id: categoryID, name: categoryName }],
-          publisherId: publisherId,
-          ...data,
-        });
+        // await addBook({
+        //   authorIds: [authorId],
+        //   categories: [{ id: categoryID, name: categoryName }],
+        //   publisherId: publisherId,
+        //   ...data,
+        // });
         toast({ title: "Book added successfully!" });
       } catch (error) {
         toast({ title: "Failed to add the book." });
@@ -132,9 +169,9 @@ export function BookForm({
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>First Name</FormLabel>
+                <FormLabel>Book Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="First Name" {...field} />
+                  <Input placeholder="Book Title" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -142,10 +179,10 @@ export function BookForm({
           />
           <FormField
             control={form.control}
-            name="format"
+            name="authorIds"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Format</FormLabel>
+                <FormLabel>Author(s)</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -157,38 +194,40 @@ export function BookForm({
                           !field.value && "text-muted-foreground"
                         )}
                       >
-                        {field.value
-                          ? format.find(
-                              (format) => format.value === field.value
+                        Select Author
+                        {/* {field.value
+                          ? authors.find(
+                              (author) => author.value === field.value
                             )?.label
-                          : "Select format"}
+                          : "Select author"} */}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
                   <PopoverContent className="w-[200px] p-0">
                     <Command>
-                      <CommandInput placeholder="Search format..." />
+                      <CommandInput placeholder="Search author..." />
                       <CommandList>
-                        <CommandEmpty>No format found.</CommandEmpty>
+                        <CommandEmpty>No author found.</CommandEmpty>
                         <CommandGroup>
-                          {format.map((format) => (
+                          {authors.map((author) => (
                             <CommandItem
-                              value={format.label}
-                              key={format.value}
+                              className="cursor-pointer"
+                              value={author.label}
+                              key={author.value}
                               onSelect={() => {
-                                form.setValue("format", format.value);
+                                updateAuthorIds(author.value);
                               }}
                             >
-                              <CheckIcon
+                              {/* <CheckIcon
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  format.value === field.value
+                                  author.value === field.value
                                     ? "opacity-100"
                                     : "opacity-0"
                                 )}
-                              />
-                              {format.label}
+                              /> */}
+                              {author.label}
                             </CommandItem>
                           ))}
                         </CommandGroup>
