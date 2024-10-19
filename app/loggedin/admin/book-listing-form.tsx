@@ -142,6 +142,66 @@ export function BookForm({
           />
           <FormField
             control={form.control}
+            name="format"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Format</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-[200px] justify-between",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value
+                          ? format.find(
+                              (format) => format.value === field.value
+                            )?.label
+                          : "Select format"}
+                        <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search format..." />
+                      <CommandList>
+                        <CommandEmpty>No format found.</CommandEmpty>
+                        <CommandGroup>
+                          {format.map((format) => (
+                            <CommandItem
+                              value={format.label}
+                              key={format.value}
+                              onSelect={() => {
+                                form.setValue("format", format.value);
+                              }}
+                            >
+                              <CheckIcon
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  format.value === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {format.label}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="isbn"
             render={({ field }) => (
               <FormItem>
