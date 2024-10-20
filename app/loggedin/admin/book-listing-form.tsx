@@ -112,11 +112,18 @@ export function BookForm({
   const publishersList = useQuery(api.functions.listPublishers);
   const categoriesList = useQuery(api.functions.listCategories);
 
+  const [authorsReady, setAuthorsReady] = useState(false);
+  const [publishersReady, setPublishersReady] = useState(false);
+  const [categoriesReady, setCategoriesReady] = useState(false);
+
   const [selectedAuthors, setSelectedAuthors] = useState<
     { label: string; value: GenericId<"authors"> }[]
   >([]);
   const [selectedCategories, setSelectedCategories] = useState<
     { id: GenericId<"categories">; name: string }[]
+  >([]);
+  const [selectedPublishers, setSelectedPublishers] = useState<
+    { label: string; value: GenericId<"publishers"> }[]
   >([]);
 
   const defaultValues: Partial<BookFormValues> = {};
@@ -127,37 +134,33 @@ export function BookForm({
   });
 
   useEffect(() => {
-    categoriesList?.forEach((category) => {
-      if (
-        !categories?.some(
-          (existingCategory) => existingCategory.value == category._id
-        )
-      ) {
+    if (categoriesList) {
+      categories.length = 0;
+      categoriesList.forEach((category) => {
         categories.push({ label: category.name, value: category._id });
-      }
-    });
+      });
+      setCategoriesReady(true);
+    }
   }, [categoriesList]);
 
   useEffect(() => {
-    authorsList?.forEach((author) => {
-      if (
-        !authors.some((existingAuthor) => existingAuthor.value === author._id)
-      ) {
+    if (authorsList) {
+      authors.length = 0;
+      authorsList.forEach((author) => {
         authors.push({ label: author.name, value: author._id });
-      }
-    });
+      });
+      setAuthorsReady(true);
+    }
   }, [authorsList]);
 
   useEffect(() => {
-    publishersList?.forEach((publisher) => {
-      if (
-        !publishers.some(
-          (existingPublisher) => existingPublisher.value === publisher._id
-        )
-      ) {
+    if (publishersList) {
+      publishers.length = 0;
+      publishersList.forEach((publisher) => {
         publishers.push({ label: publisher.name, value: publisher._id });
-      }
-    });
+      });
+      setPublishersReady(true);
+    }
   }, [publishersList]);
 
   const updateAuthorIds = ({
@@ -256,26 +259,19 @@ export function BookForm({
                         <CommandList>
                           <CommandEmpty>No author found.</CommandEmpty>
                           <CommandGroup>
-                            {authors.map((author) => (
-                              <CommandItem
-                                className="cursor-pointer"
-                                value={author.label}
-                                key={author.value}
-                                onSelect={() => {
-                                  updateAuthorIds(author);
-                                }}
-                              >
-                                {/* <CheckIcon
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  author.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              /> */}
-                                {author.label}
-                              </CommandItem>
-                            ))}
+                            {authorsReady &&
+                              authors.map((author) => (
+                                <CommandItem
+                                  className="cursor-pointer"
+                                  value={author.label}
+                                  key={author.value}
+                                  onSelect={() => {
+                                    updateAuthorIds(author);
+                                  }}
+                                >
+                                  {author.label}
+                                </CommandItem>
+                              ))}
                           </CommandGroup>
                         </CommandList>
                       </Command>
@@ -287,7 +283,135 @@ export function BookForm({
                       <Badge className="flex items-center gap-2">
                         {author.label}
                         <X
-                          size={10}
+                          size={20}
+                          className="cursor-pointer p-1 rounded-full"
+                        />
+                      </Badge>
+                    ))}
+                  </Card>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="publisherIds"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Publisher(s)</FormLabel>
+                <div className="flex items-center gap-2">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-[200px] justify-between",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          Select Publisher
+                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput placeholder="Search publisher..." />
+                        <CommandList>
+                          <CommandEmpty>No publisher found.</CommandEmpty>
+                          <CommandGroup>
+                            {publishersReady &&
+                              publishers.map((publisher) => (
+                                <CommandItem
+                                  className="cursor-pointer"
+                                  value={publisher.label}
+                                  key={publisher.value}
+                                  onSelect={() => {
+                                    updatePublisherIds(publisher);
+                                  }}
+                                >
+                                  {publisher.label}
+                                </CommandItem>
+                              ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+
+                  <Card className="flex items-center gap-2">
+                    {selectedAuthors.map((author) => (
+                      <Badge className="flex items-center gap-2">
+                        {author.label}
+                        <X
+                          size={20}
+                          className="cursor-pointer p-1 rounded-full"
+                        />
+                      </Badge>
+                    ))}
+                  </Card>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="categories"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Category(s)</FormLabel>
+                <div className="flex items-center gap-2">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-[200px] justify-between",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          Select Category
+                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput placeholder="Search category..." />
+                        <CommandList>
+                          <CommandEmpty>No category found.</CommandEmpty>
+                          <CommandGroup>
+                            {categoriesReady &&
+                              categories.map((category) => (
+                                <CommandItem
+                                  className="cursor-pointer"
+                                  value={category.label}
+                                  key={category.value}
+                                  onSelect={() => {
+                                    updateCategoryIds(category);
+                                  }}
+                                >
+                                  {category.label}
+                                </CommandItem>
+                              ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+
+                  <Card className="flex items-center gap-2">
+                    {selectedAuthors.map((author) => (
+                      <Badge className="flex items-center gap-2">
+                        {author.label}
+                        <X
+                          size={20}
                           className="cursor-pointer p-1 rounded-full"
                         />
                       </Badge>
