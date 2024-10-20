@@ -68,32 +68,55 @@ const publishers: { label: string; value: GenericId<"publishers"> }[] = [];
 const authors: { label: string; value: GenericId<"authors"> }[] = [];
 
 const bookFormSchema = z.object({
-  title: z.string(),
-  isbn: z.string(),
-  authorIds: z.array(z.custom<GenericId<"authors">>()),
+  title: z.string().min(1, { message: "Title is required." }), // Custom error for title
+  isbn: z
+    .string()
+    .min(1, { message: "ISBN is required." }) // Custom error for ISBN
+    .length(13, { message: "ISBN must be 13 characters long." }), // Length validation with custom error
+  authorIds: z
+    .array(z.custom<GenericId<"authors">>())
+    .min(1, { message: "At least one author is required." }), // At least one author is required
   categories: z.array(
-    z.object({ id: z.custom<GenericId<"categories">>(), name: z.string() })
+    z.object({
+      id: z.custom<GenericId<"categories">>(),
+      name: z.string().min(1, { message: "Category name is required." }),
+    })
   ),
-  publisherIds: z.array(z.custom<GenericId<"publishers">>()),
-  description: z.string(),
-  price: z.number(),
-  discount: z.number().optional(),
-  stockQuantity: z.number(),
-  publicationDate: z.string(),
+  publisherIds: z
+    .array(z.custom<GenericId<"publishers">>())
+    .min(1, { message: "At least one publisher is required." }), // At least one publisher is required
+  description: z
+    .string()
+    .min(10, { message: "Description must be at least 10 characters long." }), // Minimum length with custom error
+  price: z.number().positive({ message: "Price must be a positive number." }), // Positive number check with custom message
+  discount: z
+    .number()
+    .min(0, { message: "Discount cannot be negative." })
+    .max(100, { message: "Discount cannot be more than 100%." })
+    .optional(), // Custom error for discount field
+  stockQuantity: z
+    .number()
+    .min(0, { message: "Stock quantity cannot be negative." }), // Custom error for stock quantity
+  publicationDate: z
+    .string()
+    .min(1, { message: "Publication date is required." }), // Custom error for publication date
   language: z.string({
     required_error: "Please select a language.",
   }),
-  format: z.enum(["hardcover", "paperback", "ebook", "audiobook"]),
-  pageCount: z.optional(z.number()),
-  featured: z.boolean(),
-  file: z.string().refine(
-    (val) => {
-      return val.endsWith(".mp3") || val.endsWith(".pdf");
-    },
-    {
-      message: "File must be an MP3 or PDF",
-    }
-  ),
+  format: z.enum(["hardcover", "paperback", "ebook", "audiobook"], {
+    errorMap: () => ({ message: "Please select a valid format." }), // Custom error for format selection
+  }),
+  pageCount: z
+    .number()
+    .positive({ message: "Page count must be a positive number." })
+    .optional(), // Custom error for page count
+  featured: z.boolean(), // No custom error needed for boolean field
+  file: z
+    .string()
+    .refine((val) => val.endsWith(".mp3") || val.endsWith(".pdf"), {
+      message: "File must be an MP3 or PDF", // Custom error for file validation
+    })
+    .optional(),
 });
 
 type BookFormValues = z.infer<typeof bookFormSchema>;
@@ -126,11 +149,26 @@ export function BookForm({
     { label: string; value: GenericId<"publishers"> }[]
   >([]);
 
-  const defaultValues: Partial<BookFormValues> = {};
+  const defaultValues: Partial<BookFormValues> = {
+    title: "",
+    isbn: "",
+    authorIds: [],
+    categories: [],
+    publisherIds: [],
+    description: "",
+    price: 0,
+    stockQuantity: 0,
+    publicationDate: "",
+    language: "",
+    format: "paperback",
+    pageCount: 0,
+    featured: false,
+  };
 
   const form = useForm<BookFormValues>({
     resolver: zodResolver(bookFormSchema),
     defaultValues,
+    mode: "onSubmit",
   });
 
   useEffect(() => {
@@ -163,6 +201,7 @@ export function BookForm({
     }
   }, [publishersList]);
 
+  // Update your handlers to properly set form values
   const updateAuthorIds = ({
     label,
     value,
@@ -170,37 +209,13 @@ export function BookForm({
     label: string;
     value: GenericId<"authors">;
   }) => {
-    setSelectedAuthors((prev) => {
-      if (!prev.some((author) => author.value === value)) {
-        return [...prev, { label, value }];
-      }
-      return prev;
-    });
-
-    form.setValue("authorIds", [
-      ...(form.getValues("authorIds") || []),
-      value as Id<"authors">,
-    ]);
-  };
-
-  const updateCategoryIds = ({
-    label,
-    value,
-  }: {
-    label: string;
-    value: GenericId<"categories">;
-  }) => {
-    setSelectedCategories((prev) => {
-      if (!prev.some((category) => category.id === value)) {
-        return [...prev, { id: value, name: label }];
-      }
-      return prev;
-    });
-
-    form.setValue("categories", [
-      ...(form.getValues("categories") || []),
-      { id: value, name: label },
-    ]);
+    const currentAuthors = form.getValues("authorIds") || [];
+    if (!currentAuthors.includes(value)) {
+      setSelectedAuthors((prev) => [...prev, { label, value }]);
+      form.setValue("authorIds", [...currentAuthors, value], {
+        shouldValidate: true,
+      });
+    }
   };
 
   const updatePublisherIds = ({
@@ -210,40 +225,77 @@ export function BookForm({
     label: string;
     value: GenericId<"publishers">;
   }) => {
-    setSelectedPublishers((prev) => {
-      if (!prev.some((publisher) => publisher.value === value)) {
-        return [...prev, { label, value }];
-      }
-      return prev;
-    });
+    const currentPublishers = form.getValues("publisherIds") || [];
+    if (!currentPublishers.includes(value)) {
+      setSelectedPublishers((prev) => [...prev, { label, value }]);
+      form.setValue("publisherIds", [...currentPublishers, value], {
+        shouldValidate: true,
+      });
+    }
+  };
 
-    form.setValue("publisherIds", [
-      ...(form.getValues("publisherIds") || []),
-      value as Id<"publishers">,
-    ]);
+  const updateCategoryIds = ({
+    label,
+    value,
+  }: {
+    label: string;
+    value: GenericId<"categories">;
+  }) => {
+    const currentCategories = form.getValues("categories") || [];
+    if (!currentCategories.some((category) => category.id === value)) {
+      const newCategory = { id: value, name: label };
+      setSelectedCategories((prev) => [...prev, newCategory]);
+      form.setValue("categories", [...currentCategories, newCategory], {
+        shouldValidate: true,
+      });
+    }
   };
 
   async function onSubmit(data: BookFormValues) {
-    if (type === "add") {
-      try {
-        const authorId: Id<"authors"> =
-          "m17bz91pqyj9y3t4g856r1jfb572hy17" as Id<"authors">;
-        const categoryID: Id<"categories"> =
-          "kh7a632jj52vpyb5nxaek0010972jg7r" as Id<"categories">;
-        const categoryName = "Mystery";
-
-        const publisherId: Id<"publishers"> =
-          "ks77jk0d7gaw1eg4fmfrm0a9bd72kkxg" as Id<"publishers">;
-        // await addBook({
-        //   authorIds: [authorId],
-        //   categories: [{ id: categoryID, name: categoryName }],
-        //   publisherId: publisherId,
-        //   ...data,
-        // });
-        toast({ title: "Book added successfully!" });
-      } catch (error) {
-        toast({ title: "Failed to add the book." });
+    try {
+      // Add basic form validation
+      if (!data.authorIds.length) {
+        form.setError("authorIds", {
+          type: "manual",
+          message: "At least one author is required",
+        });
+        return;
       }
+
+      if (!data.publisherIds.length) {
+        form.setError("publisherIds", {
+          type: "manual",
+          message: "At least one publisher is required",
+        });
+        return;
+      }
+
+      // Log the data being submitted
+      console.log("Submitting form data:", data);
+
+      if (type === "add") {
+        // Add loading state handling
+        const result = await addBook(data);
+        console.log("Book added successfully:", result);
+
+        toast({
+          title: "Success",
+          description: "Book added successfully",
+        });
+
+        // Reset form after successful submission
+        form.reset(defaultValues);
+        setSelectedAuthors([]);
+        setSelectedCategories([]);
+        setSelectedPublishers([]);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add book. Please try again.",
+        variant: "destructive",
+      });
     }
   }
 
