@@ -171,7 +171,6 @@ export function BookForm({
     value: GenericId<"authors">;
   }) => {
     setSelectedAuthors((prev) => {
-      // Check if the author already exists in the array
       if (!prev.some((author) => author.value === value)) {
         return [...prev, { label, value }];
       }
@@ -179,8 +178,48 @@ export function BookForm({
     });
 
     form.setValue("authorIds", [
-      ...form.getValues("authorIds"),
+      ...(form.getValues("authorIds") || []),
       value as Id<"authors">,
+    ]);
+  };
+
+  const updateCategoryIds = ({
+    label,
+    value,
+  }: {
+    label: string;
+    value: GenericId<"categories">;
+  }) => {
+    setSelectedCategories((prev) => {
+      if (!prev.some((category) => category.id === value)) {
+        return [...prev, { id: value, name: label }];
+      }
+      return prev;
+    });
+
+    form.setValue("categories", [
+      ...(form.getValues("categories") || []),
+      { id: value, name: label },
+    ]);
+  };
+
+  const updatePublisherIds = ({
+    label,
+    value,
+  }: {
+    label: string;
+    value: GenericId<"publishers">;
+  }) => {
+    setSelectedPublishers((prev) => {
+      if (!prev.some((publisher) => publisher.value === value)) {
+        return [...prev, { label, value }];
+      }
+      return prev;
+    });
+
+    form.setValue("publisherIds", [
+      ...(form.getValues("publisherIds") || []),
+      value as Id<"publishers">,
     ]);
   };
 
@@ -343,9 +382,9 @@ export function BookForm({
                   </Popover>
 
                   <Card className="flex items-center gap-2">
-                    {selectedAuthors.map((author) => (
+                    {selectedPublishers.map((publisher) => (
                       <Badge className="flex items-center gap-2">
-                        {author.label}
+                        {publisher.label}
                         <X
                           size={20}
                           className="cursor-pointer p-1 rounded-full"
@@ -407,9 +446,9 @@ export function BookForm({
                   </Popover>
 
                   <Card className="flex items-center gap-2">
-                    {selectedAuthors.map((author) => (
+                    {selectedCategories.map((category) => (
                       <Badge className="flex items-center gap-2">
-                        {author.label}
+                        {category.name}
                         <X
                           size={20}
                           className="cursor-pointer p-1 rounded-full"
