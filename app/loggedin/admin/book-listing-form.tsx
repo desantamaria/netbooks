@@ -494,7 +494,20 @@ export function BookForm({
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Input placeholder="Price" {...field} />
+                  <Input
+                    placeholder="Price"
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const numValue = parseFloat(value);
+                      field.onChange(isNaN(numValue) ? "" : numValue);
+                    }}
+                    onBlur={(e) => {
+                      const value = e.target.value;
+                      const numValue = parseFloat(value);
+                      field.onChange(isNaN(numValue) ? 0 : numValue);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -507,7 +520,20 @@ export function BookForm({
               <FormItem>
                 <FormLabel>Stock Quantity</FormLabel>
                 <FormControl>
-                  <Input placeholder="Stock Quantity" {...field} />
+                  <Input
+                    placeholder="Stock Quantity"
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const numValue = parseFloat(value);
+                      field.onChange(isNaN(numValue) ? "" : numValue);
+                    }}
+                    onBlur={(e) => {
+                      const value = e.target.value;
+                      const numValue = parseFloat(value);
+                      field.onChange(isNaN(numValue) ? 0 : numValue);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -672,7 +698,20 @@ export function BookForm({
               <FormItem>
                 <FormLabel>Page Count</FormLabel>
                 <FormControl>
-                  <Input placeholder="Page Count" {...field} />
+                  <Input
+                    placeholder="Page Count"
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const numValue = parseFloat(value);
+                      field.onChange(isNaN(numValue) ? "" : numValue);
+                    }}
+                    onBlur={(e) => {
+                      const value = e.target.value;
+                      const numValue = parseFloat(value);
+                      field.onChange(isNaN(numValue) ? 0 : numValue);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

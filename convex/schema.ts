@@ -100,7 +100,7 @@ export default defineSchema({
     discount: v.optional(v.number()),
     stockQuantity: v.number(),
     categories: v.array(v.object({id: v.id("categories"), name: v.string()})),
-    publisherIds: v.id("publishers"),
+    publisherIds: v.array(v.id("publishers")),
     publicationDate: v.string(),
     language: v.string(),
     format: v.union(v.literal("hardcover"), v.literal("paperback"), v.literal("ebook"), v.literal("audiobook")),
