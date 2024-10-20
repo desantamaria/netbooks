@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 
+import { X } from "lucide-react";
+
 import {
   Form,
   FormControl,
@@ -37,6 +39,8 @@ import { Input } from "@/components/ui/input";
 import { Id } from "@/convex/_generated/dataModel";
 import { useEffect, useState } from "react";
 import { GenericId } from "convex/values";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const languages = [
   { label: "English", value: "en" },
@@ -57,9 +61,9 @@ const format = [
   { label: "Audiobook", value: "audiobook" },
 ] as const;
 
-const categories = [];
+const categories: { label: string; value: GenericId<"categories"> }[] = [];
 
-const publishers = [];
+const publishers: { label: string; value: GenericId<"publishers"> }[] = [];
 
 const authors: { label: string; value: GenericId<"authors"> }[] = [];
 
@@ -109,20 +113,11 @@ export function BookForm({
   const categoriesList = useQuery(api.functions.listCategories);
 
   const [selectedAuthors, setSelectedAuthors] = useState<
-    GenericId<"authors">[]
+    { label: string; value: GenericId<"authors"> }[]
   >([]);
-
-  useEffect(() => {
-    categoriesList?.forEach((category) => {
-      categories.push({ label: category.name, value: category._id });
-    });
-    publishersList?.forEach((publisher) => {
-      publishers.push({ label: publisher.name, value: publisher._id });
-    });
-    authorsList?.forEach((author) => {
-      authors.push({ label: author.name, value: author._id });
-    });
-  }, [authorsList, publishersList, categoriesList]);
+  const [selectedCategories, setSelectedCategories] = useState<
+    { id: GenericId<"categories">; name: string }[]
+  >([]);
 
   const defaultValues: Partial<BookFormValues> = {};
 
@@ -131,9 +126,59 @@ export function BookForm({
     defaultValues,
   });
 
-  const updateAuthorIds = (authorId: GenericId<"authors">) => {
-    setSelectedAuthors((prev) => [...prev, authorId]);
-    form.setValue("authorIds", [...selectedAuthors, authorId]);
+  useEffect(() => {
+    categoriesList?.forEach((category) => {
+      if (
+        !categories?.some(
+          (existingCategory) => existingCategory.value == category._id
+        )
+      ) {
+        categories.push({ label: category.name, value: category._id });
+      }
+    });
+  }, [categoriesList]);
+
+  useEffect(() => {
+    authorsList?.forEach((author) => {
+      if (
+        !authors.some((existingAuthor) => existingAuthor.value === author._id)
+      ) {
+        authors.push({ label: author.name, value: author._id });
+      }
+    });
+  }, [authorsList]);
+
+  useEffect(() => {
+    publishersList?.forEach((publisher) => {
+      if (
+        !publishers.some(
+          (existingPublisher) => existingPublisher.value === publisher._id
+        )
+      ) {
+        publishers.push({ label: publisher.name, value: publisher._id });
+      }
+    });
+  }, [publishersList]);
+
+  const updateAuthorIds = ({
+    label,
+    value,
+  }: {
+    label: string;
+    value: GenericId<"authors">;
+  }) => {
+    setSelectedAuthors((prev) => {
+      // Check if the author already exists in the array
+      if (!prev.some((author) => author.value === value)) {
+        return [...prev, { label, value }];
+      }
+      return prev;
+    });
+
+    form.setValue("authorIds", [
+      ...form.getValues("authorIds"),
+      value as Id<"authors">,
+    ]);
   };
 
   async function onSubmit(data: BookFormValues) {
@@ -183,43 +228,44 @@ export function BookForm({
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Author(s)</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          "w-[200px] justify-between",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        Select Author
-                        {/* {field.value
+                <div className="flex items-center gap-2">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-[200px] justify-between",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          Select Author
+                          {/* {field.value
                           ? authors.find(
                               (author) => author.value === field.value
                             )?.label
                           : "Select author"} */}
-                        <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
-                    <Command>
-                      <CommandInput placeholder="Search author..." />
-                      <CommandList>
-                        <CommandEmpty>No author found.</CommandEmpty>
-                        <CommandGroup>
-                          {authors.map((author) => (
-                            <CommandItem
-                              className="cursor-pointer"
-                              value={author.label}
-                              key={author.value}
-                              onSelect={() => {
-                                updateAuthorIds(author.value);
-                              }}
-                            >
-                              {/* <CheckIcon
+                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput placeholder="Search author..." />
+                        <CommandList>
+                          <CommandEmpty>No author found.</CommandEmpty>
+                          <CommandGroup>
+                            {authors.map((author) => (
+                              <CommandItem
+                                className="cursor-pointer"
+                                value={author.label}
+                                key={author.value}
+                                onSelect={() => {
+                                  updateAuthorIds(author);
+                                }}
+                              >
+                                {/* <CheckIcon
                                 className={cn(
                                   "mr-2 h-4 w-4",
                                   author.value === field.value
@@ -227,14 +273,27 @@ export function BookForm({
                                     : "opacity-0"
                                 )}
                               /> */}
-                              {author.label}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+                                {author.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+
+                  <Card className="flex items-center gap-2">
+                    {selectedAuthors.map((author) => (
+                      <Badge className="flex items-center gap-2">
+                        {author.label}
+                        <X
+                          size={10}
+                          className="cursor-pointer p-1 rounded-full"
+                        />
+                      </Badge>
+                    ))}
+                  </Card>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
