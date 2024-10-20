@@ -335,11 +335,6 @@ export function BookForm({
                           )}
                         >
                           Select Author
-                          {/* {field.value
-                          ? authors.find(
-                              (author) => author.value === field.value
-                            )?.label
-                          : "Select author"} */}
                           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </FormControl>
@@ -370,8 +365,11 @@ export function BookForm({
                   </Popover>
 
                   <Card className="flex items-center gap-2">
-                    {selectedAuthors.map((author) => (
-                      <Badge className="flex items-center gap-2">
+                    {selectedAuthors.map((author, index) => (
+                      <Badge
+                        className="flex items-center gap-2"
+                        key={`${author.value}-${index}`}
+                      >
                         {author.label}
                         <X
                           size={20}
@@ -434,8 +432,8 @@ export function BookForm({
                   </Popover>
 
                   <Card className="flex items-center gap-2">
-                    {selectedPublishers.map((publisher) => (
-                      <Badge className="flex items-center gap-2">
+                    {selectedPublishers.map((publisher, index) => (
+                      <Badge className="flex items-center gap-2" key={index}>
                         {publisher.label}
                         <X
                           size={20}
@@ -498,8 +496,11 @@ export function BookForm({
                   </Popover>
 
                   <Card className="flex items-center gap-2">
-                    {selectedCategories.map((category) => (
-                      <Badge className="flex items-center gap-2">
+                    {selectedCategories.map((category, index) => (
+                      <Badge
+                        className="flex items-center gap-2"
+                        key={`${index}`}
+                      >
                         {category.name}
                         <X
                           size={20}

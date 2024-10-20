@@ -29,72 +29,73 @@ import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { Id } from "@/convex/_generated/dataModel";
 
-const authorFormSchema = z.object({
+// Publisher schema validation using Zod
+const publisherFormSchema = z.object({
   name: z
     .string()
     .min(2, { message: "Name must be at least 2 characters." })
     .max(50, { message: "Name must not be longer than 50 characters." }),
-  biography: z.string().optional(),
-  birthDate: z
-    .string()
-    .regex(
-      /^\d{4}-\d{2}-\d{2}$/,
-      "Please enter the birth date in YYYY-MM-DD format."
-    )
-    .optional(),
-  nationality: z
-    .string()
-    .max(50, { message: "Nationality must not exceed 50 characters." })
-    .optional(),
-  photoUrl: z.string().url("Please enter a valid URL.").optional(),
-  websiteUrl: z.string().url("Please enter a valid URL.").optional(),
+  description: z.string().optional(),
+  website: z.string().url("Please enter a valid URL.").optional(),
 });
 
-type AuthorFormValues = z.infer<typeof authorFormSchema>;
+type PublisherFormValues = z.infer<typeof publisherFormSchema>;
 
-export function AuthorForm({
+export function PublisherEditForm({
   className,
   type,
   id,
 }: {
   className?: string;
   type: "add" | "edit";
-  id?: Id<"authors">;
+  id: Id<"publishers">;
 }) {
   const [open, setOpen] = useState(false);
 
-  const addAuthor = useMutation(api.functions.createAuthor);
-  const updateAuthor = useMutation(api.functions.updateAuthor);
+  const addPublisher = useMutation(api.functions.createPublisher);
+  const updatePublisher = useMutation(api.functions.updatePublisher);
 
-  const defaultValues: Partial<AuthorFormValues> = {};
+  const defaultValues: Partial<PublisherFormValues> = {};
 
-  const form = useForm<AuthorFormValues>({
-    resolver: zodResolver(authorFormSchema),
+  const publisher = useQuery(api.functions.getPublisher, { id: id });
+
+  // Update default values when fetching the publisher
+  useEffect(() => {
+    if (type === "edit" && id && publisher) {
+      form.reset({
+        name: publisher.name,
+        description: publisher.description,
+        website: publisher.website,
+      });
+    }
+  }, [publisher]);
+
+  const form = useForm<PublisherFormValues>({
+    resolver: zodResolver(publisherFormSchema),
     defaultValues,
   });
 
-  async function onSubmit(data: AuthorFormValues) {
+  async function onSubmit(data: PublisherFormValues) {
     if (type === "add") {
       try {
-        await addAuthor(data);
-        toast({ title: "Author added successfully!" });
+        await addPublisher({
+          ...data,
+        });
+        toast({ title: "Publisher added successfully!" });
         setOpen(false);
       } catch (error) {
-        toast({ title: "Failed to add the author." });
+        toast({ title: "Failed to add the publisher." });
       }
     } else if (type === "edit" && id) {
       try {
-        await updateAuthor({
-          id: id,
-          name: data.name,
-          nationality: data.nationality,
-          photoUrl: data.photoUrl,
-          websiteUrl: data.websiteUrl,
+        await updatePublisher({
+          id,
+          ...data,
         });
-        toast({ title: "Author updated successfully!" });
+        toast({ title: "Publisher updated successfully!" });
         setOpen(false);
       } catch (error) {
-        toast({ title: "Failed to update the author." });
+        toast({ title: "Failed to update the publisher." });
       }
     }
   }
@@ -104,16 +105,16 @@ export function AuthorForm({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className={className}>
-            {type == "add" ? "Add New Author" : "Edit"}
+            {type == "add" ? "Add New Publisher" : "Edit"}
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {type == "add" ? "Add New Author" : "Edit Author"}
+              {type == "add" ? "Add New Publisher" : "Edit Publisher"}
             </DialogTitle>
             <DialogDescription>
-              Enter Author Details.{" "}
+              Enter Publisher Details.{" "}
               <span className="text-red-500">* Required</span>
             </DialogDescription>
           </DialogHeader>
@@ -132,7 +133,7 @@ export function AuthorForm({
                         Name <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="Author's Name" {...field} />
+                        <Input placeholder="Publisher's Name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -140,12 +141,12 @@ export function AuthorForm({
                 />
                 <FormField
                   control={form.control}
-                  name="biography"
+                  name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Biography</FormLabel>
+                      <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Input placeholder="Biography" {...field} />
+                        <Input placeholder="Description" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -153,49 +154,10 @@ export function AuthorForm({
                 />
                 <FormField
                   control={form.control}
-                  name="birthDate"
+                  name="website"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Birth Date (YYYY-MM-DD)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Birth Date" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="nationality"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nationality</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Nationality" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="photoUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Photo URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Photo URL" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="websiteUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Website URL</FormLabel>
+                      <FormLabel>Website</FormLabel>
                       <FormControl>
                         <Input placeholder="Website URL" {...field} />
                       </FormControl>
@@ -204,7 +166,7 @@ export function AuthorForm({
                   )}
                 />
                 <Button className="mx-3" type="submit">
-                  {type == "add" ? "Add author" : "Update author"}
+                  {type == "add" ? "Add Publisher" : "Update Publisher"}
                 </Button>
               </form>
             </Form>

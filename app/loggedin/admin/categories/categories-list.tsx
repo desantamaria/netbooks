@@ -10,6 +10,7 @@ import { CategoryForm } from "./category-form";
 import { Id } from "@/convex/_generated/dataModel";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
+import { CategoryEditForm } from "./category-form-edit";
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString);
@@ -71,7 +72,7 @@ const CategoriesList = () => {
                 <p>Updated At: {formatDate(updatedAt)}</p>
               </div>
               <div className="flex w-full justify-end gap-2">
-                <CategoryForm type="edit" id={_id} />
+                <CategoryEditForm type="edit" id={_id} />
                 <Button
                   onClick={() => {
                     removeAddress(_id);

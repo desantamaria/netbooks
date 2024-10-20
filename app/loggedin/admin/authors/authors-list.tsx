@@ -11,6 +11,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import { AuthorEditForm } from "./author-form-edit";
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString);
@@ -77,7 +78,7 @@ const AuthorsList = () => {
                   <p>Updated At: {formatDate(updatedAt)}</p>
                 </div>
                 <div className="flex w-full justify-end gap-2">
-                  <AuthorForm type="edit" id={_id} />
+                  <AuthorEditForm type="edit" id={_id} />
                   <Button
                     onClick={() => {
                       removeAddress(_id);

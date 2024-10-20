@@ -52,14 +52,14 @@ const authorFormSchema = z.object({
 
 type AuthorFormValues = z.infer<typeof authorFormSchema>;
 
-export function AuthorForm({
+export function AuthorEditForm({
   className,
   type,
   id,
 }: {
   className?: string;
   type: "add" | "edit";
-  id?: Id<"authors">;
+  id: Id<"authors">;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -67,6 +67,22 @@ export function AuthorForm({
   const updateAuthor = useMutation(api.functions.updateAuthor);
 
   const defaultValues: Partial<AuthorFormValues> = {};
+
+  const author = useQuery(api.functions.getAuthor, { id: id });
+
+  // Update default values when viewerInfo changes
+  useEffect(() => {
+    if (author) {
+      form.reset({
+        name: author.name,
+        biography: author.biography,
+        birthDate: author.birthDate,
+        nationality: author.nationality,
+        photoUrl: author.photoUrl,
+        websiteUrl: author.websiteUrl,
+      });
+    }
+  }, [author]);
 
   const form = useForm<AuthorFormValues>({
     resolver: zodResolver(authorFormSchema),

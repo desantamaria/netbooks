@@ -10,6 +10,7 @@ import { PublisherForm } from "./publisher-form";
 import { Id } from "@/convex/_generated/dataModel";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import { PublisherEditForm } from "./publisher-form-edit";
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString);
@@ -70,7 +71,7 @@ const PublishersList = () => {
                 <p>Updated At: {formatDate(updatedAt)}</p>
               </div>
               <div className="flex w-full justify-end gap-2">
-                <PublisherForm type="edit" id={_id} />
+                <PublisherEditForm type="edit" id={_id} />
                 <Button
                   onClick={() => {
                     removeAddress(_id);

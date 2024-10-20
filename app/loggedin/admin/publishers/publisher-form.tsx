@@ -57,21 +57,6 @@ export function PublisherForm({
 
   const defaultValues: Partial<PublisherFormValues> = {};
 
-  const publisher = id
-    ? useQuery(api.functions.getPublisher, { id: id })
-    : null;
-
-  // Update default values when fetching the publisher
-  useEffect(() => {
-    if (type === "edit" && id && publisher) {
-      form.reset({
-        name: publisher.name,
-        description: publisher.description,
-        website: publisher.website,
-      });
-    }
-  }, [publisher]);
-
   const form = useForm<PublisherFormValues>({
     resolver: zodResolver(publisherFormSchema),
     defaultValues,

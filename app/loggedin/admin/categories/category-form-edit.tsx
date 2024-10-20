@@ -40,14 +40,14 @@ const categoryFormSchema = z.object({
 
 type CategoryFormValues = z.infer<typeof categoryFormSchema>;
 
-export function CategoryForm({
+export function CategoryEditForm({
   className,
   type,
   id,
 }: {
   className?: string;
   type: "add" | "edit";
-  id?: Id<"categories">;
+  id: Id<"categories">;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -55,6 +55,17 @@ export function CategoryForm({
   const updateCategory = useMutation(api.functions.updateCategory);
 
   const defaultValues: Partial<CategoryFormValues> = {};
+
+  const category = useQuery(api.functions.getCategory, { id: id });
+
+  // Update default values when viewerInfo changes
+  useEffect(() => {
+    if (category) {
+      form.reset({
+        name: category.name,
+      });
+    }
+  }, [category]);
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
