@@ -41,6 +41,7 @@ import { useEffect, useState } from "react";
 import { GenericId } from "convex/values";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
 
 const languages = [
   { label: "English", value: "en" },
@@ -76,24 +77,26 @@ const bookFormSchema = z.object({
   authorIds: z
     .array(z.custom<GenericId<"authors">>())
     .min(1, { message: "At least one author is required." }), // At least one author is required
-  categories: z.array(
-    z.object({
-      id: z.custom<GenericId<"categories">>(),
-      name: z.string().min(1, { message: "Category name is required." }),
-    })
-  ),
+  categories: z
+    .array(
+      z.object({
+        id: z.custom<GenericId<"categories">>(),
+        name: z.string().min(1, { message: "Category name is required." }),
+      })
+    )
+    .min(1, { message: "At least one category is required." }),
   publisherIds: z
     .array(z.custom<GenericId<"publishers">>())
     .min(1, { message: "At least one publisher is required." }), // At least one publisher is required
   description: z
     .string()
     .min(10, { message: "Description must be at least 10 characters long." }), // Minimum length with custom error
-  price: z.number().positive({ message: "Price must be a positive number." }), // Positive number check with custom message
+  price: z.number().min(0.99, { message: "Price must at least $0.99" }), // Positive number check with custom message
   discount: z
     .number()
     .min(0, { message: "Discount cannot be negative." })
     .max(100, { message: "Discount cannot be more than 100%." })
-    .optional(), // Custom error for discount field
+    .optional(),
   stockQuantity: z
     .number()
     .min(0, { message: "Stock quantity cannot be negative." }), // Custom error for stock quantity
@@ -128,7 +131,6 @@ export function BookForm({
   type: "add" | "edit";
   index?: number;
 }) {
-  const viewerInfo = useQuery(api.functions.getUserInfo);
   const addBook = useMutation(api.functions.createBook);
 
   const authorsList = useQuery(api.functions.listAuthors);
@@ -154,14 +156,10 @@ export function BookForm({
     isbn: "",
     authorIds: [],
     categories: [],
+    price: 0.99,
     publisherIds: [],
     description: "",
-    price: 0,
-    stockQuantity: 0,
     publicationDate: "",
-    language: "",
-    format: "paperback",
-    pageCount: 0,
     featured: false,
   };
 
@@ -593,7 +591,7 @@ export function BookForm({
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input placeholder="description" {...field} />
+                  <Textarea placeholder="Description" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -608,16 +606,15 @@ export function BookForm({
                 <FormControl>
                   <Input
                     placeholder="Price"
+                    type="text"
                     {...field}
                     onChange={(e) => {
                       const value = e.target.value;
-                      const numValue = parseFloat(value);
-                      field.onChange(isNaN(numValue) ? "" : numValue);
-                    }}
-                    onBlur={(e) => {
-                      const value = e.target.value;
-                      const numValue = parseFloat(value);
-                      field.onChange(isNaN(numValue) ? 0 : numValue);
+                      if (value != "" && !isNaN(parseFloat(value))) {
+                        field.onChange(parseFloat(value));
+                      } else {
+                        field.onChange(value);
+                      }
                     }}
                   />
                 </FormControl>
@@ -637,13 +634,11 @@ export function BookForm({
                     {...field}
                     onChange={(e) => {
                       const value = e.target.value;
-                      const numValue = parseFloat(value);
-                      field.onChange(isNaN(numValue) ? "" : numValue);
-                    }}
-                    onBlur={(e) => {
-                      const value = e.target.value;
-                      const numValue = parseFloat(value);
-                      field.onChange(isNaN(numValue) ? 0 : numValue);
+                      if (value != "" && !isNaN(parseFloat(value))) {
+                        field.onChange(parseFloat(value));
+                      } else {
+                        field.onChange(value);
+                      }
                     }}
                   />
                 </FormControl>
@@ -815,13 +810,11 @@ export function BookForm({
                     {...field}
                     onChange={(e) => {
                       const value = e.target.value;
-                      const numValue = parseFloat(value);
-                      field.onChange(isNaN(numValue) ? "" : numValue);
-                    }}
-                    onBlur={(e) => {
-                      const value = e.target.value;
-                      const numValue = parseFloat(value);
-                      field.onChange(isNaN(numValue) ? 0 : numValue);
+                      if (value != "" && !isNaN(parseFloat(value))) {
+                        field.onChange(parseFloat(value));
+                      } else {
+                        field.onChange(value);
+                      }
                     }}
                   />
                 </FormControl>
