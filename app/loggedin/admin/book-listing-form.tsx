@@ -299,6 +299,49 @@ export function BookForm({
     }
   }
 
+  function removeAuthor(author: {
+    label: string;
+    value: GenericId<"authors">;
+  }) {
+    setSelectedAuthors((prevAuthors) =>
+      prevAuthors.filter((auth) => auth.value !== author.value)
+    );
+
+    const updatedAuthors = form
+      .getValues("authorIds")
+      .filter((auth) => auth !== author.value);
+    form.setValue("authorIds", updatedAuthors);
+  }
+
+  function removePublisher(publisher: {
+    label: string;
+    value: GenericId<"publishers">;
+  }) {
+    setSelectedPublishers((prevPublishers) =>
+      prevPublishers.filter((pub) => pub.value !== publisher.value)
+    );
+
+    const updatedPublishers = form
+      .getValues("publisherIds")
+      .filter((pub) => pub !== publisher.value);
+    form.setValue("publisherIds", updatedPublishers);
+  }
+
+  function removeCategory(category: {
+    id: GenericId<"categories">;
+    name: string;
+  }) {
+    setSelectedCategories((prevCategories) =>
+      prevCategories.filter((cat) => cat.id !== category.id)
+    );
+
+    // Update the form value
+    const updatedCategories = form
+      .getValues("categories")
+      .filter((cat) => cat.id !== category.id);
+    form.setValue("categories", updatedCategories);
+  }
+
   return (
     <>
       <Form {...form}>
@@ -364,20 +407,28 @@ export function BookForm({
                     </PopoverContent>
                   </Popover>
 
-                  <Card className="flex items-center gap-2">
-                    {selectedAuthors.map((author, index) => (
-                      <Badge
-                        className="flex items-center gap-2"
-                        key={`${author.value}-${index}`}
-                      >
-                        {author.label}
-                        <X
-                          size={20}
-                          className="cursor-pointer p-1 rounded-full"
-                        />
-                      </Badge>
-                    ))}
-                  </Card>
+                  {selectedAuthors.length > 0 && (
+                    <div className="flex flex-col gap-2">
+                      Selected Authors:
+                      <Card className="flex flex-wrap gap-2 w-full h-full p-4">
+                        {selectedAuthors.map((author, index) => (
+                          <Badge
+                            className="flex items-center gap-2"
+                            key={`${index}`}
+                          >
+                            {author.label}
+                            <X
+                              size={20}
+                              className="cursor-pointer p-1 rounded-full"
+                              onClick={() => {
+                                removeAuthor(author);
+                              }}
+                            />
+                          </Badge>
+                        ))}
+                      </Card>
+                    </div>
+                  )}
                 </div>
                 <FormMessage />
               </FormItem>
@@ -431,17 +482,28 @@ export function BookForm({
                     </PopoverContent>
                   </Popover>
 
-                  <Card className="flex items-center gap-2">
-                    {selectedPublishers.map((publisher, index) => (
-                      <Badge className="flex items-center gap-2" key={index}>
-                        {publisher.label}
-                        <X
-                          size={20}
-                          className="cursor-pointer p-1 rounded-full"
-                        />
-                      </Badge>
-                    ))}
-                  </Card>
+                  {selectedPublishers.length > 0 && (
+                    <div className="flex flex-col gap-2">
+                      Selected Publishers:
+                      <Card className="flex flex-wrap gap-2 w-full h-full p-4">
+                        {selectedPublishers.map((publisher, index) => (
+                          <Badge
+                            className="flex items-center gap-2"
+                            key={index}
+                          >
+                            {publisher.label}
+                            <X
+                              size={20}
+                              className="cursor-pointer p-1 rounded-full"
+                              onClick={() => {
+                                removePublisher(publisher);
+                              }}
+                            />
+                          </Badge>
+                        ))}
+                      </Card>
+                    </div>
+                  )}
                 </div>
                 <FormMessage />
               </FormItem>
@@ -465,7 +527,7 @@ export function BookForm({
                             !field.value && "text-muted-foreground"
                           )}
                         >
-                          Select Category
+                          Select Categories
                           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </FormControl>
@@ -495,20 +557,28 @@ export function BookForm({
                     </PopoverContent>
                   </Popover>
 
-                  <Card className="flex items-center gap-2">
-                    {selectedCategories.map((category, index) => (
-                      <Badge
-                        className="flex items-center gap-2"
-                        key={`${index}`}
-                      >
-                        {category.name}
-                        <X
-                          size={20}
-                          className="cursor-pointer p-1 rounded-full"
-                        />
-                      </Badge>
-                    ))}
-                  </Card>
+                  {selectedCategories.length > 0 && (
+                    <div className="flex flex-col gap-2">
+                      Selected Categories:
+                      <Card className="flex flex-wrap gap-2 w-full h-full p-4">
+                        {selectedCategories.map((category, index) => (
+                          <Badge
+                            className="flex items-center gap-2"
+                            key={`${index}`}
+                          >
+                            {category.name}
+                            <X
+                              size={20}
+                              className="cursor-pointer p-1 rounded-full"
+                              onClick={() => {
+                                removeCategory(category);
+                              }}
+                            />
+                          </Badge>
+                        ))}
+                      </Card>
+                    </div>
+                  )}
                 </div>
                 <FormMessage />
               </FormItem>
