@@ -14,7 +14,7 @@ export default function Home() {
           <p>The user doesn&apos;t need to log in to see this..</p>
         </Unauthenticated>
         <Authenticated>
-          <p>The user needs to log in to see this.</p>
+          <p>You are logged in so you can see this.</p>
         </Authenticated>
       </main>
     </>

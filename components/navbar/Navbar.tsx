@@ -23,7 +23,7 @@ export default function NavBar() {
           <Search />
           <ModeToggle />
           <Unauthenticated>
-            <form action={handleSignIn}>
+            <form action={() => handleSignIn(window.location.href)}>
               <Button type="submit">Sign in</Button>
             </form>
           </Unauthenticated>

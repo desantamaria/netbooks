@@ -17,6 +17,7 @@ import { api } from "@/convex/_generated/api";
 import { handleSignOut } from "@/auth/serverAction";
 import Link from "next/link";
 import { MonitorCog } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function UserNav() {
   const viewerInfo = useQuery(api.functions.getUserInfo);
@@ -93,12 +94,14 @@ export function UserNav() {
 }
 
 export function SignOut() {
+  const router = useRouter();
   return (
     <form
       className="w-full"
       onSubmit={async (e) => {
         e.preventDefault();
-        await handleSignOut();
+        await handleSignOut(window.location.href);
+        window.location.href = window.location.href;
       }}
     >
       <button type="submit" className="w-full">
