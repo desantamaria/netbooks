@@ -55,40 +55,38 @@ const AuthorsList = () => {
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       {filteredAuthors && filteredAuthors.length > 0 ? (
-        filteredAuthors.map(
-          ({ _id, name, createdAt, photoUrl, updatedAt }, index) => (
-            <Card
-              className="hover:shadow-lg transition-all duration-300"
-              key={_id}
-            >
-              <CardHeader>
-                <div className="flex items-center gap-4">
-                  <Avatar>
-                    <AvatarImage src={photoUrl} />
-                    <AvatarFallback>A</AvatarFallback>
-                  </Avatar>
-                  <CardTitle>{name}</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div>
-                  <p>Created At: {formatDate(createdAt)}</p>
-                  <p>Updated At: {formatDate(updatedAt)}</p>
-                </div>
-                <div className="flex w-full justify-end gap-2">
-                  <AuthorEditForm type="edit" id={_id} />
-                  <Button
-                    onClick={() => {
-                      removeAddress(_id);
-                    }}
-                  >
-                    Remove
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )
-        )
+        filteredAuthors.map(({ _id, name, createdAt, photoUrl, updatedAt }) => (
+          <Card
+            className="hover:shadow-lg transition-all duration-300"
+            key={_id}
+          >
+            <CardHeader>
+              <div className="flex items-center gap-4">
+                <Avatar>
+                  <AvatarImage src={photoUrl} />
+                  <AvatarFallback>A</AvatarFallback>
+                </Avatar>
+                <CardTitle>{name}</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div>
+                <p>Created At: {formatDate(createdAt)}</p>
+                <p>Updated At: {formatDate(updatedAt)}</p>
+              </div>
+              <div className="flex w-full justify-end gap-2">
+                <AuthorEditForm type="edit" id={_id} />
+                <Button
+                  onClick={() => {
+                    removeAddress(_id);
+                  }}
+                >
+                  Remove
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))
       ) : (
         <p>No authors found.</p>
       )}

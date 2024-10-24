@@ -53,7 +53,7 @@ const PublishersList = () => {
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       {filteredPublishers && filteredPublishers.length > 0 ? (
-        filteredPublishers.map(({ _id, name, createdAt, updatedAt }, index) => (
+        filteredPublishers.map(({ _id, name, createdAt, updatedAt }) => (
           <Card
             className="hover:shadow-lg transition-all duration-300"
             key={_id}

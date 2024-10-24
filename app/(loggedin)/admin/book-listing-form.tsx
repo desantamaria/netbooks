@@ -124,13 +124,7 @@ const bookFormSchema = z.object({
 
 type BookFormValues = z.infer<typeof bookFormSchema>;
 
-export function BookForm({
-  type,
-  index,
-}: {
-  type: "add" | "edit";
-  index?: number;
-}) {
+export function BookForm({ type }: { type: "add" | "edit" }) {
   const addBook = useMutation(api.functions.createBook);
 
   const authorsList = useQuery(api.functions.listAuthors);
