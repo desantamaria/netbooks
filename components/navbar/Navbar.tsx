@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-misused-promises */
 
 import Link from "next/link";
 import { MainNav } from "@/components/navbar/main-nav";
