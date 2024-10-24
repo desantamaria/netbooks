@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import ConvexClientProvider from "./ConvexClientProvider";
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,11 +13,12 @@ export const metadata: Metadata = {
   description: "Post PDF Book Listings",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
@@ -24,7 +28,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <SessionProvider session={session}>
+            <ConvexClientProvider session={session}>
+              {children}
+            </ConvexClientProvider>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>
