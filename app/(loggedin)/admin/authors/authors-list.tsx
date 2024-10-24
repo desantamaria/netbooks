@@ -9,7 +9,6 @@ import { AuthorForm } from "./author-form";
 
 import { Id } from "@/convex/_generated/dataModel";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { AuthorEditForm } from "./author-form-edit";
 
@@ -58,7 +57,6 @@ const AuthorsList = () => {
       {filteredAuthors && filteredAuthors.length > 0 ? (
         filteredAuthors.map(
           ({ _id, name, createdAt, photoUrl, updatedAt }, index) => (
-            // <Link href={`/loggedin/author/${_id}`} key={_id}>
             <Card
               className="hover:shadow-lg transition-all duration-300"
               key={_id}
@@ -89,7 +87,6 @@ const AuthorsList = () => {
                 </div>
               </CardContent>
             </Card>
-            // </Link>
           )
         )
       ) : (

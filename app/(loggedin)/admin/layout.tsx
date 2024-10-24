@@ -5,22 +5,30 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarNav } from "../../../components/sidebar-nav";
 
 export const metadata: Metadata = {
-  title: "Netbooks Account",
-  description: "Manage your Account",
+  title: "Netbooks Admin",
+  description: "View Edit and Create Listings",
 };
 
 const sidebarNavItems = [
   {
-    title: "My Account",
-    href: "/loggedin/settings",
+    title: "Create Book Listings",
+    href: "/admin",
   },
   {
-    title: "Address",
-    href: "/loggedin/settings/address",
+    title: "Authors",
+    href: "/admin/authors",
+  },
+  {
+    title: "Publishers",
+    href: "/admin/publishers",
+  },
+  {
+    title: "Categories",
+    href: "/admin/categories",
   },
 ];
 
-export default async function SettingsLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -30,9 +38,12 @@ export default async function SettingsLayout({
       <main className="container w-screen flex flex-col gap-8">
         <div className="hidden space-y-6 p-10 pb-16 md:block">
           <div className="space-y-0.5">
-            <h2 className="text-2xl font-bold tracking-tight">Account</h2>
+            <h2 className="text-2xl font-bold tracking-tight">
+              Admin Dashboard
+            </h2>
             <p className="text-muted-foreground">
-              Manage your account settings and preferences.
+              Create Book listings, manage Author, Category and Publisher
+              Information.
             </p>
           </div>
           <Separator className="my-6" />

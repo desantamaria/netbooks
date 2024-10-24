@@ -55,17 +55,17 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Link href="/loggedin/settings" className="w-full h-full">
+            <Link href="/settings" className="w-full h-full">
               Manage Account
             </Link>
           </DropdownMenuItem>
           {/* <DropdownMenuItem>
-          <Link href="/loggedin/library" className="w-full">
+          <Link href="/library" className="w-full">
             My Digital Library
           </Link>
             </DropdownMenuItem> */}
           <DropdownMenuItem>
-            <Link href="/loggedin/settings/address" className="w-full h-full">
+            <Link href="/settings/address" className="w-full h-full">
               Address Book
             </Link>
           </DropdownMenuItem>
@@ -73,7 +73,7 @@ export function UserNav() {
           {viewerInfo && viewerInfo[0]?.isAdmin ? (
             <DropdownMenuItem>
               <Link
-                href="/loggedin/admin"
+                href="/admin"
                 className="w-full h-full flex items-center gap-2"
               >
                 Admin <MonitorCog className="w-4 h-4" />

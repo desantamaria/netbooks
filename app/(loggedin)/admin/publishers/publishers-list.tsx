@@ -8,7 +8,6 @@ import React, { useState } from "react";
 import { PublisherForm } from "./publisher-form";
 
 import { Id } from "@/convex/_generated/dataModel";
-import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { PublisherEditForm } from "./publisher-form-edit";
 
@@ -55,7 +54,6 @@ const PublishersList = () => {
       />
       {filteredPublishers && filteredPublishers.length > 0 ? (
         filteredPublishers.map(({ _id, name, createdAt, updatedAt }, index) => (
-          // <Link href={`/loggedin/publisher/${_id}`} key={_id}>
           <Card
             className="hover:shadow-lg transition-all duration-300"
             key={_id}
@@ -82,7 +80,6 @@ const PublishersList = () => {
               </div>
             </CardContent>
           </Card>
-          // </Link>
         ))
       ) : (
         <p>No publishers found.</p>

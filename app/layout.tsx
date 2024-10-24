@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import ConvexClientProvider from "./ConvexClientProvider";
 import { auth } from "@/auth";
-import { SessionProvider } from "next-auth/react";
+import NavBar from "@/components/navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,11 +28,10 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SessionProvider session={session}>
-            <ConvexClientProvider session={session}>
-              {children}
-            </ConvexClientProvider>
-          </SessionProvider>
+          <ConvexClientProvider session={session}>
+            <NavBar />
+            {children}
+          </ConvexClientProvider>
         </ThemeProvider>
       </body>
     </html>

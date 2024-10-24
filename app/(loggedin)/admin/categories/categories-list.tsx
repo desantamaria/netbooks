@@ -8,7 +8,6 @@ import React, { useState } from "react";
 import { CategoryForm } from "./category-form";
 
 import { Id } from "@/convex/_generated/dataModel";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { CategoryEditForm } from "./category-form-edit";
 
@@ -56,7 +55,6 @@ const CategoriesList = () => {
       />
       {filteredCategories && filteredCategories.length > 0 ? (
         filteredCategories.map(({ _id, name, createdAt, updatedAt }, index) => (
-          // <Link href={`/loggedin/category/${_id}`} key={_id}>
           <Card
             className="hover:shadow-lg transition-all duration-300"
             key={_id}
@@ -83,7 +81,6 @@ const CategoriesList = () => {
               </div>
             </CardContent>
           </Card>
-          // </Link>
         ))
       ) : (
         <p>No categories found.</p>
