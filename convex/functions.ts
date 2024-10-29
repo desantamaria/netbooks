@@ -129,7 +129,15 @@ export const getBook = query({
 
 export const listBooks = query({
   handler: async (ctx) => {
-    return ctx.db.query("books").collect();
+    const books = await ctx.db.query("books").collect();
+    return await Promise.all(
+      books.map(async (book) => ({
+        ...book,
+        coverImage: book.coverImage
+          ? await ctx.storage.getUrl(book.coverImage)
+          : undefined,
+      }))
+    );
   },
 });
 

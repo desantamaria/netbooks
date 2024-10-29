@@ -55,7 +55,7 @@ const AuthorsList = () => {
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       {filteredAuthors && filteredAuthors.length > 0 ? (
-        filteredAuthors.map(({ _id, name, createdAt, photoUrl, updatedAt }) => (
+        filteredAuthors.map(({ _id, name, createdAt, image, updatedAt }) => (
           <Card
             className="hover:shadow-lg transition-all duration-300"
             key={_id}
@@ -63,7 +63,7 @@ const AuthorsList = () => {
             <CardHeader>
               <div className="flex items-center gap-4">
                 <Avatar>
-                  <AvatarImage src={photoUrl} />
+                  <AvatarImage src={image} />
                   <AvatarFallback>A</AvatarFallback>
                 </Avatar>
                 <CardTitle>{name}</CardTitle>

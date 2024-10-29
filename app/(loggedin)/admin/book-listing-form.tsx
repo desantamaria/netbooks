@@ -2,28 +2,15 @@
 
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { CaretSortIcon } from "@radix-ui/react-icons";
 
-import { X } from "lucide-react";
+import { LoaderIcon, PlusIcon, X } from "lucide-react";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Check, CheckIcon, ChevronsUpDown } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Command,
   CommandEmpty,
@@ -32,16 +19,30 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { cn } from "@/lib/utils";
-import { toast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Id } from "@/convex/_generated/dataModel";
-import { useEffect, useState } from "react";
-import { GenericId } from "convex/values";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
+import { api } from "@/convex/_generated/api";
+import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import { useMutation, useQuery } from "convex/react";
+import { GenericId } from "convex/values";
+import { CheckIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { generateUploadUrl } from "@/convex/functions/file";
+import { Id } from "@/convex/_generated/dataModel";
 
 const languages = [
   { label: "English", value: "en" },
@@ -130,6 +131,12 @@ export function BookForm({ type }: { type: "add" | "edit" }) {
   const authorsList = useQuery(api.functions.listAuthors);
   const publishersList = useQuery(api.functions.listPublishers);
   const categoriesList = useQuery(api.functions.listCategories);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [attachment, setAttachment] = useState<Id<"_storage">>();
+  const [file, setFile] = useState<File>();
+  const [isUploading, setIsUploading] = useState(false);
+  const generateUploadUrl = useMutation(api.functions.file.generateUploadUrl);
 
   const [authorsReady, setAuthorsReady] = useState(false);
   const [publishersReady, setPublishersReady] = useState(false);
@@ -243,6 +250,21 @@ export function BookForm({ type }: { type: "add" | "edit" }) {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setFile(file);
+    setIsUploading(true);
+    const url = await generateUploadUrl();
+    const res = await fetch(url, {
+      method: "POST",
+      body: file,
+    });
+    const { storageId } = (await res.json()) as { storageId: Id<"_storage"> };
+    setAttachment(storageId);
+    setIsUploading(false);
+  };
+
   async function onSubmit(data: BookFormValues) {
     try {
       if (!data.authorIds.length) {
@@ -264,7 +286,7 @@ export function BookForm({ type }: { type: "add" | "edit" }) {
 
       if (type === "add") {
         // Add loading state handling
-        const result = await addBook(data);
+        const result = await addBook({ ...data, coverImage: attachment });
         console.log("Book added successfully:", result);
 
         toast({
@@ -348,6 +370,19 @@ export function BookForm({ type }: { type: "add" | "edit" }) {
               </FormItem>
             )}
           />
+          <div className="flex gap-2">
+            <Button type="button" onClick={() => fileInputRef.current?.click()}>
+              Add Thumbnail Image
+              <PlusIcon />
+              <span className="sr-only">Add Image</span>
+            </Button>
+            {isUploading && (
+              <div className="absolute inset-0 bg-background/50 flex items-center justify-center">
+                <LoaderIcon className="size-8 animate-spin" />
+              </div>
+            )}
+            {!isUploading && file && <p>{file.name}</p>}
+          </div>
 
           <FormField
             control={form.control}
@@ -821,6 +856,17 @@ export function BookForm({ type }: { type: "add" | "edit" }) {
           </Button>
         </form>
       </Form>
+      {isUploading && (
+        <div className="h-full w-full inset-0 bg-background/50 flex items-center justify-center">
+          <LoaderIcon className="size-8 animate-spin" />
+        </div>
+      )}
+      <input
+        type="file"
+        className="hidden"
+        ref={fileInputRef}
+        onChange={handleFileUpload}
+      />
     </>
   );
 }

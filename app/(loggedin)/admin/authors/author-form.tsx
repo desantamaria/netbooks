@@ -97,7 +97,7 @@ export function AuthorForm({
   async function onSubmit(data: AuthorFormValues) {
     if (type === "add") {
       try {
-        await addAuthor(data);
+        await addAuthor({ ...data, image: attachment });
         toast({ title: "Author added successfully!" });
         setOpen(false);
       } catch (error) {
