@@ -26,8 +26,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Id } from "@/convex/_generated/dataModel";
+import { LoaderIcon, PlusIcon } from "lucide-react";
 
 const authorFormSchema = z.object({
   name: z
@@ -46,7 +47,6 @@ const authorFormSchema = z.object({
     .string()
     .max(50, { message: "Nationality must not exceed 50 characters." })
     .optional(),
-  photoUrl: z.string().url("Please enter a valid URL.").optional(),
   websiteUrl: z.string().url("Please enter a valid URL.").optional(),
 });
 
@@ -66,12 +66,33 @@ export function AuthorForm({
   const addAuthor = useMutation(api.functions.createAuthor);
   const updateAuthor = useMutation(api.functions.updateAuthor);
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [attachment, setAttachment] = useState<Id<"_storage">>();
+  const [file, setFile] = useState<File>();
+  const [isUploading, setIsUploading] = useState(false);
+  const generateUploadUrl = useMutation(api.functions.file.generateUploadUrl);
+
   const defaultValues: Partial<AuthorFormValues> = {};
 
   const form = useForm<AuthorFormValues>({
     resolver: zodResolver(authorFormSchema),
     defaultValues,
   });
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setFile(file);
+    setIsUploading(true);
+    const url = await generateUploadUrl();
+    const res = await fetch(url, {
+      method: "POST",
+      body: file,
+    });
+    const { storageId } = (await res.json()) as { storageId: Id<"_storage"> };
+    setAttachment(storageId);
+    setIsUploading(false);
+  };
 
   async function onSubmit(data: AuthorFormValues) {
     if (type === "add") {
@@ -88,7 +109,7 @@ export function AuthorForm({
           id: id,
           name: data.name,
           nationality: data.nationality,
-          photoUrl: data.photoUrl,
+          image: attachment,
           websiteUrl: data.websiteUrl,
         });
         toast({ title: "Author updated successfully!" });
@@ -177,19 +198,22 @@ export function AuthorForm({
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="photoUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Photo URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Photo URL" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    Add Image
+                    <PlusIcon />
+                    <span className="sr-only">Add Image</span>
+                  </Button>
+                  {isUploading && (
+                    <div className="absolute inset-0 bg-background/50 flex items-center justify-center">
+                      <LoaderIcon className="size-8 animate-spin" />
+                    </div>
                   )}
-                />
+                  {!isUploading && file && <p>{file.name}</p>}
+                </div>
                 <FormField
                   control={form.control}
                   name="websiteUrl"
@@ -211,6 +235,12 @@ export function AuthorForm({
           </div>
         </DialogContent>
       </Dialog>
+      <input
+        type="file"
+        className="hidden"
+        ref={fileInputRef}
+        onChange={handleFileUpload}
+      />
     </>
   );
 }

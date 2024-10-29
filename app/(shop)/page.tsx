@@ -1,7 +1,9 @@
 "use client";
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import { Authenticated, Unauthenticated } from "convex/react";
+import BookListings from "./_components/book-listings";
 
 export default function Home() {
   return (
@@ -10,6 +12,7 @@ export default function Home() {
         <h1 className="text-4xl font-extrabold my-8 text-center text-primary">
           NetBooks
         </h1>
+        <BookListings />
         <Unauthenticated>
           <p>The user doesn&apos;t need to log in to see this..</p>
         </Unauthenticated>
