@@ -13,6 +13,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Image from "next/image";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import Link from "next/link";
 
 export default function Cart() {
   const cart = useQuery(api.functions.getCart);
@@ -21,8 +22,6 @@ export default function Cart() {
 
   const updateQuantity = (bookId: string, quantity: number) => {
     if (!cart) return;
-
-    // Create a simplified items array with only bookId and quantity
     const newItems =
       quantity === 0
         ? cart.items
@@ -115,7 +114,9 @@ export default function Cart() {
             >
               Clear Cart
             </Button>
-            <Button className="w-full">Checkout</Button>
+            <Link href={`/cart/${cart?._id}`}>
+              <Button className="w-full">Checkout</Button>
+            </Link>
           </div>
         </SheetFooter>
       </SheetContent>
