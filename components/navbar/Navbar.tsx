@@ -9,6 +9,7 @@ import { UserNav } from "@/components/navbar/user-nav";
 import { Authenticated, Unauthenticated } from "convex/react";
 import { handleSignIn } from "@/auth/serverAction";
 import { Button } from "@/components/ui/button";
+import Cart from "./cart";
 
 export default function NavBar() {
   return (
@@ -24,12 +25,17 @@ export default function NavBar() {
           <Search />
           <ModeToggle />
           <Unauthenticated>
-            <form action={() => handleSignIn(window.location.href)}>
+            <form
+              action={() => {
+                return handleSignIn(window.location.href);
+              }}
+            >
               <Button type="submit">Sign in</Button>
             </form>
           </Unauthenticated>
 
           <Authenticated>
+            <Cart />
             <UserNav />
           </Authenticated>
         </div>

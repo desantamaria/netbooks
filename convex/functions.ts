@@ -413,13 +413,81 @@ export const createCart = mutation({
   },
 });
 
-export const getCart = query({
-  handler: async (ctx) => {
+export const addToCart = mutation({
+  args: {
+    bookId: v.id("books"),
+    quantity: v.number(),
+  },
+  handler: async (ctx, args) => {
     const userId = await getViewerId(ctx);
-    return await ctx.db
+
+    const book = await ctx.db.get(args.bookId);
+    if (!book || args.quantity > book.stockQuantity) {
+      throw new Error(`Insufficient stock for book ${book?.title}`);
+    }
+
+    const existingCart = await ctx.db
       .query("cart")
       .filter((q) => q.eq(q.field("userId"), userId))
       .first();
+
+    if (existingCart) {
+      const existingItem = existingCart.items.find(
+        (item) => item.bookId === args.bookId
+      );
+
+      const newItems = existingItem
+        ? existingCart.items.map((item) =>
+            item.bookId === args.bookId
+              ? { ...item, quantity: item.quantity + args.quantity }
+              : item
+          )
+        : [
+            ...existingCart.items,
+            { bookId: args.bookId, quantity: args.quantity },
+          ];
+
+      await ctx.db.patch(existingCart._id, {
+        items: newItems,
+        updatedAt: new Date().toISOString(),
+      });
+    } else {
+      await createCart(ctx, {
+        items: [{ bookId: args.bookId, quantity: args.quantity }],
+      });
+    }
+  },
+});
+
+export const getCart = query({
+  handler: async (ctx) => {
+    const userId = await getViewerId(ctx);
+    const cart = await ctx.db
+      .query("cart")
+      .filter((q) => q.eq(q.field("userId"), userId))
+      .first();
+
+    if (!cart) return null;
+
+    const itemsWithDetails = await Promise.all(
+      cart.items.map(async (item) => {
+        const book = await ctx.db.get(item.bookId);
+        return {
+          ...item,
+          book: {
+            ...book,
+            coverImage: book?.coverImage
+              ? await ctx.storage.getUrl(book.coverImage)
+              : null,
+          },
+        };
+      })
+    );
+
+    return {
+      ...cart,
+      items: itemsWithDetails,
+    };
   },
 });
 
@@ -434,10 +502,19 @@ export const updateCart = mutation({
   },
   handler: async (ctx, args) => {
     const userId = await getViewerId(ctx);
+
+    for (const item of args.items) {
+      const book = await ctx.db.get(item.bookId);
+      if (!book || item.quantity > book.stockQuantity) {
+        throw new Error(`Insufficient stock for book ${book?.title}`);
+      }
+    }
+
     const existingCart = await ctx.db
       .query("cart")
       .filter((q) => q.eq(q.field("userId"), userId))
       .first();
+
     if (existingCart) {
       await ctx.db.patch(existingCart._id, {
         items: args.items,

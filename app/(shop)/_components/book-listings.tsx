@@ -6,14 +6,38 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
-import { ShoppingCartIcon } from "lucide-react";
+import { Id } from "@/convex/_generated/dataModel";
+import { toast } from "@/hooks/use-toast";
+import { useQuery, useMutation, Authenticated } from "convex/react";
+import { PlusIcon } from "lucide-react";
 import Image from "next/image";
 
 const BookListings = () => {
   const books = useQuery(api.functions.listBooks);
   const authors = useQuery(api.functions.listAuthors);
+  const addToCart = useMutation(api.functions.addToCart);
+
+  const handleAddToCart = async (bookId: string) => {
+    try {
+      await addToCart({ bookId: bookId as Id<"books">, quantity: 1 });
+      toast({
+        title: "Added to cart",
+        description: "The book has been added to your cart",
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to add to cart",
+        description: "There was an error adding the book to your cart",
+      });
+    }
+  };
+
   return (
     <div className="flex flex-wrap gap-4 w-full h-full p-4">
       {books?.map((book) => (
@@ -45,9 +69,21 @@ const BookListings = () => {
                 </div>
                 <div className="flex justify-between">
                   <p className="text-md font-bold">${book.price.toFixed(2)}</p>
-                  <Button size="icon">
-                    <ShoppingCartIcon size={18} />
-                  </Button>
+                  <Authenticated>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Button
+                          size="icon"
+                          onClick={() => handleAddToCart(book._id)}
+                        >
+                          <PlusIcon size={18} />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Add to Cart</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </Authenticated>
                 </div>
               </div>
             </CardFooter>

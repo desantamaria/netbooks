@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import ConvexClientProvider from "./ConvexClientProvider";
 import { auth } from "@/auth";
 import NavBar from "@/components/navbar/Navbar";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +31,7 @@ export default async function RootLayout({
         >
           <ConvexClientProvider session={session}>
             <NavBar />
-            {children}
+            <TooltipProvider>{children}</TooltipProvider>
           </ConvexClientProvider>
         </ThemeProvider>
       </body>
