@@ -47,7 +47,7 @@ export default function Cart() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button size="icon" variant="ghost" className="relative">
+        <Button size="icon" variant="outline" className="relative">
           <ShoppingCartIcon size={18} />
           {cart?.items.length && cart.items.length > 0 && (
             <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center">
