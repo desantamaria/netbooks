@@ -2,17 +2,20 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { SelectSeparator } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const CartPage = () => {
   const cart = useQuery(api.functions.getCart);
   const updateCart = useMutation(api.functions.updateCart);
   const deleteCart = useMutation(api.functions.deleteCart);
+  const createPayment = useMutation(api.payments.create);
+
+  const router = useRouter();
 
   const updateQuantity = (bookId: string, quantity: number) => {
     if (!cart) return;
@@ -37,6 +40,11 @@ const CartPage = () => {
       (sum, item) => sum + (item.book.price ?? 0) * item.quantity,
       0
     ) ?? 0;
+
+  const handleCheckout = async (status: string) => {
+    const id = await createPayment({ status: status });
+    router.push(`/checkout/${id}`);
+  };
 
   return (
     <div className="container flex gap-4 py-10 flex-col md:flex-row justify-center min-h-screen">
@@ -198,7 +206,14 @@ const CartPage = () => {
             >
               Clear Cart
             </Button>
-            <Button className="w-full">Checkout</Button>
+            <Button
+              className="w-full"
+              onClick={() => {
+                handleCheckout("placed");
+              }}
+            >
+              Checkout
+            </Button>
           </div>
         </Card>
       </div>

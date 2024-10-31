@@ -20,6 +20,8 @@ import type * as functions_file from "../functions/file.js";
 import type * as functions_helpers from "../functions/helpers.js";
 import type * as functions from "../functions.js";
 import type * as http from "../http.js";
+import type * as payments from "../payments.js";
+import type * as stripe from "../stripe.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -36,6 +38,8 @@ declare const fullApi: ApiFromModules<{
   "functions/helpers": typeof functions_helpers;
   functions: typeof functions;
   http: typeof http;
+  payments: typeof payments;
+  stripe: typeof stripe;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

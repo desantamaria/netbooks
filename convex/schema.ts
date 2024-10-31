@@ -224,4 +224,8 @@ export default defineSchema({
   numbers: defineTable({
     value: v.number(),
   }),
+  payments: defineTable({
+    status: v.string(),
+    stripeId: v.optional(v.string()),
+  }).index("stripeId", ["stripeId"]),
 });
