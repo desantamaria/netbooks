@@ -141,6 +141,23 @@ export const listBooks = query({
   },
 });
 
+export const searchBooks = query({
+  args: {
+    searchParam: v.string(),
+  },
+  handler: async (ctx, { searchParam }) => {
+    const books = await ctx.db.query("books").collect();
+    return await Promise.all(
+      books.map(async (book) => ({
+        ...book,
+        overImage: book.coverImage
+          ? await ctx.storage.getUrl(book.coverImage)
+          : undefined,
+      }))
+    );
+  },
+});
+
 export const updateBook = mutation({
   args: {
     id: v.id("books"),

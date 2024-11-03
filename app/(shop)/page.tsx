@@ -12,6 +12,9 @@ export default function Home() {
           <h1 className="text-4xl font-extrabold my-8 text-center text-primary">
             NetBooks
           </h1>
+          <h1 className="text-xl font-extrabold my-8 text-center">
+            Featured Books
+          </h1>
           <BookListings />
           {/* <Unauthenticated>
           <p>The user doesn&apos;t need to log in to see this..</p>

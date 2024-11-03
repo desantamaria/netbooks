@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { MainNav } from "@/components/navbar/main-nav";
-import { Search } from "@/components/navbar/search";
+import Search from "@/components/navbar/search";
 import { ModeToggle } from "@/components/theme/theme-button";
 import { UserNav } from "@/components/navbar/user-nav";
 import { Authenticated, Unauthenticated } from "convex/react";

@@ -71,7 +71,7 @@ const BookListings = () => {
                   <p className="text-md font-bold">${book.price.toFixed(2)}</p>
                   <Authenticated>
                     <Tooltip>
-                      <TooltipTrigger>
+                      <TooltipTrigger asChild>
                         <Button
                           size="icon"
                           onClick={() => handleAddToCart(book._id)}
