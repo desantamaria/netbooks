@@ -18,8 +18,31 @@ import { useQuery, useMutation, Authenticated } from "convex/react";
 import { PlusIcon } from "lucide-react";
 import Image from "next/image";
 
-const BookListings = () => {
-  const books = useQuery(api.functions.listBooks);
+interface Book {
+  _id: Id<"books">;
+  _creationTime: number;
+  title: string;
+  authorIds: Id<"authors">[];
+  isbn: string;
+  description: string;
+  price: number;
+  discount?: number;
+  stockQuantity: number;
+  categories: Array<{ id: Id<"categories">; name: string }>;
+  publisherIds: Id<"publishers">[];
+  publicationDate: string;
+  language: string;
+  format: "hardcover" | "paperback" | "ebook" | "audiobook";
+  pageCount?: number;
+  coverImage: string | null | undefined;
+  previewImages?: Id<"_storage">[];
+  featured: boolean;
+  createdAt: string;
+  updatedAt: string;
+  userId: Id<"users">;
+}
+
+const BookListings = ({ books }: { books: Book[] }) => {
   const authors = useQuery(api.functions.listAuthors);
   const addToCart = useMutation(api.functions.addToCart);
 
@@ -40,7 +63,7 @@ const BookListings = () => {
 
   return (
     <div className="flex flex-wrap gap-4 w-full h-full p-4">
-      {books?.map((book) => (
+      {books?.map((book: Book) => (
         <div className="w-[200px]" key={book._id}>
           <Card className="hover:scale-105 transition-all duration-300 hover:shadow-xl">
             <CardHeader>
