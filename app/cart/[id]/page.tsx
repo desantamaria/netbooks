@@ -8,6 +8,7 @@ import { useMutation, useQuery } from "convex/react";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import CheckoutButton from "./_components/checkout-button";
 
 const CartPage = () => {
   const cart = useQuery(api.functions.getCart);
@@ -99,92 +100,6 @@ const CartPage = () => {
                 <Separator />
               </>
             ))}
-            {cart?.items.map((item) => (
-              <>
-                <div key={item.bookId} className="flex gap-4 items-center">
-                  {item.book.coverImage && (
-                    <Image
-                      src={item.book.coverImage}
-                      alt={item.book.title ?? ""}
-                      width={50}
-                      height={75}
-                      className="object-cover"
-                    />
-                  )}
-                  <div className="flex-1">
-                    <h3 className="font-medium">{item.book.title}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      ${item.book.price}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() =>
-                        updateQuantity(item.bookId, item.quantity - 1)
-                      }
-                    >
-                      <Minus size={14} />
-                    </Button>
-                    <span>{item.quantity}</span>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() =>
-                        updateQuantity(item.bookId, item.quantity + 1)
-                      }
-                    >
-                      <Plus size={14} />
-                    </Button>
-                  </div>
-                </div>
-                <Separator />
-              </>
-            ))}
-            {cart?.items.map((item, index) => (
-              <>
-                <div key={item.bookId} className="flex gap-4 items-center">
-                  {item.book.coverImage && (
-                    <Image
-                      src={item.book.coverImage}
-                      alt={item.book.title ?? ""}
-                      width={50}
-                      height={75}
-                      className="object-cover"
-                    />
-                  )}
-                  <div className="flex-1">
-                    <p className="font-medium">{item.book.title}</p>
-                    <p className="text-sm text-muted-foreground">
-                      ${item.book.price}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() =>
-                        updateQuantity(item.bookId, item.quantity - 1)
-                      }
-                    >
-                      <Minus size={14} />
-                    </Button>
-                    <span>{item.quantity}</span>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() =>
-                        updateQuantity(item.bookId, item.quantity + 1)
-                      }
-                    >
-                      <Plus size={14} />
-                    </Button>
-                  </div>
-                </div>
-                {index !== cart?.items.length - 1 && <Separator />}
-              </>
-            ))}
           </div>
         </Card>
       </div>
@@ -206,14 +121,15 @@ const CartPage = () => {
             >
               Clear Cart
             </Button>
-            <Button
+            <CheckoutButton />
+            {/* <Button
               className="w-full"
               onClick={() => {
                 handleCheckout("placed");
               }}
             >
               Checkout
-            </Button>
+            </Button> */}
           </div>
         </Card>
       </div>
